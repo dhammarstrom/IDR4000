@@ -474,10 +474,10 @@ The resulting model has the same parameters as in the previous example.
 ```{r, echo = FALSE, results="asis", message = FALSE, warning = FALSE}
 library(knitr); library(broom)
 
-tidy(lmer2) %>%
-  filter(group == "fixed") %>%
-  select(term, estimate, std.error, statistic) %>%
-  kable(col.names = c("Parameter", "Estimate", "SE", "t-value"))
+##tidy(lmer2) %>%
+#  filter(group == "fixed") %>%
+#  select(term, estimate, std.error, statistic) %>%
+#  kable(col.names = c("Parameter", "Estimate", "SE", "t-value"))
 
 ```
 

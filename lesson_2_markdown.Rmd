@@ -1,11 +1,16 @@
 ---
 title: "Creating reports using R, R Markdown and knitr"
 bibliography: bib.bib
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
 ---
 
 ## Reproducible research
 
-Replication can be thought of as the golden standard when the aim is to *confirm* scientific results. When replicating a scientific study, we collect new data, independent from the study we wish to replicate. However, scientific interpretations of data are also affected by the way we analyze them. This has raised attention recently and *reproducible data analysis* and as argued by e.g. Peng *et al.* [@RN1492], should be a minimum standard in scientific reporting. This standard requires that a scientific report (e.g. journal article or master's thesis) is directly built upon the analyses. For many, this is a big change from a workflow where analyses are done and copied into the report. Today there are many software solutions available to create *reproducible reports*, answering the call for reproducible data analyses where data, code and software is available for scrutiny [@RN1600].
+Replication can be thought of as the golden standard when the aim is to *confirm* scientific results. When replicating a scientific study, we collect new data, independent from the study we wish to replicate. However, scientific interpretations of data are also affected by the way we analyze them. This has raised attention recently and *reproducible data analysis* as argued by e.g. Peng *et al.* [@RN1492], should be a minimum standard in scientific reporting. This standard requires that a scientific report (e.g. journal article or master's thesis) is directly built upon the analyses. For many, this is a big change from a work-flow where analyses are done and copied into the report. Today there are many software solutions available to create *reproducible reports*, answering the call for reproducible data analyses where data, code and software is available for scrutiny [@RN1600].
 
 In this course you will learn how to work with software designed to make analyses reproducible. We will use [R Markdown](https://rmarkdown.rstudio.com/) to create reproducible reports.
 
@@ -33,7 +38,7 @@ When in R Studio, you can start a new document using *File > New File > R Markdo
 ---
 title: "Untitled"
 author: "Daniel Hammarström"
-date: "2019 05 09"
+date: "2020 05 09"
 output: html_document
 ---
 
@@ -70,13 +75,13 @@ When you compile the doucument it is called "knitting", R uses a package called 
 ### Microsoft Word intergration
 Sometimes it is usefull to "knit" to a word file. For example when you want to share a report with fellow students who are not familiar with R. R Markdown can be used as a source for word documents (.docx). 
 
-To create a word document from your Rmd-file you need aworking installation of Microsoft Word. Settings for the output is specified in the YAML metadata field in the Rmd-file. This is the first section of a Rmd file, and when you want it to create a word file you specify it like this:
+To create a word document from your Rmd-file you need a working installation of Microsoft Word. Settings for the output is specified in the YAML metadata field in the Rmd-file. This is the first section of a Rmd file, and when you want it to create a word file you specify it like this:
 
 ```
 ---
 title: "A title"
 author: Daniel Hammarström
-date: 2019-09-05
+date: 2020-09-05
 output: word_document
 ---
 
@@ -88,7 +93,7 @@ The `output: word_document` tells R to create a word file. If you are not happy 
 ---
 title: "A title"
 author: Daniel Hammarström
-date: 2019-09-05
+date: 2020-09-05
 output: 
         word_document:
                 reference_docx: reference.docx
@@ -112,7 +117,7 @@ The `bibliography.bib`-file needs to be activated in the YAML-field. Do it by ad
 ---
 title: "A title"
 author: Daniel Hammarström
-date: 2019-09-05
+date: 2020-09-05
 output: 
         word_document:
                 reference_docx: reference.docx
@@ -173,16 +178,6 @@ If you decide to move your analysis somewhere else on your computer, your script
 Read more about this in [Structure of an analysis](structure.html).
 
 ## References
-
-
-
-
-
-
-
-
-
-
 
 
 

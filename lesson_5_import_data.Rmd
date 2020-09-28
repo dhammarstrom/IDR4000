@@ -1,0 +1,131 @@
+---
+title: "Importing data"
+bibliography: bib.bib
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Resources
+[Chapter 12]("https://r4ds.had.co.nz/tidy-data.html") talks about how nice data sets are organized (tidy data).
+[Chapter 11]("https://r4ds.had.co.nz/data-import.html") in R for data science describes data import of .csv. The [readxl]("https://readxl.tidyverse.org/) package is used for reading excel files. The [haven]("https://haven.tidyverse.org/") package can be used to import files from SAS, SPSS and STATA.
+
+# Learning objectives
+
+The objective of this section is to gain knowledge about data import from 
+
+- Excel files 
+- flat files (.csv, .tsv)
+- and other file formats
+
+You will be able to import online data and from files stored in your computer. We will also talk about how good data sets are formatted. 
+
+
+# Data sets used in the course
+We will primarily use four data sets in the course. Below is a table of where they can be found and publications connected to the data. The data sets will be used for different purposes. 
+
+|Data set      |Author/Year      |Public|Publication (DOI)           |Download                                       |Filetype |
+|--------------|-----------------|------|----------------------------|-----------------------------------------------|---------|
+|Hypertrophy1  |Haun et al. 2019 |Yes   |10.3389/fphys.2019.00297    |https://ndownloader.figstatic.com/files/14702420|.csv     |
+|Hypertrophy2  |Vigotsky et al. 2018|Yes|10.7717/peerj.5071 |https://dfzljdn9uc3pi.cloudfront.net/2018/5071/1/strength_hypertrophy_dataset.csv|.csv|
+|Cycling       |Sylta et al. 2016|No    |10.1249/MSS.0000000000001007|Canvas                                         |.xlsx    |
+|Ten vs. Thirty|Øfsteng et al.   |No    |NA                          |Canvas                                         |.xlsx    |
+
+# Tidy data and data storage
+
+Excel is very versatile tool, it can be used to store data and even for analysis and making figures. To latter two should be avoided for reasons discussed throughout this course. Wise usage of spreadsheet programs like Excel includes using its most basics functions and leave computations and data processing out of it [@RN1954]. Broman and Woo details usage of spreadsheets for data entry and storage with key suggestions being thta data entry and data storage should be consistent regarding e.g. names and dates. No other information should be connected to cells other than the value in the cell. This means that colors and different font sizes should be avoided. Calculations should be kept out of data storage files. Data should be described, i.e. all variable names should be entered in a data dictionary explaining the data set [@RN1954].   
+
+When entering data into spreadsheets, data should be rectangular with column names on the top row. A tidy data set, as described in [Wickham2017R] Ch. 12, contains one observation per row, one variable per column and values in all cells. In case of missing values, we should follow the advice from Broman and Woo, not to leave empty cells. A missing value should be declared using e.g. `NA` as an identifier.
+
+
+# Importing excel-files
+Importing excel-files is straight forward as long as they are nicely formatted (see above).
+
+To import excel files (.xls, and .xlsx) we need the package `readxl`. The package contains the function `read_excel()`. Install the package and access the help-file for the function `read_excel()`.
+
+We will start by importing a data set based on part of a cycling training study. This data set has to be downloaded manually from Canvas. Go to data Lectures/Data, there you will find a link to the `cyclingStudy.xlsx` file. Download the file and put it in your projects data folder.
+
+Importing the file could look like this:
+
+```{r, eval = FALSE}
+library(readxl)
+cyclingStudy <- read_excel("./data/cyclingStudy.xlsx")
+```
+
+We "store" the file in the environment in an object called `cyclingStudy`. 
+
+Important arguments in the `read_excel()` function includes:
+
+- `path` which is the location of your file
+- `sheet` if you are working with a excel-file containing multiple sheets
+- `na` specifies what are missing data, this is important when you import numeric data that contains character string data to show e.g. missing values
+- `skip` tells `read_excel` how many rows to skip before reading the data. This can be helpful when the tabular part of the data does not start at row 1 (as recommended).
+
+There are more arguments, use `?read_excel` to find out.
+
+# Importing .csv files
+A csv-file (comma separated values) is a text-file type file. It could not be simpler! Broman and Woo also suggests storing data in csv files instead of files with `xlsx`or `xls`. Important to know about csv files is that columns are separated by a comma, semicolon or similar. If the file is comma separated we can simply use the `read_csv()` function from the `readr` package. 
+
+Two .csv files that we will be using during this course are available online. We can without so much fuzz load it directly using
+
+```{r, eval = FALSE}
+library(readr)
+hypertrophy1 <- read_csv("https://ndownloader.figstatic.com/files/14702420")
+```
+
+When downloading files from the internet, we can save the file first using the `download.file()` function. This function should be available in your R session.
+
+Let's store the file in the data folder:
+
+```{r, eval = FALSE}
+download.file(url = "https://ndownloader.figstatic.com/files/14702420", destfile = "./data/hypertrophy1.csv")
+```
+
+We can now access the file from our data folder.
+
+```{r, eval = FALSE}
+hypertrophy1 <- read_csv("./data/hypertrophy1.csv")
+```
+
+# Inspecting imported data
+
+There are several ways of inspecting loaded data in R. We can have a look at the data in the console by calling the data object. Let's have a look at the cycling data set.
+
+```{r, eval = FALSE}
+
+cyclingStudy
+
+```
+
+If you enter the commands from this section in and R markdown file you might have chunk output displayed inline. To get the output to display in the console instead, set `chunk output in console` in the setting of the file. 
+
+When we get the data set in the console we can read that is a tibble with 80 rows and 101 columns. A tibble is a special kind of data frame. Tibbles are convenient formats as we see below column names what kind of data are stored in each variable. `subject` is a identifier variable for each participant in the study. Below the variable name we can see `<dbl>`, this stands for double, this means that this variable is a continuous numeric variable. The next variable, group, is identified as `<chr>`, this means that the variable is characters. This is simply text. If we look at age, this is also identified as `<chr>`, but age should be a number, a numeric variable. This error repeats in many other variables in the data set. This is because we have not told `read_excel()` what identifier we want for missing values. The cycling data set has `NA` written when we miss values. Adding this information makes R interpret the data slightly different. we specify `na = "NA"` and import again. 
+
+```{r, eval = FALSE}
+cyclingStudy <- read_excel("./data/cyclingStudy.xlsx", na = "NA")
+```
+
+Look at the imported data again to see the difference.
+
+Sometimes the data set has empty cells, in most cases different "read" functions will guess correctly, as in the case with the imported data set `hypertrophy1`. If we inspect it, we can see "NA" in the data set meaning we have an explicit missing value.
+
+Another way of inspecting data sets is to use the `View()` function. Write `View(cyclingStudy)` in the console and RStudio will open up a tabular view of the data. This could be a nice way to inspect the data.
+
+
+# To think about
+
+Import data also from hypertrophy2 and compare the data sets (`hypertrophy1`,`hypertrophy2` and `cyclingStudy`). Are the data sets tidy? Think about what constitutes a tidy data set. 
+
+
+# Importing other file formats
+There are many different file formats that are fairly simple to import into R. R itself contains function to import e.g. text files (similar to csv files). File formats from other statistical software can be imported with  [haven]("https://haven.tidyverse.org/"). 
+
+
+
+
+
+

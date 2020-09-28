@@ -185,27 +185,27 @@ library(knitr); library(broom)
 
 # First we save a tidy output of model 2
  
-tidy.m2 <- tidy(m2) %>%
-        filter(group == "fixed") # removes random effects from summary
-
-# Next we store the confidence intervals from confint
-# We have to select row 3 to 8 to get the same number of rows
-confint.m2 <- data.frame(confint(m2))[c(3:8),]
-
-# Next we can comine these by column
-cbind(tidy.m2, confint.m2) %>%
-        select(-group) %>% # deselect "group"-column
-        kable(row.names = FALSE, 
-              col.names = c("Parameter", 
-                            "Estimate", 
-                            "SE", 
-                            "Statistic", 
-                            "Lower CI", 
-                            "Upper CI"), 
-              digits = c(NA, 1, 1, 2, 1, 1)) %>%
-                      print()
-
-
+# tidy.m2 <- tidy(m2) %>%
+#         filter(group == "fixed") # removes random effects from summary
+# 
+# # Next we store the confidence intervals from confint
+# # We have to select row 3 to 8 to get the same number of rows
+# confint.m2 <- data.frame(confint(m2))[c(3:8),]
+# 
+# # Next we can comine these by column
+# cbind(tidy.m2, confint.m2) %>%
+#         select(-group) %>% # deselect "group"-column
+#         kable(row.names = FALSE, 
+#               col.names = c("Parameter", 
+#                             "Estimate", 
+#                             "SE", 
+#                             "Statistic", 
+#                             "Lower CI", 
+#                             "Upper CI"), 
+#               digits = c(NA, 1, 1, 2, 1, 1)) %>%
+#                       print()
+# 
+# 
 
 
 ```

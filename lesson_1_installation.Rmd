@@ -1,64 +1,120 @@
 ---
-title: "Introduction part 2"
+title: "Installing and starting up R"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
 ---
 
-## Learning objectives
+This page contains step-by-step instructions for installing and running R and R Studio. It will also introduce you to some concepts when talking to R. It is highly recommended that you complete the swirl course [R programming](https://swirlstats.com/students.html)
+
+# Learning objectives
 
 By the end of this session you will be able to answer these questions:
 
-- What is a project?
-- What data types are there?
-- What types of "data containers" are there? 
-- What is vectorized operations?
-- What is a function?
-- What is a package?
-- How do you structure a script?
+- What is R and RStudio?
+- How can I interact with R?
+- What are the components of RStudio
+- What is a reproducible computing?
+- How do I maintain a reproducible work-flow in R and RStudio?
+
+# Installing R
+
+R is a free, [open-source](https://en.wikipedia.org/wiki/Open_source) software designed for statistical computing. To download and install R:
+
+1. Go to [https://cran.uib.no/](https://cran.uib.no/),
+2. select your operating system (Download R for Windows, MacOS or Linux).
+    - If you have Windows, choose `base`, click on "Download R (...) for windows", save and run the file. The installation process should be self explanatory.
+    - If you have MacOS, download and install the latest release.
+        
+# Installing R Studio
+
+[RStudio](https://www.rstudio.com/) is a software designed to make it easier to use R. Install it by going to [https://www.rstudio.com/](https://www.rstudio.com/). It is free to download and use.
+
+1. Select "Products" and RStudio
+2. Go to desktop and select "DOWNLOAD RSTUDIO DESKTOP"
+3. Select the free open source license and download the file made for your operating system (use the installers).
 
 
-## Projects 
-It is convenient to gather all your scripts, data files and output in one folder. This makes it easier to share your analyses and makes it easier to make it reproducible. When starting a new analysis, make sure you start a new project!
-A project should be self-contained, meaning that all scripts should be able to run based on the information that is in the project folder. If your analyses dependens on something (e.g. a script) outside the project, your analyses are not reproducible unless you also share the external file. 
+# Getting to know R and RStudio
 
-Data can be collected from external sources, but do this with a script!
+R is a software used for scientific/statistical computing. If R is the engine, RStudio is the rest of the car. What does this mean?
 
-To organize your project, think about it as a folder, containing several sub-folder.
+When doing operations in R, you are actually interacting with R through RStudio. RStudio have some important components to help you interact with R.
 
-![A project](./img/project_description.png)
+## The source
 
-The root folder is the uppermost level in the folder structure. In this folder you can have report files (R-markdown files). This is a good idea as when you compile them, thay will have the same folder structure as your project. 
+The source is where you keep your code. When writing your code in a text-file, you can call it a script, this is essentially a computer program where you tell R what to do. It is executed from top to bottom. You can send one line of code, multiple lines or whole sections into R. In the image below, the source window is in the top left corner.
 
-The R folder contains scripts, all written to perform specific tasks (see below). The data folder contains data used in analyses. I like to have a derived_data-folder, here I gather data that has been created with scripts. An output folder can be used to gather reports and figures that you create. 
+## Environment
 
-### Starting a project
-Start a new project by clicking in the right upper corner ()
+The environment is where all your objects are located. Objects can be variables or data sets that you are working with. In RStudio the environment is listed under the environment tab (bottom left in the image).
 
-![](./img/rstudio_newproject.png)
-
-You will be asked what kind of project you want to start. A new directory will launch a new folder. Existing directory will let you select a folder where you want to have your project. Version control is very good to have, especially when collaborating or when you do big project. This lets you track changes that are made and store your scripts online. It requires [GitHub](www.github.com) or similar version control system. We will not cover it in this course, but I recommend interested students to discover it by yourself.
-
-![](./img/rstudio_newproject2.png)
-
-When you select "New directrory" you will be asked, dependning on your configuration, what type of project you want to start. Choose "New Project", this is generic and suited to our needs. 
-
-![](./img/rstudio_newproject3.png)
-
-Select a good name for your project (specific enough so you can easily find it). And choose the location where you want it on your local computer.
-
-![](./img/rstudio_newproject4.png)
-
-Done! When your are active in a project, RStudio will show you the name of the project in the upper right corner.
+Copy and run the code below.
 
 
-![](./img/rstudio_newproject5.png)
+```{r, eval = FALSE}
 
-The Files tab will show an almost empty folder. The only file should be the project file. This file contains information about the project needed when you want to launch it again. You can also launch the project by double clicking it (this will start RStudio). If you click it from whitin RStudio, you will be able to control some settings. 
+a <- c(1, 2, 4)
 
-By now you should have set the .RData/workspace settings to facilitate reproducible workflow (see previous page). Do not save workspace on exit.
+```
 
-### Start coding!
+What happened in your environment?
+
+## The console
+
+Here you can directly interact with R. This is also where output from R is printed. In the image below, the console is in the top right corner.
+
+## Files, plots, packages and help files
+
+In RStudio files are accessible from the Files tab. When opening a project, the files tab shows the files in you root folder. 
+
+Plots are displayed in the Plot tab. Packages are listed in the packages tab.
+
+If you access the help files, these will be displayed in the help tab. 
+
+In the image below all these tabs are in the bottom right corner.
+
+
+![RStudio.](./img/rstudio_blank.png)
+
+
+## Customizing the apperance of RStudio
+
+To access options for RStudio, go to Tools -> Global options
+
+![RStudio.](./img/rstudio_options1.png)
+
+Under apperance you can customize the theme of RStudio, select something that is easy on the eye!
+
+![RStudio.](./img/rstudio_options2.png)
+
+Under pane layout, you can set where you want your tabs, I like to have the source on the left, above the environment. This way you can have the source window at full vertical size and still look at plots and the console to the right.
+
+![RStudio.](./img/rstudio_options3.png)
+
+## Reproducible computing
+
+Computations are reproducible when you can show how they were performed. This is achieved by creating "programs" from where your analyses are done. In R, these programs are lines or R code stored in a text-file, either .R-files or .Rmd-files. .R-files are scripts only containing code and comments. A .Rmd-file is a special script combining text and computer code, when the Rmd-file is executed, it creates a report and outputs the results from the code.
+
+This means that to work in a reproducible way, you need to script all your operations. 
+
+![Reproducible vs. non-reproducible workflow](./img/reproducible_workflow.png)
+
+Importantly, in RStudio you can shut down storing temporary objects in a environment that is relaunched on start up. What is the consequence of having such a situation?
+
+To disable this option, set save works pace to NEVER!
+
+![RStudio.](./img/rstudio_options4.png)
+
+
+# Start coding!
 The online book [Learning statistics with R](https://learningstatisticswithr.com/book) has an updated chapter about installing and setting up R ([Chapter 3](https://learningstatisticswithr.com/book/introR.html)). This chapter also goes through how commands are typed into R. 
 
-When you have installed your copy of R and RStudio, start up RStuido and type the following in the consol window:
+When you have installed your copy of R and RStudio, start up RStudio and type the following in the console window:
 
 ```{r, eval = FALSE}
 
@@ -74,7 +130,7 @@ These "commands" tells R to store the number 2 in an object that we name `x`. Th
 
 The operations that you did above using the `<-` operator is called variable assignment. Read more about it in [section 3.4 of Learning statistics with R](https://learningstatisticswithr.com/book/introR.html#assign).
 
-Before going any futher it can be usefull to know that you can save your code as R scripts. In RStudio, go to `File > New File > R Script`. The R script is a text-file where you can write code that can be sent to the console. To execute a line of code, have the cursor on the line you would like to run and press `Ctrl + Enter` on your keyboard. If you would want to run the whole script, either press `Source` in the top right corner of the Source window in RStudio or select all lines and pre `Ctrl + Enter`. R scripts can be saved, this makes for an opportunity to make reproducible analyses. We will talk more about this later. 
+Before going any further it can be useful to know that you can save your code as R scripts. In RStudio, go to `File > New File > R Script`. The R script is a text-file where you can write code that can be sent to the console. To execute a line of code, have the cursor on the line you would like to run and press `Ctrl + Enter` on your keyboard. If you would want to run the whole script, either press `Source` in the top right corner of the Source window in RStudio or select all lines and pre `Ctrl + Enter`. R scripts can be saved, this makes for an opportunity to make reproducible analyses. We will talk more about this later. 
 
 In the R script we can "comment out" lines of text using the `#` symbol. An R script with comments can look like this:
 
@@ -86,12 +142,12 @@ x <- 34
 # This line is a comment, in this script only x <- 34 will be evaluated.
 ```
 
-### Types of data in R
+## Types of data in R
 R can store many types of data.
 
 #### Scalars
 
-**Scalars** are objects that can take only one value at a time. We have already worked with scalars when we assigned a single number to the objects we named `x` and `z` above. Scalars can also be `TRUE` or `FALSE`, these "are reserved words denoting logical constants in the R language"^[This is information from the R documentation, these can be accessed using the `?` symbol followed by a name of a function, e.g. `?logical` typed into the console] meaning that they have special meaning and cannot be used for assigning different values to. If we try, R returns an error message:
+**Scalars** are objects that can take only one value at a time. We have already worked with scalars when we assigned a single number to the objects we named `x` and `z` above. Scalars can also be `TRUE` or `FALSE`, these "are reserved words denoting logical constants in the R language"^[This is information from the R documentation, these can be accessed using the `?` symbol followed by a name of a function, e.g. `?logical` typed into the console] meaning that they have special meaning  and cannot be used for assigning different values to. If we try, R returns an error message:
 
 ```{r, eval = FALSE}
 # Trying to assign a value to TRUE
@@ -197,8 +253,8 @@ Logical vectors can be "coerced" to numeric vector. But why do we get the result
 numeric_vector * logical_vector
 ```
 
-### Data frame
-We will work alot with data frames. These are tables of data with rows and columns. A data frame can be created using the `data.frame()`
+# Data frames
+We will work a lot with data frames. These are tables of data with rows and columns. A data frame can be created using the `data.frame()`
 
 ```{r}
 # Create my data frame
@@ -229,11 +285,21 @@ my_df
 
 Later we will learn different ways of manipulating data frames that will turn out to be a bit more convinient. 
 
-#### Matrix
-A martrix is a type of table, similar to a data frame, but all element must be of the same type e.g. numeric. 
+## Data matrices
+A matrix is a type of table, similar to a data frame, but all element must be of the same type e.g. numeric. 
 
-#### Lists
-Lists are objects containing other objects. We can combine objects in a list, this is sometimes usefull for storage of data. We can name the objects in the list when listing them or by using the `names()` function. This is nice, becauese we can access it by using the `$` operator.
+A matrix can be created using several vectors of the same size and content. The `cbind()` function is used below to bind columns of numbers together. 
+
+```{r matrix, eval = FALSE}
+
+my_matrix <- cbind(c(1,2,3,4), 
+                   c(4,6,8,9),
+                   c(8,3,2,1))
+
+```
+
+# Lists
+Lists are objects containing other objects. We can combine objects in a list, this is sometimes useful for storage of data. We can name the objects in the list when listing them or by using the `names()` function. This is nice, because we can access it by using the `$` operator.
 
 ```{r}
 # Store objects in a list
@@ -244,8 +310,8 @@ my_list <- list(my.vector = numeric_vector,
 my_list$my.vector
 ```
 
-#### Functions
-R can store data and functions. Functions are usuallly used to take some input, do something and return an output. R contains alot of functions as this is the basis of how we work with data. There is no need to write functions, these are already written by others and can be used by you to analyze data or make figures. However, it can be useful to know how a function works.
+# Functions
+R can store data and functions. Functions are usually used to take some input, do something and return an output. R contains a lot of functions as this is the basis of how we work with data. There is no need to write functions, these are already written by others and can be used by you to analyze data or make figures. However, it can be useful to know how a function works.
 
 A quick look! We will create a function that calculates the mean of a vector. This function already exists, it is called by the `mean()` command.
 
@@ -280,7 +346,7 @@ Our own function returns the same number as the built in function. Great success
 
 All functions (included or self-made) are used in the same form as for example `mean()`, inside parentheses you write your `arguments` these can be data or "settings" for the function. You will be familiar with this way of working with functions.
 
-### Packages
+# Packages
 Functions are created with a specialized task. Functions are collected in **packages** made to do a series of tasks, usually within a specific area. In this course we will use different packages, for example [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). These have to be installed through R/RStudio.
 
 To install a package, you use the `install.packages()` function. You only need to do this once.
@@ -306,47 +372,10 @@ There are many blogposts, websites and other resources that describe specific an
 
 Inside R, you always have the R documentation. If you are interested in a specific function, for example `lm()`, type `?lm` in your console and you will access the help files.
 
-## The structure of a script
-R scripts can be thought of as small programs. They are executed from top to bottom. This means that you need to structure them in a certain way. 
-
-Start by loading any packages that you need for your analysis. Then you can define functions (this is a bit premature, we will cover it later). Then you write the code that does what you intend with the script and last you may save your results.  The order is simply because you probably need the packages to be loaded to use functions from them. To save results you must first create them. It is a natural order. 
-
-Be sure to comment what you do! If you use alot of comment it will be easier to catch up where you stopped last time. 
-
-![A new script](./img/rstudio_newproject.png)
-
-Start a new script trough the File menu. A simple script with lots of comments can look like this
-
-
-```{r eval = FALSE}
-# My first script
-
-# Purpose: load some data and make a plot
-
-
-### Load packages
-library(dplyr) # needed for data manipulation
-library(ggplot2) # needed for making figures
-
-
-### Load data
-data("mtcars") # mtcars is a dataset that exists in R (for examples)
-
-fig <- mtcars %>%
-        mutate(car = rownames(.),
-               lpkm =  2.35214583 / mpg * 10) %>%  # Converts miles per gallon to litre per 10 km 
-        ggplot(aes(hp, lpkm, label = car)) + geom_label() # plots horsepower against litre per 10 km 
-        
-
-ggsave("./output/figure1.png", plot = fig) # Saves figure in output
-```
-
-#### Resources
-The above is not at all a complete introduction to data types, functions or usage. Below are some usefull resources to have at hand when you discover R:
+# Resources
+The above is not at all a complete introduction to data types, functions or usage. Below are some useful resources to have at hand when you discover R:
 
 * [Quick R](https://www.statmethods.net/index.html) contains several tutorials, including [Data types](https://www.statmethods.net/input/datatypes.html) and [creating new variables](https://www.statmethods.net/management/variables.html).
 * [Learning statistics with R](https://learningstatisticswithr.com/book/) Chapter 3 is a good introduction to R.
-
-
 
 

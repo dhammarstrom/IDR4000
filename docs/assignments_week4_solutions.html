@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -234,6 +233,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -269,7 +269,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">IDR3002 Course notes</a>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -282,19 +282,26 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Software
+    Lessons
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="installation.html">Installing and starting up R and RStudio</a>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
     </li>
     <li>
-      <a href="markdown.html">Creating a report using rmarkdown</a>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
     </li>
     <li>
-      <a href="structure.html">Structuring an analysis</a>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
     </li>
   </ul>
 </li>
@@ -709,87 +716,27 @@ confint(m2)</code></pre>
 
 # First we save a tidy output of model 2
  
-tidy.m2 &lt;- tidy(m2) %&gt;%
-        filter(group == &quot;fixed&quot;) # removes random effects from summary
-
-# Next we store the confidence intervals from confint
-# We have to select row 3 to 8 to get the same number of rows
-confint.m2 &lt;- data.frame(confint(m2))[c(3:8),]
-
-# Next we can comine these by column
-cbind(tidy.m2, confint.m2) %&gt;%
-        select(-group) %&gt;% # deselect &quot;group&quot;-column
-        kable(row.names = FALSE, 
-              col.names = c(&quot;Parameter&quot;, 
-                            &quot;Estimate&quot;, 
-                            &quot;SE&quot;, 
-                            &quot;Statistic&quot;, 
-                            &quot;Lower CI&quot;, 
-                            &quot;Upper CI&quot;), 
-              digits = c(NA, 1, 1, 2, 1, 1)) %&gt;%
-                      print()</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Parameter</th>
-<th align="right">Estimate</th>
-<th align="right">SE</th>
-<th align="right">Statistic</th>
-<th align="right">Lower CI</th>
-<th align="right">Upper CI</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">211.8</td>
-<td align="right">15.8</td>
-<td align="right">13.44</td>
-<td align="right">181.1</td>
-<td align="right">242.5</td>
-</tr>
-<tr class="even">
-<td align="left">timepointsession1</td>
-<td align="right">6.1</td>
-<td align="right">7.2</td>
-<td align="right">0.85</td>
-<td align="right">-7.8</td>
-<td align="right">20.0</td>
-</tr>
-<tr class="odd">
-<td align="left">timepointpost</td>
-<td align="right">54.4</td>
-<td align="right">7.4</td>
-<td align="right">7.38</td>
-<td align="right">40.2</td>
-<td align="right">68.6</td>
-</tr>
-<tr class="even">
-<td align="left">groupsingle</td>
-<td align="right">3.3</td>
-<td align="right">22.3</td>
-<td align="right">0.15</td>
-<td align="right">-40.2</td>
-<td align="right">46.7</td>
-</tr>
-<tr class="odd">
-<td align="left">timepointsession1:groupsingle</td>
-<td align="right">-3.9</td>
-<td align="right">10.2</td>
-<td align="right">-0.39</td>
-<td align="right">-23.6</td>
-<td align="right">15.7</td>
-</tr>
-<tr class="even">
-<td align="left">timepointpost:groupsingle</td>
-<td align="right">-20.0</td>
-<td align="right">10.3</td>
-<td align="right">-1.94</td>
-<td align="right">-39.8</td>
-<td align="right">-0.1</td>
-</tr>
-</tbody>
-</table>
+# tidy.m2 &lt;- tidy(m2) %&gt;%
+#         filter(group == &quot;fixed&quot;) # removes random effects from summary
+# 
+# # Next we store the confidence intervals from confint
+# # We have to select row 3 to 8 to get the same number of rows
+# confint.m2 &lt;- data.frame(confint(m2))[c(3:8),]
+# 
+# # Next we can comine these by column
+# cbind(tidy.m2, confint.m2) %&gt;%
+#         select(-group) %&gt;% # deselect &quot;group&quot;-column
+#         kable(row.names = FALSE, 
+#               col.names = c(&quot;Parameter&quot;, 
+#                             &quot;Estimate&quot;, 
+#                             &quot;SE&quot;, 
+#                             &quot;Statistic&quot;, 
+#                             &quot;Lower CI&quot;, 
+#                             &quot;Upper CI&quot;), 
+#               digits = c(NA, 1, 1, 2, 1, 1)) %&gt;%
+#                       print()
+# 
+# </code></pre>
 </div>
 
 

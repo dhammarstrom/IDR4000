@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>Introduction part 2</title>
+<title>Installing and starting up R</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -234,6 +236,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -250,6 +253,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -257,6 +323,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -269,7 +345,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">IDR3002 Course notes</a>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -282,19 +358,26 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Software
+    Lessons
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="installation.html">Installing and starting up R and RStudio</a>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
     </li>
     <li>
-      <a href="markdown.html">Creating a report using rmarkdown</a>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
     </li>
     <li>
-      <a href="structure.html">Structuring an analysis</a>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
     </li>
   </ul>
 </li>
@@ -401,54 +484,112 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Introduction part 2</h1>
+<h1 class="title toc-ignore">Installing and starting up R</h1>
 
 </div>
 
 
-<div id="learning-objectives" class="section level2">
-<h2>Learning objectives</h2>
+<p>This page contains step-by-step instructions for installing and running R and R Studio. It will also introduce you to some concepts when talking to R. It is highly recommended that you complete the swirl course <a href="https://swirlstats.com/students.html">R programming</a></p>
+<div id="learning-objectives" class="section level1">
+<h1>Learning objectives</h1>
 <p>By the end of this session you will be able to answer these questions:</p>
 <ul>
-<li>What is a project?</li>
-<li>What data types are there?</li>
-<li>What types of “data containers” are there?</li>
-<li>What is vectorized operations?</li>
-<li>What is a function?</li>
-<li>What is a package?</li>
-<li>How do you structure a script?</li>
+<li>What is R and RStudio?</li>
+<li>How can I interact with R?</li>
+<li>What are the components of RStudio</li>
+<li>What is a reproducible computing?</li>
+<li>How do I maintain a reproducible work-flow in R and RStudio?</li>
 </ul>
 </div>
-<div id="projects" class="section level2">
-<h2>Projects</h2>
-<p>It is convenient to gather all your scripts, data files and output in one folder. This makes it easier to share your analyses and makes it easier to make it reproducible. When starting a new analysis, make sure you start a new project! A project should be self-contained, meaning that all scripts should be able to run based on the information that is in the project folder. If your analyses dependens on something (e.g. a script) outside the project, your analyses are not reproducible unless you also share the external file.</p>
-<p>Data can be collected from external sources, but do this with a script!</p>
-<p>To organize your project, think about it as a folder, containing several sub-folder.</p>
+<div id="installing-r" class="section level1">
+<h1>Installing R</h1>
+<p>R is a free, <a href="https://en.wikipedia.org/wiki/Open_source">open-source</a> software designed for statistical computing. To download and install R:</p>
+<ol style="list-style-type: decimal">
+<li>Go to <a href="https://cran.uib.no/">https://cran.uib.no/</a>,</li>
+<li>select your operating system (Download R for Windows, MacOS or Linux).
+<ul>
+<li>If you have Windows, choose <code>base</code>, click on “Download R (…) for windows”, save and run the file. The installation process should be self explanatory.</li>
+<li>If you have MacOS, download and install the latest release.</li>
+</ul></li>
+</ol>
+</div>
+<div id="installing-r-studio" class="section level1">
+<h1>Installing R Studio</h1>
+<p><a href="https://www.rstudio.com/">RStudio</a> is a software designed to make it easier to use R. Install it by going to <a href="https://www.rstudio.com/">https://www.rstudio.com/</a>. It is free to download and use.</p>
+<ol style="list-style-type: decimal">
+<li>Select “Products” and RStudio</li>
+<li>Go to desktop and select “DOWNLOAD RSTUDIO DESKTOP”</li>
+<li>Select the free open source license and download the file made for your operating system (use the installers).</li>
+</ol>
+</div>
+<div id="getting-to-know-r-and-rstudio" class="section level1">
+<h1>Getting to know R and RStudio</h1>
+<p>R is a software used for scientific/statistical computing. If R is the engine, RStudio is the rest of the car. What does this mean?</p>
+<p>When doing operations in R, you are actually interacting with R through RStudio. RStudio have some important components to help you interact with R.</p>
+<div id="the-source" class="section level2">
+<h2>The source</h2>
+<p>The source is where you keep your code. When writing your code in a text-file, you can call it a script, this is essentially a computer program where you tell R what to do. It is executed from top to bottom. You can send one line of code, multiple lines or whole sections into R. In the image below, the source window is in the top left corner.</p>
+</div>
+<div id="environment" class="section level2">
+<h2>Environment</h2>
+<p>The environment is where all your objects are located. Objects can be variables or data sets that you are working with. In RStudio the environment is listed under the environment tab (bottom left in the image).</p>
+<p>Copy and run the code below.</p>
+<pre class="r"><code>a &lt;- c(1, 2, 4)</code></pre>
+<p>What happened in your environment?</p>
+</div>
+<div id="the-console" class="section level2">
+<h2>The console</h2>
+<p>Here you can directly interact with R. This is also where output from R is printed. In the image below, the console is in the top right corner.</p>
+</div>
+<div id="files-plots-packages-and-help-files" class="section level2">
+<h2>Files, plots, packages and help files</h2>
+<p>In RStudio files are accessible from the Files tab. When opening a project, the files tab shows the files in you root folder.</p>
+<p>Plots are displayed in the Plot tab. Packages are listed in the packages tab.</p>
+<p>If you access the help files, these will be displayed in the help tab.</p>
+<p>In the image below all these tabs are in the bottom right corner.</p>
 <div class="figure">
-<img src="img/project_description.png" alt="A project" />
-<p class="caption">A project</p>
+<img src="img/rstudio_blank.png" alt="" />
+<p class="caption">RStudio.</p>
 </div>
-<p>The root folder is the uppermost level in the folder structure. In this folder you can have report files (R-markdown files). This is a good idea as when you compile them, thay will have the same folder structure as your project.</p>
-<p>The R folder contains scripts, all written to perform specific tasks (see below). The data folder contains data used in analyses. I like to have a derived_data-folder, here I gather data that has been created with scripts. An output folder can be used to gather reports and figures that you create.</p>
-<div id="starting-a-project" class="section level3">
-<h3>Starting a project</h3>
-<p>Start a new project by clicking in the right upper corner ()</p>
-<p><img src="img/rstudio_newproject.png" /></p>
-<p>You will be asked what kind of project you want to start. A new directory will launch a new folder. Existing directory will let you select a folder where you want to have your project. Version control is very good to have, especially when collaborating or when you do big project. This lets you track changes that are made and store your scripts online. It requires <a href="www.github.com">GitHub</a> or similar version control system. We will not cover it in this course, but I recommend interested students to discover it by yourself.</p>
-<p><img src="img/rstudio_newproject2.png" /></p>
-<p>When you select “New directrory” you will be asked, dependning on your configuration, what type of project you want to start. Choose “New Project”, this is generic and suited to our needs.</p>
-<p><img src="img/rstudio_newproject3.png" /></p>
-<p>Select a good name for your project (specific enough so you can easily find it). And choose the location where you want it on your local computer.</p>
-<p><img src="img/rstudio_newproject4.png" /></p>
-<p>Done! When your are active in a project, RStudio will show you the name of the project in the upper right corner.</p>
-<p><img src="img/rstudio_newproject5.png" /></p>
-<p>The Files tab will show an almost empty folder. The only file should be the project file. This file contains information about the project needed when you want to launch it again. You can also launch the project by double clicking it (this will start RStudio). If you click it from whitin RStudio, you will be able to control some settings.</p>
-<p>By now you should have set the .RData/workspace settings to facilitate reproducible workflow (see previous page). Do not save workspace on exit.</p>
 </div>
-<div id="start-coding" class="section level3">
-<h3>Start coding!</h3>
+<div id="customizing-the-apperance-of-rstudio" class="section level2">
+<h2>Customizing the apperance of RStudio</h2>
+<p>To access options for RStudio, go to Tools -&gt; Global options</p>
+<div class="figure">
+<img src="img/rstudio_options1.png" alt="" />
+<p class="caption">RStudio.</p>
+</div>
+<p>Under apperance you can customize the theme of RStudio, select something that is easy on the eye!</p>
+<div class="figure">
+<img src="img/rstudio_options2.png" alt="" />
+<p class="caption">RStudio.</p>
+</div>
+<p>Under pane layout, you can set where you want your tabs, I like to have the source on the left, above the environment. This way you can have the source window at full vertical size and still look at plots and the console to the right.</p>
+<div class="figure">
+<img src="img/rstudio_options3.png" alt="" />
+<p class="caption">RStudio.</p>
+</div>
+</div>
+<div id="reproducible-computing" class="section level2">
+<h2>Reproducible computing</h2>
+<p>Computations are reproducible when you can show how they were performed. This is achieved by creating “programs” from where your analyses are done. In R, these programs are lines or R code stored in a text-file, either .R-files or .Rmd-files. .R-files are scripts only containing code and comments. A .Rmd-file is a special script combining text and computer code, when the Rmd-file is executed, it creates a report and outputs the results from the code.</p>
+<p>This means that to work in a reproducible way, you need to script all your operations.</p>
+<div class="figure">
+<img src="img/reproducible_workflow.png" alt="" />
+<p class="caption">Reproducible vs. non-reproducible workflow</p>
+</div>
+<p>Importantly, in RStudio you can shut down storing temporary objects in a environment that is relaunched on start up. What is the consequence of having such a situation?</p>
+<p>To disable this option, set save works pace to NEVER!</p>
+<div class="figure">
+<img src="img/rstudio_options4.png" alt="" />
+<p class="caption">RStudio.</p>
+</div>
+</div>
+</div>
+<div id="start-coding" class="section level1">
+<h1>Start coding!</h1>
 <p>The online book <a href="https://learningstatisticswithr.com/book">Learning statistics with R</a> has an updated chapter about installing and setting up R (<a href="https://learningstatisticswithr.com/book/introR.html">Chapter 3</a>). This chapter also goes through how commands are typed into R.</p>
-<p>When you have installed your copy of R and RStudio, start up RStuido and type the following in the consol window:</p>
+<p>When you have installed your copy of R and RStudio, start up RStudio and type the following in the console window:</p>
 <pre class="r"><code>x &lt;- 2
 
 z &lt;- 4
@@ -456,16 +597,15 @@ z &lt;- 4
 x + z</code></pre>
 <p>These “commands” tells R to store the number 2 in an object that we name <code>x</code>. Then we store the number 4 in an object named <code>z</code> . Next we tell R to add these two together. If you enter each command followed by pressing enter in the console, R will return the sum of x and z which should be 6.</p>
 <p>The operations that you did above using the <code>&lt;-</code> operator is called variable assignment. Read more about it in <a href="https://learningstatisticswithr.com/book/introR.html#assign">section 3.4 of Learning statistics with R</a>.</p>
-<p>Before going any futher it can be usefull to know that you can save your code as R scripts. In RStudio, go to <code>File &gt; New File &gt; R Script</code>. The R script is a text-file where you can write code that can be sent to the console. To execute a line of code, have the cursor on the line you would like to run and press <code>Ctrl + Enter</code> on your keyboard. If you would want to run the whole script, either press <code>Source</code> in the top right corner of the Source window in RStudio or select all lines and pre <code>Ctrl + Enter</code>. R scripts can be saved, this makes for an opportunity to make reproducible analyses. We will talk more about this later.</p>
+<p>Before going any further it can be useful to know that you can save your code as R scripts. In RStudio, go to <code>File &gt; New File &gt; R Script</code>. The R script is a text-file where you can write code that can be sent to the console. To execute a line of code, have the cursor on the line you would like to run and press <code>Ctrl + Enter</code> on your keyboard. If you would want to run the whole script, either press <code>Source</code> in the top right corner of the Source window in RStudio or select all lines and pre <code>Ctrl + Enter</code>. R scripts can be saved, this makes for an opportunity to make reproducible analyses. We will talk more about this later.</p>
 <p>In the R script we can “comment out” lines of text using the <code>#</code> symbol. An R script with comments can look like this:</p>
 <pre class="r"><code># This line is a comment, the line below is code
 
 x &lt;- 34
 
 # This line is a comment, in this script only x &lt;- 34 will be evaluated.</code></pre>
-</div>
-<div id="types-of-data-in-r" class="section level3">
-<h3>Types of data in R</h3>
+<div id="types-of-data-in-r" class="section level2">
+<h2>Types of data in R</h2>
 <p>R can store many types of data.</p>
 <div id="scalars" class="section level4">
 <h4>Scalars</h4>
@@ -572,8 +712,8 @@ character_vector[&quot;the second name&quot;]</code></pre>
 </table>
 <p>Note that if vectors are not the same length (or a multiple of shorter object length), R will give you a warning.</p>
 <pre class="r"><code>numeric_vector * c(2, 1, 4)</code></pre>
-<pre><code>## Warning in numeric_vector * c(2, 1, 4): longer object length is not a
-## multiple of shorter object length</code></pre>
+<pre><code>## Warning in numeric_vector * c(2, 1, 4): longer object length is
+## not a multiple of shorter object length</code></pre>
 <pre><code>## [1]  2  4 24 16</code></pre>
 <p>A vector of length 4 can be multiplied with a vector length 2 as the shorter vector can be used two times over the longer vector.</p>
 <p>Character vector can not be used in mathematical operations, try it out, what do the error message say? What does it mean?</p>
@@ -582,9 +722,10 @@ character_vector[&quot;the second name&quot;]</code></pre>
 <pre><code>## [1] 1 0 6 8</code></pre>
 </div>
 </div>
-<div id="data-frame" class="section level3">
-<h3>Data frame</h3>
-<p>We will work alot with data frames. These are tables of data with rows and columns. A data frame can be created using the <code>data.frame()</code></p>
+</div>
+<div id="data-frames" class="section level1">
+<h1>Data frames</h1>
+<p>We will work a lot with data frames. These are tables of data with rows and columns. A data frame can be created using the <code>data.frame()</code></p>
 <pre class="r"><code># Create my data frame
 my_df &lt;- data.frame(Variable1 = c(1,2,3,4), Variable2 = c(5, 5, 5, 5), Variable3 = c(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;))</code></pre>
 <p>The data frame can combine different types of data into one table. The data frame can be viewed in the console by calling it, we can also access different rows and columns by specifying it when calling it e.g. using the logic <code>my_df[row, column]</code></p>
@@ -615,13 +756,18 @@ my_df</code></pre>
 ## 3         3         5     three         8
 ## 4         4         5      four         9</code></pre>
 <p>Later we will learn different ways of manipulating data frames that will turn out to be a bit more convinient.</p>
-<div id="matrix" class="section level4">
-<h4>Matrix</h4>
-<p>A martrix is a type of table, similar to a data frame, but all element must be of the same type e.g. numeric.</p>
+<div id="data-matrices" class="section level2">
+<h2>Data matrices</h2>
+<p>A matrix is a type of table, similar to a data frame, but all element must be of the same type e.g. numeric.</p>
+<p>A matrix can be created using several vectors of the same size and content. The <code>cbind()</code> function is used below to bind columns of numbers together.</p>
+<pre class="r"><code>my_matrix &lt;- cbind(c(1,2,3,4), 
+                   c(4,6,8,9),
+                   c(8,3,2,1))</code></pre>
 </div>
-<div id="lists" class="section level4">
-<h4>Lists</h4>
-<p>Lists are objects containing other objects. We can combine objects in a list, this is sometimes usefull for storage of data. We can name the objects in the list when listing them or by using the <code>names()</code> function. This is nice, becauese we can access it by using the <code>$</code> operator.</p>
+</div>
+<div id="lists" class="section level1">
+<h1>Lists</h1>
+<p>Lists are objects containing other objects. We can combine objects in a list, this is sometimes useful for storage of data. We can name the objects in the list when listing them or by using the <code>names()</code> function. This is nice, because we can access it by using the <code>$</code> operator.</p>
 <pre class="r"><code># Store objects in a list
 my_list &lt;- list(my.vector = numeric_vector, 
              my.dataframe = my_df)
@@ -630,9 +776,9 @@ my_list &lt;- list(my.vector = numeric_vector,
 my_list$my.vector</code></pre>
 <pre><code>## [1] 1 4 6 8</code></pre>
 </div>
-<div id="functions" class="section level4">
-<h4>Functions</h4>
-<p>R can store data and functions. Functions are usuallly used to take some input, do something and return an output. R contains alot of functions as this is the basis of how we work with data. There is no need to write functions, these are already written by others and can be used by you to analyze data or make figures. However, it can be useful to know how a function works.</p>
+<div id="functions" class="section level1">
+<h1>Functions</h1>
+<p>R can store data and functions. Functions are usually used to take some input, do something and return an output. R contains a lot of functions as this is the basis of how we work with data. There is no need to write functions, these are already written by others and can be used by you to analyze data or make figures. However, it can be useful to know how a function works.</p>
 <p>A quick look! We will create a function that calculates the mean of a vector. This function already exists, it is called by the <code>mean()</code> command.</p>
 <p>We can use our numeric vector and calculate its mean</p>
 <pre class="r"><code>mean(numeric_vector)</code></pre>
@@ -658,16 +804,13 @@ my_mean(numeric_vector)</code></pre>
 <p>Our own function returns the same number as the built in function. Great success!</p>
 <p>All functions (included or self-made) are used in the same form as for example <code>mean()</code>, inside parentheses you write your <code>arguments</code> these can be data or “settings” for the function. You will be familiar with this way of working with functions.</p>
 </div>
-</div>
-<div id="packages" class="section level3">
-<h3>Packages</h3>
+<div id="packages" class="section level1">
+<h1>Packages</h1>
 <p>Functions are created with a specialized task. Functions are collected in <strong>packages</strong> made to do a series of tasks, usually within a specific area. In this course we will use different packages, for example <a href="https://dplyr.tidyverse.org/">dplyr</a>, <a href="https://tidyr.tidyverse.org/">tidyr</a> and <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. These have to be installed through R/RStudio.</p>
 <p>To install a package, you use the <code>install.packages()</code> function. You only need to do this once.</p>
 <pre class="r"><code>install.packages(&quot;dplyr&quot;)</code></pre>
 <p>To use a package, you have to load it into your environment. Use the <code>library()</code> function to load a package.</p>
 <pre class="r"><code>library(&quot;dplyr&quot;)</code></pre>
-</div>
-</div>
 <div id="looking-for-help" class="section level2">
 <h2>Looking for help</h2>
 <p>In this course you will trained to do and communicate analyses of data. Often, an analysis require that you do stuff that you have never done before with software you have never used. This means that you need to develope your problem-solving skills. A good thing about using the R ecosystem is that there is a lot of help online. The key is to know what to look for!</p>
@@ -676,54 +819,26 @@ my_mean(numeric_vector)</code></pre>
 <p>There are many blogposts, websites and other resources that describe specific analyses. Learn how to read them and you will increase your chances of solving your analysis tasks.</p>
 <p>Inside R, you always have the R documentation. If you are interested in a specific function, for example <code>lm()</code>, type <code>?lm</code> in your console and you will access the help files.</p>
 </div>
-<div id="the-structure-of-a-script" class="section level2">
-<h2>The structure of a script</h2>
-<p>R scripts can be thought of as small programs. They are executed from top to bottom. This means that you need to structure them in a certain way.</p>
-<p>Start by loading any packages that you need for your analysis. Then you can define functions (this is a bit premature, we will cover it later). Then you write the code that does what you intend with the script and last you may save your results. The order is simply because you probably need the packages to be loaded to use functions from them. To save results you must first create them. It is a natural order.</p>
-<p>Be sure to comment what you do! If you use alot of comment it will be easier to catch up where you stopped last time.</p>
-<div class="figure">
-<img src="img/rstudio_newproject.png" alt="A new script" />
-<p class="caption">A new script</p>
 </div>
-<p>Start a new script trough the File menu. A simple script with lots of comments can look like this</p>
-<pre class="r"><code># My first script
-
-# Purpose: load some data and make a plot
-
-
-### Load packages
-library(dplyr) # needed for data manipulation
-library(ggplot2) # needed for making figures
-
-
-### Load data
-data(&quot;mtcars&quot;) # mtcars is a dataset that exists in R (for examples)
-
-fig &lt;- mtcars %&gt;%
-        mutate(car = rownames(.),
-               lpkm =  2.35214583 / mpg * 10) %&gt;%  # Converts miles per gallon to litre per 10 km 
-        ggplot(aes(hp, lpkm, label = car)) + geom_label() # plots horsepower against litre per 10 km 
-        
-
-ggsave(&quot;./output/figure1.png&quot;, plot = fig) # Saves figure in output</code></pre>
-<div id="resources" class="section level4">
-<h4>Resources</h4>
-<p>The above is not at all a complete introduction to data types, functions or usage. Below are some usefull resources to have at hand when you discover R:</p>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>The above is not at all a complete introduction to data types, functions or usage. Below are some useful resources to have at hand when you discover R:</p>
 <ul>
 <li><a href="https://www.statmethods.net/index.html">Quick R</a> contains several tutorials, including <a href="https://www.statmethods.net/input/datatypes.html">Data types</a> and <a href="https://www.statmethods.net/management/variables.html">creating new variables</a>.</li>
 <li><a href="https://learningstatisticswithr.com/book/">Learning statistics with R</a> Chapter 3 is a good introduction to R.</li>
 </ul>
 </div>
-</div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>This is information from the R documentation, these can be accessed using the <code>?</code> symbol followed by a name of a function, e.g. <code>?logical</code> typed into the console<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>This is information from the R documentation, these can be accessed using the <code>?</code> symbol followed by a name of a function, e.g. <code>?logical</code> typed into the console<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -756,6 +871,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -20,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -234,6 +236,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -250,6 +253,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -257,6 +323,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -269,7 +345,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">IDR3002 Course notes</a>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -282,19 +358,26 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Software
+    Lessons
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="installation.html">Installing and starting up R and RStudio</a>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
     </li>
     <li>
-      <a href="markdown.html">Creating a report using rmarkdown</a>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
     </li>
     <li>
-      <a href="structure.html">Structuring an analysis</a>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
     </li>
   </ul>
 </li>
@@ -408,29 +491,44 @@ $(document).ready(function () {
 
 <div id="projects" class="section level2">
 <h2>Projects</h2>
-<p>Before starting a new data analysis project, it is good to have an idea about how to organize it. An efficient way to organize a data anlysis using R Studio is to use <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">Projects</a>.</p>
-<p>A project is essentially a file keeping track of your analysis. When starting a new project, it also defines your <em>working directory</em>. A <em>working directory</em> is the top directory of the file system that contains files needed for the analysis. The top directory (or root directory) may contain several subfolders that all can be accessed using relative paths. I talked about this on the page <a href="markdown.html">creating reports using R, R Markdown and knitr</a>. The same logic applies to <em>Projects</em> as with <em>knitting</em> a R Markdown file. When setting the working directory using <em>Projects</em> you can use relative paths for files like data files. This means you can copy your project (and folder) to another place and it will still work.</p>
+<p>Before starting a new data analysis project, it is good to have an idea about how to organize it. An efficient way to organize a data analysis using R Studio is to use <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">Projects</a>.</p>
+<p>A project is essentially a file keeping track of your analysis. When starting a new project, it also defines your <em>working directory</em>. A <em>working directory</em> is the top directory of the file system that contains files needed for the analysis. The top directory (or root directory) may contain several subfolders that all can be accessed using relative paths. I talked about this on the page <a href="lesson_2_markdown.html">creating reports using R, R Markdown and knitr</a>. The same logic applies to <em>Projects</em> as with <em>knitting</em> a R Markdown file. When setting the working directory using <em>Projects</em> you can use relative paths for files like data files. This means you can copy your project (and folder) to another place and it will still work.</p>
+<p>A project should be self-contained, meaning that all scripts should be able to run based on the information that is in the project folder. If your analyses depends on something (e.g. a script) outside the project, your analyses are not reproducible unless you also share the external file.</p>
+<p>Data can be collected from external sources, but do this with a script!</p>
+<p>To organize your project, think about it as a folder, containing several sub-folder.</p>
+<div class="figure">
+<img src="img/project_description.png" alt="" />
+<p class="caption">A project</p>
 </div>
-<div id="a-nice-folder-structure" class="section level2">
-<h2>A nice folder structure</h2>
-<p>When organizing a project, a good folder structure makes life easier. Here is a folder structure that I like.</p>
-<ul>
-<li><code>./data/</code> This is where I structure my data, this folder may contain several data sets, structured in several folders (for order)</li>
-<li><code>./R/</code> Here I keep R-scripts used for processing data</li>
-<li><code>./derived_data/</code> Here I keep data that is not raw, meaning it has been processed in some way</li>
-<li><code>./figures/</code> Contains scripts to create figures, and the figure files.</li>
-<li><code>./resources/</code> Here I keep that does not fit anywhere else, for example the bibliography file</li>
-<li><code>./</code> The root directory contains a R markdown file used to write the report. I wish to keep this folder as clean as possible (not always the case).</li>
-</ul>
-<p>Keeping the R markdown file in the root directory makes it easy to use the same relative paths when working in a R script and knitting the report.</p>
+<p>The root folder is the uppermost level in the folder structure. In this folder you can have report files (R-markdown files). This is a good idea as when you compile them, they will have the same folder structure as your project.</p>
+<p>The R folder contains scripts, all written to perform specific tasks (see below). The data folder contains data used in analyses. I like to have a derived_data-folder, here I gather data that has been created with scripts. An output folder can be used to gather reports and figures that you create.</p>
+<p>Additional folders could be <code>./figures/</code>, contains scripts to create figures, and the figure files. <code>./resources/</code> where stuff needed to create reports are stored, for example the bibliography file or word template files</p>
+<p>The root directory contains a R markdown file used to write the report. I wish to keep this folder as clean as possible. Keeping the R markdown file in the root directory makes it easy to use the same relative paths when working in a R script and knitting the report.</p>
 </div>
 <div id="structuring-your-course-directory" class="section level2">
 <h2>Structuring your course directory</h2>
 <p>When doing this course, we will do several analyses. I suggest keeping them all in one project. Keep your data in a folder called <code>./data</code>, keep R scripts in the <code>./R</code> folder and so on. Keep R markdown files in the main (root/top) directory. Create the course directory using Project in R Studio.</p>
+<div id="starting-a-project" class="section level3">
+<h3>Starting a project</h3>
+<p>Start a new project by clicking in the right upper corner ()</p>
+<p><img src="img/rstudio_newproject.png" /></p>
+<p>You will be asked what kind of project you want to start. A new directory will launch a new folder. Existing directory will let you select a folder where you want to have your project. Version control is very good to have, especially when collaborating or when you do big project. This lets you track changes that are made and store your scripts online. It requires <a href="www.github.com">GitHub</a> or similar version control system. We will not cover it in this course, but I recommend interested students to discover it by yourself.</p>
+<p><img src="img/rstudio_newproject2.png" /></p>
+<p>When you select “New directrory” you will be asked, dependning on your configuration, what type of project you want to start. Choose “New Project”, this is generic and suited to our needs.</p>
+<p><img src="img/rstudio_newproject3.png" /></p>
+<p>Select a good name for your project (specific enough so you can easily find it). And choose the location where you want it on your local computer.</p>
+<p><img src="img/rstudio_newproject4.png" /></p>
+<p>Done! When your are active in a project, RStudio will show you the name of the project in the upper right corner.</p>
+<p><img src="img/rstudio_newproject5.png" /></p>
+<p>The Files tab will show an almost empty folder. The only file should be the project file. This file contains information about the project needed when you want to launch it again. You can also launch the project by double clicking it (this will start RStudio). If you click it from whitin RStudio, you will be able to control some settings.</p>
+<p>By now you should have set the .RData/workspace settings to facilitate reproducible workflow (see previous page). Do not save works pace on exit.</p>
+</div>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -463,6 +561,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

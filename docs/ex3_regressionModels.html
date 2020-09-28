@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -237,6 +236,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -265,6 +265,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -339,7 +345,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">IDR3002 Course notes</a>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -352,19 +358,26 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Software
+    Lessons
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="installation.html">Installing and starting up R and RStudio</a>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
     </li>
     <li>
-      <a href="markdown.html">Creating a report using rmarkdown</a>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
     </li>
     <li>
-      <a href="structure.html">Structuring an analysis</a>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
     </li>
   </ul>
 </li>
@@ -621,7 +634,7 @@ tidy(m1) %&gt;%
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Estimate</th>
 <th align="right">SE</th>
 <th align="right">t-statistic</th>
@@ -630,14 +643,14 @@ tidy(m1) %&gt;%
 </thead>
 <tbody>
 <tr class="odd">
-<td>(Intercept)</td>
+<td align="left">(Intercept)</td>
 <td align="right">-2596.3</td>
 <td align="right">2936.5</td>
 <td align="right">-0.88</td>
 <td align="right">0.388</td>
 </tr>
 <tr class="even">
-<td>height.T1</td>
+<td align="left">height.T1</td>
 <td align="right">41.1</td>
 <td align="right">16.4</td>
 <td align="right">2.51</td>
@@ -904,7 +917,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

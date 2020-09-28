@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -20,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -234,6 +236,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -250,6 +253,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -257,6 +323,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -269,7 +345,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">IDR3002 Course notes</a>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -282,19 +358,26 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Software
+    Lessons
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="installation.html">Installing and starting up R and RStudio</a>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
     </li>
     <li>
-      <a href="markdown.html">Creating a report using rmarkdown</a>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
     </li>
     <li>
-      <a href="structure.html">Structuring an analysis</a>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
     </li>
   </ul>
 </li>
@@ -408,7 +491,7 @@ $(document).ready(function () {
 
 <div id="reproducible-research" class="section level2">
 <h2>Reproducible research</h2>
-<p>Replication can be thought of as the golden standard when the aim is to <em>confirm</em> scientific results. When replicating a scientific study, we collect new data, independent from the study we wish to replicate. However, scientific interpretations of data are also affected by the way we analyze them. This has raised attention recently and <em>reproducible data analysis</em> and as argued by e.g. Peng <em>et al.</em> <span class="citation">(Peng, Dominici, and Zeger 2006)</span>, should be a minimum standard in scientific reporting. This standard requires that a scientific report (e.g. journal article or master’s thesis) is directly built upon the analyses. For many, this is a big change from a workflow where analyses are done and copied into the report. Today there are many software solutions available to create <em>reproducible reports</em>, answering the call for reproducible data analyses where data, code and software is available for scrutiny <span class="citation">(Peng 2011)</span>.</p>
+<p>Replication can be thought of as the golden standard when the aim is to <em>confirm</em> scientific results. When replicating a scientific study, we collect new data, independent from the study we wish to replicate. However, scientific interpretations of data are also affected by the way we analyze them. This has raised attention recently and <em>reproducible data analysis</em> as argued by e.g. Peng <em>et al.</em> <span class="citation">(Peng, Dominici, and Zeger 2006)</span>, should be a minimum standard in scientific reporting. This standard requires that a scientific report (e.g. journal article or master’s thesis) is directly built upon the analyses. For many, this is a big change from a work-flow where analyses are done and copied into the report. Today there are many software solutions available to create <em>reproducible reports</em>, answering the call for reproducible data analyses where data, code and software is available for scrutiny <span class="citation">(Peng 2011)</span>.</p>
 <p>In this course you will learn how to work with software designed to make analyses reproducible. We will use <a href="https://rmarkdown.rstudio.com/">R Markdown</a> to create reproducible reports.</p>
 <div id="resources" class="section level3">
 <h3>Resources</h3>
@@ -425,7 +508,7 @@ $(document).ready(function () {
 <pre><code>---
 title: &quot;Untitled&quot;
 author: &quot;Daniel Hammarström&quot;
-date: &quot;2019 05 09&quot;
+date: &quot;2020 05 09&quot;
 output: html_document
 ---
 
@@ -447,11 +530,11 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 <div id="microsoft-word-intergration" class="section level3">
 <h3>Microsoft Word intergration</h3>
 <p>Sometimes it is usefull to “knit” to a word file. For example when you want to share a report with fellow students who are not familiar with R. R Markdown can be used as a source for word documents (.docx).</p>
-<p>To create a word document from your Rmd-file you need aworking installation of Microsoft Word. Settings for the output is specified in the YAML metadata field in the Rmd-file. This is the first section of a Rmd file, and when you want it to create a word file you specify it like this:</p>
+<p>To create a word document from your Rmd-file you need a working installation of Microsoft Word. Settings for the output is specified in the YAML metadata field in the Rmd-file. This is the first section of a Rmd file, and when you want it to create a word file you specify it like this:</p>
 <pre><code>---
 title: &quot;A title&quot;
 author: Daniel Hammarström
-date: 2019-09-05
+date: 2020-09-05
 output: word_document
 ---
 </code></pre>
@@ -459,7 +542,7 @@ output: word_document
 <pre><code>---
 title: &quot;A title&quot;
 author: Daniel Hammarström
-date: 2019-09-05
+date: 2020-09-05
 output: 
         word_document:
                 reference_docx: reference.docx
@@ -477,7 +560,7 @@ output:
 <pre><code>---
 title: &quot;A title&quot;
 author: Daniel Hammarström
-date: 2019-09-05
+date: 2020-09-05
 output: 
         word_document:
                 reference_docx: reference.docx
@@ -534,13 +617,15 @@ bibliography: bibliography.bib
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Cheat sheets are available in R Studio: <em>Help &gt; Cheatsheets</em><a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>Make sure to look through the <a href="https://bookdown.org/yihui/rmarkdown/installation.html">installation instructions</a> to get pdf options working<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>Cheat sheets are available in R Studio: <em>Help &gt; Cheatsheets</em><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Make sure to look through the <a href="https://bookdown.org/yihui/rmarkdown/installation.html">installation instructions</a> to get pdf options working<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -573,6 +658,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

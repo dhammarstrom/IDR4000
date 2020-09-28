@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -235,6 +234,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -270,7 +270,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">IDR3002 Course notes</a>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -283,19 +283,26 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Software
+    Lessons
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="installation.html">Installing and starting up R and RStudio</a>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
     </li>
     <li>
-      <a href="markdown.html">Creating a report using rmarkdown</a>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
     </li>
     <li>
-      <a href="structure.html">Structuring an analysis</a>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
     </li>
   </ul>
 </li>
@@ -463,7 +470,7 @@ pop &lt;- rnorm(n = 1000000, mean = 100, sd = 15)</code></pre>
 <pre class="r"><code>sample1 &lt;- sample(x = pop, size = 10, replace = FALSE)</code></pre>
 <p>Setting <code>replace = FALSE</code> makes sure that we do not use the same number twice. We sample from <code>pop</code> and the sample has the <code>size = 10</code>. The mean of the sample is.</p>
 <pre class="r"><code>mean(sample1)</code></pre>
-<pre><code>## [1] 96.0118</code></pre>
+<pre><code>## [1] 98.66039</code></pre>
 <p>We could continue to sample in this way and record every outcome to build the distribution. A smarter way is to create a for-loop. This is a basic building block in programming, we tell the computer to do a task multiple times and store the results in a nice format. We will sample <code>size = 10</code> and calculate the mean. The results will be stored in a data frame.</p>
 <pre class="r"><code># set the seed
 set.seed(123)
@@ -487,7 +494,7 @@ for(i in 1:1000){
 <p><img src="ex2_introInference_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>The standard deviation of the sampling distribution can be calculated from the results.</p>
 <pre class="r"><code>sd(results$mean)</code></pre>
-<pre><code>## [1] 4.651947</code></pre>
+<pre><code>## [1] 4.656134</code></pre>
 <p>The dispersion (spread) of the sampling distribution should correspond to the standard error of the mean in each sample. Let us repeat the sampling and include a calculation of the standard error of the mean. The standard error is calculate as</p>
 <p><span class="math display">\[SE = \frac{s}{\sqrt{n}}\]</span></p>
 <pre class="r"><code># set the seed
@@ -511,8 +518,8 @@ for(i in 1:1000){
 }
 
 sd(results[, 1])</code></pre>
-<pre><code>## [1] 4.651947</code></pre>
-<p>The first SE is 5.97, the second is 4.27 the mean SE is 4.61 which is fairly close to the standard deviation of the sampling distribution. Re-write the code above so that the sample size corresponds to 25. Calculate:</p>
+<pre><code>## [1] 4.656134</code></pre>
+<p>The first SE is 4.58, the second is 4.17 the mean SE is 4.66 which is fairly close to the standard deviation of the sampling distribution. Re-write the code above so that the sample size corresponds to 25. Calculate:</p>
 <ul>
 <li>The SD of the sampling distribution</li>
 <li>Average sample SE.</li>

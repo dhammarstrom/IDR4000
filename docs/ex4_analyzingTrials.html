@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -234,6 +233,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -269,7 +269,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">IDR3002 Course notes</a>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -282,19 +282,26 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Software
+    Lessons
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="installation.html">Installing and starting up R and RStudio</a>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
     </li>
     <li>
-      <a href="markdown.html">Creating a report using rmarkdown</a>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
     </li>
     <li>
-      <a href="structure.html">Structuring an analysis</a>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
     </li>
   </ul>
 </li>
@@ -797,42 +804,6 @@ isom.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;%
 <pre class="r"><code># The model
 lmer2 &lt;- lmer(load ~ timepoint * group + (1|subject), data = isom.data)</code></pre>
 <p>The resulting model has the same parameters as in the previous example.</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Parameter</th>
-<th align="right">Estimate</th>
-<th align="right">SE</th>
-<th align="right">t-value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">211.764706</td>
-<td align="right">15.246856</td>
-<td align="right">13.889074</td>
-</tr>
-<tr class="even">
-<td align="left">timepointpost</td>
-<td align="right">55.192016</td>
-<td align="right">7.730208</td>
-<td align="right">7.139784</td>
-</tr>
-<tr class="odd">
-<td align="left">groupsingle</td>
-<td align="right">3.264706</td>
-<td align="right">21.562310</td>
-<td align="right">0.151408</td>
-</tr>
-<tr class="even">
-<td align="left">timepointpost:groupsingle</td>
-<td align="right">-20.750839</td>
-<td align="right">10.779550</td>
-<td align="right">-1.925019</td>
-</tr>
-</tbody>
-</table>
 <p>The intercept is the mean in the reference group (multiple-set group) at <code>pre</code>. <code>timepointpost</code> is the mean in the reference group at time-point <code>post</code>. <code>groupsingle</code> is the difference at baseline between groups and <code>timepointpost:groupsingle</code> is the difference between single-set and multiple-set at time-point <code>post</code>. This is the parameter of interest in this model. We want to know if the change from pre to post differs between groups, we can assess this by testing if the difference is smaller or greater than zero. This is done with the difference at baseline in mind (we control for the baseline).</p>
 <p>Using the <code>confint</code>we can see that the interaction term (<code>timepointpost:groupsingle</code>) contains zero.</p>
 </div>

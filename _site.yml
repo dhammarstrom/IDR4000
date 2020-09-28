@@ -1,21 +1,26 @@
-name: "IDR3002 Course notes"
+name: "IDR4000 Course notes"
 output_dir: "docs"
 exclude: ["/notes/*", "/lectures/*"]
 navbar:
-  title: "IDR3002 Course notes"
+  title: "IDR4000 Course notes"
   type: inverse
   left:
     - text: "Home"
       icon: fa-home
       href: index.html
-    - text: "Software"
+    - text: "Lessons"
       menu:
         - text: "Installing and starting up R and RStudio"
-          href: installation.html
+          href: lesson_1_installation.html
         - text: "Creating a report using rmarkdown"
-          href: markdown.html
+          href: lesson_2_markdown.html
         - text: "Structuring an analysis"
-          href: structure.html
+          href: lesson_3_structure.html
+        - text: "R scripts and R markdown files"
+          href: lesson_4_scripts.html
+        - text: "-----------------------------------"
+        - text: "Import data"
+          href: lesson_5_import_data.html
           
     - text: "Lessons"
       menu:
