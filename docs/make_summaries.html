@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data wrangling and creating summaries</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">IDR3002 Course notes</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Software
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installation.html">Installing and starting up R and RStudio</a>
+    </li>
+    <li>
+      <a href="markdown.html">Creating a report using rmarkdown</a>
+    </li>
+    <li>
+      <a href="structure.html">Structuring an analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lessons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction_1.html">Introduction to R</a>
+    </li>
+    <li>
+      <a href="import_data.html">Import data</a>
+    </li>
+    <li>
+      <a href="make_summaries.html">Make summaries</a>
+    </li>
+    <li>
+      <a href="plot_ggplot2.html">Create plots with ggplot2</a>
+    </li>
+    <li>
+      <a href="descriptive_statistics.html">Assignment: Descriptive statistics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="ex2_introInference.html">Statistical inference</a>
+    </li>
+    <li>
+      <a href="ex2_introInference2.html">Statistical inference 2</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="ex3_regressionModels.html">Regression models</a>
+    </li>
+    <li>
+      <a href="ex4_analyzingTrials.html">Extendning regression models</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ex1_intro.html">Introduction to R and RStudio</a>
+    </li>
+    <li>
+      <a href="ex1_import.html">Import data</a>
+    </li>
+    <li>
+      <a href="ex1_summarise.html">Summarise data</a>
+    </li>
+    <li>
+      <a href="ex1_figures.html">Making figures</a>
+    </li>
+    <li>
+      <a href="exercise_week3.html">Regression models</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Assignments
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="assignments_week1.html">Week 1</a>
+    </li>
+    <li>
+      <a href="assignments_week2.html">Week 2</a>
+    </li>
+    <li>
+      <a href="assignments_week3.html">Week 3</a>
+    </li>
+    <li>
+      <a href="assignments_week4.html">Week 4</a>
+    </li>
+    <li>
+      <a href="assignments_week5.html">Week 5</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="faq.html">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data wrangling and creating summaries</h1>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This course is about getting to know <em>how to</em> communicate data. Data are everywhere, sometimes we collect them in the lab, sometimes they are sitting in our computer or gets teased out from other peoples research projects. Before the data can tell us anything we must often do a lot of operations on them, test them in different statistical models, and visualize them. The aim of the course increase your data analysis proficiency.</p>
+<p>Skills in data analysis is seldom taught in programs outside data science or statistics. There are courses in statistics and report writing but students often struggle getting the data in to the computer and/or in the right form to do statistical tests before they can write the report. Here we address the parts between the raw data and the report.</p>
+<p>R has excellent capabilities for “data wrangling”. This means that we can perform operations to import, clean and transform data to suit downstream analyses.</p>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<p>Chapter 9-15 in <a href="https://r4ds.had.co.nz/">R for data science</a> are good for getting more in depth. We will be using <a href="https://tidyr.tidyverse.org/">tidyr</a> for create tidy data and <a href="https://dplyr.tidyverse.org/">dplyr</a> to manipulate data and create summaries.</p>
+</div>
+<div id="learning-objectives" class="section level2">
+<h2>Learning objectives</h2>
+<p>After the session, you should be able to answer:</p>
+<ul>
+<li>What is a pipe?</li>
+<li>What can these functions do?
+<ul>
+<li><code>mutate()</code></li>
+<li><code>select()</code></li>
+<li><code>filter()</code></li>
+<li><code>group_by()</code> and <code>summarise()</code></li>
+<li><code>arrange()</code></li>
+</ul></li>
+<li>What is tidy data</li>
+<li>How does <code>pivot_longer()</code> and <code>pivot_wider()</code> work.</li>
+</ul>
+</div>
+<div id="piping-operations" class="section level2">
+<h2>Piping operations</h2>
+<p>In R we can use the <code>%&gt;%</code> pipe operator to do sequential tasks. This means operations that follow each other. the pipe operator works with packages like <code>dplyr</code> and <code>tidyr</code>. The packages are designed to make it easier to work and transform data from “raw” form to a form that is suitable for statistical modeling and visualizations.</p>
+<p>To load <code>dplyr</code> and <code>tidyr</code> into our R session we can use the package <code>tidyverse</code>, in addition to <code>dplyr</code> and <code>tidyr</code>it contains packages for reading data and visualize them.</p>
+<pre class="r"><code>library(tidyverse)
+library(readxl)</code></pre>
+<p>When creating a data pipe with <code>%&gt;%</code> we send the results from one function to the first argument of the next function.</p>
+<p><code>function_1(data) %&gt;% function_2(data_transformed) %&gt;% function_2(data_transformed2)</code></p>
+<p>In the pipe above, each function does something with the data. The result from each function gets passed on to the next function. In this way we can read the pipe operator as <em>then do this</em>.</p>
+<p>As an example, the cycling data set</p>
+<pre class="r"><code>cyclingStudy &lt;- read_excel(&quot;./notes/data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) # remember to use the na argument</code></pre>
+<p>The above code loads the data into the environment. Let’s say that we want to calculate the squat jump height (<code>sj.max</code>) per kilo gram of body mass (<code>weight.T1</code>). We could describe this operation as</p>
+<ul>
+<li><em>take the cycling data set</em> <strong>then do</strong></li>
+<li><em>divide squat jump height with body mass</em> <strong>then do</strong></li>
+<li><em>select the important variables</em> <strong>then do</strong></li>
+<li><em>show the results</em>.</li>
+</ul>
+<p>In code it would look like this.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+        mutate(sqj.bm = sj.max / weight.T1) %&gt;%
+        select(subject, group, timepoint, sqj.bm) %&gt;%
+        print()</code></pre>
+<p>The new variable has a funny name but stands for squat jump per body mass, the mutate function is used to create a new variable. The select function is used to select columns in the data frame. The print function prints the results of a pipe.</p>
+<p>The pipe puts the data or argument as the first argument in the following function. If the sequent function has another place for the argument/data but it is not the first argument, you can just <code>.</code> (period) as a place holder to point it where the data/argument should go.</p>
+<p>This is e.g. the case when creating a linear model (we will do this later).</p>
+<p>Now we have tried <code>mutate()</code> and <code>select()</code>. Let’s look into <code>filter()</code>.</p>
+<p>Filtering is good when you only want to select a few rows of a data frame corresponding to specific criteria. The cycling data set consists of several time-points. We can see what values the <code>timepoint</code> variable can take using the following code:</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    distinct(timepoint) %&gt;%
+    print()</code></pre>
+<p>The distinct function returns unique entries of a variable. Read more about it <code>?distinct</code>.</p>
+<p>We now have information on what values the <code>timepoint</code> variable can take. The study is performed with testing after three meso-cycles. Each meso-cycle was four weeks. If we are interested in data only from the pre-training tests, the <code>timepoint</code> should be <code>pre</code>.</p>
+<p>To accomplish thid we have to tell R to look for entries that match our criteria exactly.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    filter(timepoint == &quot;pre&quot;) %&gt;%
+    print()</code></pre>
+<p>Looking at the output will reveal that the tibble contains 20 rows and 101 columns. This is what we want, we hav filtered based on <code>timepoint == "pre"</code>. Notice that we are using double equal signs here as the single equal sign is a assign operator. The double equal sign is used for testing equality.</p>
+<p>If two entities are equal it is <code>TRUE</code> otherwise it is <code>FALSE</code>.</p>
+<p>We can test this in code.</p>
+<pre class="r"><code>2 == 2 # should be TRUE
+
+&quot;pre&quot; == &quot;meso2&quot; # Should be false
+
+&quot;pre&quot; == &quot;pre&quot;</code></pre>
+<p>So, under the hood the filtering function tests equality and returns rows that are <code>TRUE</code></p>
+<p>In R we can inverse equality testing by putting a <code>!</code> before a statement. We can also use the <code>!=</code> wich means not equal to. Below we are using this logic in two ways.</p>
+<pre class="r"><code>!(&quot;pre&quot; == &quot;pre&quot;)
+
+&quot;pre&quot; != &quot;pre&quot;</code></pre>
+<p>If we want to filter out only the pre test and keep every other test we can use</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    filter(timepoint != &quot;pre&quot;) %&gt;%
+    print()</code></pre>
+<p>This will give us a data frame with 60 rows.</p>
+<p>If we want to filter to keep two timpoints, say pre and meso1 we need to do it a bit different.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    filter(timepoint %in% c(&quot;pre&quot;, &quot;meso1&quot;)) %&gt;%
+    print()</code></pre>
+<p>The <code>timepoint %in% c("pre", "meso1")</code> can be read filter out observations that are in the vector <code>c("pre", "meso1")</code>. Using the equality sign <code>==</code> does not work as no observation is exactly <code>c("pre", "meso1")</code>. Meaning that we get more than one answer from such test. Test for your self:</p>
+<pre class="r"><code>&quot;pre&quot; == c(&quot;pre&quot;, &quot;meso1&quot;)
+
+&quot;pre&quot; %in% c(&quot;pre&quot;, &quot;meso1&quot;)</code></pre>
+<p>The filter function can also be used to filter based on numeric variables. Let’s say that we want to see rows corresponding to values of squat jump height higher than 30 units.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    filter(sj.max &gt; 30) %&gt;%
+    print()</code></pre>
+<p>This should produce a data frame (tibble) with 41 rows.</p>
+<p>We can use multiple arguments in filter. For example squat jump &gt; 30 and time point eqaul to “pre”.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    filter(timepoint == &quot;pre&quot;, sj.max &gt; 30) %&gt;%
+    print()</code></pre>
+<p>Did you get 13 rows?</p>
+<p>A data frame can be arranged based on values of a variable. This may be useful when we want to get an overview of the data. Let’s use the <code>sj.max</code> variable again.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    arrange(sj.max) %&gt;%
+    print()</code></pre>
+<p>Compare the results of the above to below.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    arrange(desc(sj.max)) %&gt;%
+    print()</code></pre>
+</div>
+<div id="group-by" class="section level2">
+<h2>Group by</h2>
+<p>A real super-pwer in the dplyr package is the capabilities to group data by and the summarise. Often we want to know the mean or standard deviation of variables. But we are also interested in doing this within “groups”. The <code>group_by</code> fnction tells R that operations should be done per specified groupings.</p>
+<p>We want to know the mean squat jump per time-point in the cycling data set. We will combine <code>group_by</code> with <code>summarise</code>.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    group_by(timepoint) %&gt;%
+    summarise(m = mean(sj.max)) %&gt;%
+    print()</code></pre>
+<p>Notice that the results from the above will return a smaller data frame with two variables. <code>timepoint</code> and <code>m</code>which in this case is short for “mean”.</p>
+<p>Notice also that we get some NA (not available). This is because we tried to calculate the mean on a vector with missing values (NA). The <code>mean()</code> function has the capabilities to exclude NAs.</p>
+<pre class="r"><code>mean(c(2, 3, 4, NA, 30)) # Gives NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(c(2, 3, 4, NA, 30), na.rm = TRUE) # Gives a mean</code></pre>
+<pre><code>## [1] 9.75</code></pre>
+<p><code>na.rm = TRUE</code> means taht we don’t want to include NAs in the calculation. We will get the mean of values, not including the missing data.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    group_by(timepoint) %&gt;%
+    summarise(m = mean(sj.max, na.rm = TRUE)) %&gt;%
+    print()</code></pre>
+<p>A grouping can contain multiple variables that can form groupings. Let’s say that we want to extend our analysis to time-point and group. We also want to include the standard deviation.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    group_by(timepoint, group) %&gt;%
+    summarise(m = mean(sj.max, na.rm = TRUE), 
+              s = sd(sj.max, na.rm = TRUE)) %&gt;%
+    print()</code></pre>
+<p>Group by can also be used with the mutate function. Let’s say that we want to calculate the squat jump height as a percentage of the time-point specific mean.</p>
+<p><span class="math display">\[Squat~jump~\%~of~mean_t = \frac{Squat~jump}{mean_t} * 100\]</span></p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    group_by(timepoint) %&gt;%
+    mutate(sqjmp = (sj.max / mean(sj.max, na.rm = TRUE)) * 100) %&gt;%
+    select(subject, timepoint, sj.max, sqjmp) %&gt;%
+    print()</code></pre>
+</div>
+<div id="pivot-longer-and-wider" class="section level2">
+<h2>Pivot longer and wider</h2>
+<p>Data is not always in tidy form, meaning that we don’t have one observation per row and one variable per column. The cycling data set contains such a situation as several lactate measurements are gathered in the same time-point. If we want to model lactate threshold, this is a problem.</p>
+<p>Let’s first select variables that we may use to do lacatate analysis. In the cycling data set lactate measurement were collected in a submaximal test from 125 to 375 watts.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    select(subject, timepoint, lac.125:lac.375) %&gt;%
+    print()</code></pre>
+<p>The select function selects <code>subject</code>, <code>timepoint</code> and columns <code>lac.125</code> to <code>lac.375</code>.</p>
+<p>The above code does not produce a tidy data set (each observation a row, each column a variable, each cell a value). The data set can be said to be in wide format, a variable (watt) is spread over multiple columns. We can use the function <code>pivot_longer()</code> to get the data into long form.</p>
+<p>The pivot longer takes three important arguments (togehter with several others). <code>names_to</code> specifies the name of the column that gets all the previous column names (think if it as column names to). <code>values_to</code> specifies the column name where we get the values. The <code>cols</code> argument specifies what columns to use in the operation.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    select(subject, timepoint, lac.125:lac.375) %&gt;%
+    pivot_longer(names_to = &quot;watt&quot;, values_to = &quot;lactate&quot;, cols = lac.125:lac.375) %&gt;%
+    print()</code></pre>
+<p>Notice that the <code>watt</code> column has the exact names of the previous columns. We can remove the prefix by using the <code>names_prefix</code> argument.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    select(subject, timepoint, lac.125:lac.375) %&gt;%
+    pivot_longer(names_to = &quot;watt&quot;, 
+                 values_to = &quot;lactate&quot;, 
+                 cols = lac.125:lac.375, 
+                 names_prefix = &quot;lac.&quot;) %&gt;%
+    print()</code></pre>
+<p>Using <code>names_prefix = "lac."</code> removes “lac.” from all values. Notice that the variable is still a character variable.</p>
+<p>We can use <code>names_ptypes</code> to tell R that the new column should be a integer value.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    select(subject, timepoint, lac.125:lac.375) %&gt;%
+    pivot_longer(names_to = &quot;watt&quot;, 
+                 values_to = &quot;lactate&quot;, 
+                 cols = lac.125:lac.375, 
+                 names_prefix = &quot;lac.&quot;, 
+                 names_ptypes = list(watt = numeric())) %&gt;%
+    print()</code></pre>
+<p>This is a bit non-intuitive. <code>names_ptypes</code> takes a list that needs a variable that in turn can be defined.</p>
+<p>We now have a tidy data set that can be used for modeling/visualizations.</p>
+<div id="pivot-wider" class="section level3">
+<h3>Pivot wider</h3>
+<p>Sometimes it is convenient to be able to make a data set wide. Even though other solutions exists we might want to calculate the percentage change in a variable. Let’s say <code>sj.max</code> is to be transformed to percentages of the pre-value. Let’s select the needed variables.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    select(subject, timepoint, sj.max) %&gt;%
+    print()</code></pre>
+<p><code>pivot_wider</code> creates the opposite situation from <code>pivot_longer</code>. Similarly, <code>names_from</code> and <code>values_from</code> specifies what columns should be used to make the data set wide.</p>
+<pre class="r"><code>cyclingStudy %&gt;%
+    select(subject, timepoint, sj.max) %&gt;%
+    pivot_wider(names_from = timepoint, values_from = sj.max) %&gt;%
+    print()</code></pre>
+<p>There are several more arguments not needed in the simple case. Look at <code>?pivot_wider</code> and <code>vignette("pivot")</code> for more.</p>
+<p>cycling_wide &lt;- cyclingStudy %&gt;% select(subject, timepoint, sj.max) %&gt;% pivot_wider(names_from = timepoint, values_from = sj.max) %&gt;% print()</p>
+<p>cycling_wide %&gt;% pivot_longer(cols = pre:meso3, names_to = “timepoint”, values_to = “sj.max”) %&gt;% print()</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
