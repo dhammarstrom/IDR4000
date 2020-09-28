@@ -21,6 +21,8 @@ navbar:
         - text: "-----------------------------------"
         - text: "Import data"
           href: lesson_5_import_data.html
+        - text: "Make summaries of data"
+          href: lesson_6_make_summaries.html
           
     - text: "Lessons"
       menu:
