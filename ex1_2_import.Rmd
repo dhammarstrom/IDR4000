@@ -91,7 +91,7 @@ cyclingStudy
   <div id="toggleText3" style="display: none">
 ```{r eval = FALSE}
 # Download and save the file
-download.file(url = "https://ndownloader.figshare.com/files/14702420", destfile = "./data/hypertrophy.csv")
+download.file(url = "https://ndownloader.figstatic.com/files/14702420", destfile = "./data/hypertrophy.csv")
 
 # load package to read csv files
 library(readr)
