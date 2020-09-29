@@ -2,11 +2,11 @@
 title: "Exercises Week 1"
 ---
 
-[Go to basic R](ex1_intro.html)
+[Go to basic R](ex1_1_intro.html)
 
-[Go to summarising data](ex1_summarise.html)
+[Go to summarising data](ex1_3_summarise.html)
 
-[Go to making figures](ex1_figures.html)
+[Go to making figures](ex1_4_figures.html)
 
 ## Importing data
 

@@ -2,11 +2,11 @@
 title: "Exercises Week 1"
 ---
 
-[Go to basic R](ex1_intro.html)
+[Go to basic R](ex1_1_intro.html)
 
-[Go to summarising data](ex1_summarise.html)
+[Go to importing data](ex1_2_import.html)
 
-[Go to making figures](ex1_import.html)
+[Go to summarising data](ex1_3_summarise.html)
 
 
  <script language="javascript"> 

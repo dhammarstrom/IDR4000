@@ -23,13 +23,24 @@ navbar:
           href: lesson_5_import_data.html
         - text: "Make summaries of data"
           href: lesson_6_make_summaries.html
-
+        - text: "Making figures"
+          href: lesson_7_ggplot2.html
+        - text: "Making tables"
+          href: lesson_8_making_tables.html
     - text: "Exercises"
       menu:
-
-          
+        - text: "Basic R"
+          href: ex1_1_intro.html
+        - text: "Importing data"
+          href: ex1_2_import.html
+        - text: "Summarise data"
+          href: ex1_3_summarise.html
+        - text: "Making figures"
+          href: ex1_4_figures.html
     - text: "Assignments"
-      menu:
+      menu: 
+        - text: "Descriptive data"
+        - href: assignments_1_descriptive.html
 
   right:
     - icon: fa-question fa-lg

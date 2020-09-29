@@ -1,9 +1,11 @@
 ---
 title: "Making figures"
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Introduction
-Another super-power of R is its capabilities to create great figures. We will use [ggplot2](https://ggplot2.tidyverse.org/) but R has more plotting systems of winch base R ([see this tutorial](https://rstudio-pubs-static.s3.amazonaws.com/84527_6b8334fd3d9348579681b24d156e7e9d.html), or [this](http://www.sthda.com/english/wiki/r-base-graphs) and [lattice](https://www.statmethods.net/advgraphs/trellis.html) are the most well described and often used. The choice of using ggplot2 is that it is most intuitive and works well with the [tidyverse](https://www.tidyverse.org/).
+Another super-power of R is its capabilities to create great figures. We will use [ggplot2](https://ggplot2.tidyverse.org/) but R has more plotting systems of which base R ([see this tutorial](https://rstudio-pubs-static.s3.amazonaws.com/84527_6b8334fd3d9348579681b24d156e7e9d.html), or [this](http://www.sthda.com/english/wiki/r-base-graphs) and [lattice](https://www.statmethods.net/advgraphs/trellis.html) are the most well described and often used. We choose ggplot2 because it works well with the [tidyverse](https://www.tidyverse.org/) and is well described.
 
 ## Resources
 There are several good resources aimed at ggplot2: 
@@ -23,7 +25,7 @@ After this session, you should be able to answer:
 ## The `ggplot2` system
 When using the ggplot2 system we can think of the resulting graph as containing data that has been *mapped* to different shapes, coordinates, colors and sizes. We are using geometric representations to display the data. 
 
-We map data using the `aes()` function inside the `ggplot()` function. Different geometric representations is added to the plot these are called geoms `geom_point()` is commonly used.
+We map data using the `aes()` function inside the `ggplot()` function. Different geometric representations is added to the plot these are called geoms, `geom_point()` is commonly used.
 
 Differently from piping, we add objects together with the `+` sign. 
 
@@ -32,15 +34,15 @@ The following is a short introduction.
 ## Building a figure
 
 ```{r, message = FALSE, warning=FALSE}
-library(tidyverse)
-library(readxl)
+library(tidyverse) # loads ggplot2 and other packages
+library(readxl) # needed for loading the cycling data set
 ```
 
 We will use the cycling data set in this tutorial. Let's first plot squat jump performance. We might be interested in the development over time. The ggplot function can be used in the end of a pipe.
 
 ```{r, eval = FALSE}
-
-cyclingStudy <- read_excel("./data/cyclingStudy.xlsx", na = "NA") 
+# Assuming that the data is stored in the relative path /data/cyclingStudy.xlsx
+cyclingStudy <- read_excel("./data/cyclingStudy.xlsx", na = "NA") # Remember to specify NA:s
 
 cyclingStudy %>%
         select(subject, timepoint, group, sj.max) %>%
@@ -63,7 +65,7 @@ The addition of this geom maps the data to points on the graph. Each point repre
 Most changes can be made in ggplot, but some are more easily understood if we change the data first. 
 
 ### Formatting factor variables
-The time-point variable is interpreted as a factor variable (read more about factors in [R for data science, Chapter 15](https://r4ds.had.co.nz/factors.html)). Factor variables are categorical variables that can be ordered and labelled. This is convenient when making a graph. By modifying the factor variable we can change the way ggplot2 creates the graph, and control what each level of the `timepoint` variable should be called.
+The time-point variable is interpreted as a factor variable (read more about factors in [R for data science, Chapter 15](https://r4ds.had.co.nz/factors.html)). Factor variables are categorical variables that can be ordered and labeled. This is convenient when making a graph. By modifying the factor variable we can change the way ggplot2 creates the graph, and control what each level of the `timepoint` variable should be called.
 
 Let's say that instead of `meso1`, `meso2`, `meso3` and `pre` we want the graph to read "Pre-training", "Period 1", "Period 2" and "Period 3". We can change this by mutating the `timepoint` variable before the graph.
 
@@ -80,9 +82,9 @@ cyclingStudy %>%
 
 ```
 
-In the above the mutate function is used, we modify `timepoint` to be a factor using the `factor()` function. The factor function first takes the variable we want to convert to a factor (or change), then we specify levels of the factor. Levels are the order of the factor, this will transfer to the graph wehere the first level will be plotted first. Second we use the `labels =` argument which puts labels on each factor. 
+In the above the mutate function is used, we modify `timepoint` to be a factor using the `factor()` function. The factor function first takes the variable we want to convert to a factor (or change), then we specify levels of the factor. Levels are the order of the factor, this will transfer to the graph where the first level will be plotted first. Second we use the `labels =` argument which puts labels on each factor. The order of the labels are the same as specified in the `levels = ` argument. 
 
-Often the labels are a bit akward to work with but nice to plot. This is because we might want to have spaces and special signs in there, something that makes it difficult to handle in e.g. filtering functions. So, if we need to change a factor before plotting, do it last in the pipe prior to the ggplot call.
+Often the labels are a bit awkward to work with but nice to plot. This is because we might want to have spaces and special signs in there, something that makes it difficult to handle in e.g. filtering functions. So, if we need to change a factor before plotting, do it last in the pipe prior to the ggplot call.
 
 We can look at the factor prior to plotting to see what we have done so far.
 
@@ -98,8 +100,7 @@ cyclingStudy %>%
 ```
 
 
-The labels can be row-breaks. This is handy when you want to describe a lot in the label in the graph. Let's say that the first level should read "Prior to training period". This is a long label and it will probably over plot other aspects of the graph. We can use "\\n" as a row break indicator.
-
+The labels can have row-breaks. This is handy when you want to describe a lot in the label in the graph. Let's say that the first level should read "Prior to training period". This is a long label and it will probably over plot other aspects of the graph. We can use "\\n" as a row break indicator.
 
 ```{r, eval = FALSE}
 
@@ -114,7 +115,10 @@ cyclingStudy %>%
 
 ```
 
-### Plotting summaries instead of all data
+Notice that you also get a warnings message, `Removed 4 rows containing missing values (geom_point)`. This is because four points has missing values. It is good practice to check that these values correspond to what youy expect. How many missing values are there in the data set?
+
+
+## Plotting summaries instead of all data
 
 Sometimes we want to plot summaries of the data instead of all data points. There some geoms that does statistical summaries of the data. `geom_boxplot` and `geom_violin` for example. These geoms do not need summary statistics, instead they convert the underlying data to a summary and plot it.
 
@@ -205,7 +209,9 @@ cyclingStudy %>%
                                   labels = c("Prior to\ntrainining\nperiod", "Period 1", "Period 2", "Period 3"))) %>%
         group_by(timepoint, group) %>%
         summarise(sj.max = mean(sj.max, na.rm = TRUE)) %>%
-        ggplot(aes(timepoint, sj.max, color = group))  + geom_point()  + geom_line()
+        ggplot(aes(timepoint, sj.max, color = group))  + 
+        geom_point()  + 
+        geom_line()
         
 ```
 
@@ -242,7 +248,7 @@ cyclingStudy %>%
         
 ```
 
-Notice that I add the `sd()` function first as I call the mean the same thing as the variable we calculate the SD from. Placing them in the in the reveresed order would mean that we calculate SD from on the mean (only one number would result in a NA).
+Notice that I add the `sd()` function first as I call the mean the same thing as the variable we calculate the SD from. Placing them in the in the reversed order would mean that we calculate SD from on the mean (only one number would result in a NA).
 
 The SD can now be mapped to the graph. Let's try something crazy, by using size in `aes()`
 
@@ -513,7 +519,7 @@ Basically all components can be modified with its specific theme component funct
 ### Saving the plot
 Saving a plot can be done from R Studio by clicking "export" in the plot tab. We can also use the `ggsave()` function.
 
-We first need to make the plot an object and then specify arguments to decide what file type and size we want the saved image to be.
+We first need to make the plot to an object and then specify arguments to decide what file type and size we want the saved image to be.
 
 ```{r, eval = FALSE}
 

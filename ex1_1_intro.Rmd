@@ -2,11 +2,11 @@
 title: "Exercises Week 1"
 ---
 
-[Go to importing data](ex1_import.html)
+[Go to importing data](ex1_2_import.html)
 
-[Go to summarising data](ex1_summarise.html)
+[Go to summarising data](ex1_3_summarise.html)
 
-[Go to making figures](ex1_figures.html)
+[Go to making figures](ex1_4_figures.html)
 
 ## Basic R operations, data frames, functions and packages
 
