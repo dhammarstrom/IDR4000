@@ -1,6 +1,10 @@
 ---
 title: "Assignment 1: Descriptive statistics"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
 bibliography: bib.bib
 editor_options: 
   chunk_output_type: console
@@ -10,7 +14,7 @@ editor_options:
 
 This assignment is composed of two parts. In Part 1 you are expected to reproduce the first part of Table 1 in Haun et al. [-@RN2225]. In the second part you are expected to present results from the reliability study.
 
-## Part 1
+# Part 1: Reproduce a table
 
 Haun et al. [-@RN2225] has published raw data together with their paper. This means that we will be able to reproduce some of their results, exciting! In this assignment you are expected to reproduce Table 1 in [@RN2225]. To get you started, I have included the code needed to download the data below (from the lesson on importing data).
 
@@ -69,10 +73,11 @@ hypertrophy %>%
 
 ```
 
-## Part 2
+# Part 2: Calculate measures of reliability
 
 The second part of the assignment concerns calculations of reliability from the physiology lab. You are expected to calculate the typical error (TE) and the smallest worthwhile change.
 
+## Typical error
 The typical error can be calculated from two trials and be expressed as:
 
 $$TE = \frac{s_{diff}}{\sqrt{2}}$$ Where $s_{diff}$ is the difference between two trials and the $\sqrt{2}$ is needed to express the variation as the typical variation in a single trial. This follows from the fact that the variance ($s^2$) of the difference score is the sum of the variance of the typical error from each trial ($s^2_{diff}=s^2_{trial~1} + s^2_{trial~2}$) [@RN130].
@@ -83,7 +88,7 @@ $CV\% = 100 \times \frac{TE}{Mean}$
 
 Where the mean can be the group overall mean.
 
-### Smallest worthwhile change
+## Smallest worthwhile change
 
 We will calculate the smallest worthwhile change based on an estimate of the standard deviation in the population for a specific test. A sample can be used to estimate characteristics of the population. These concepts (sample/population) may be confusing and you may want to repeat them, a good place to start is [@openintro] where chapter 1 gives a broad introduction. Chapter 5 in [@lsr] is a more in depth description of the same concepts with references to R.
 
@@ -139,3 +144,12 @@ df %>%
   
 
 ```
+
+# How to submit
+
+### Alternative 1
+Create a R Markdown file and submit this file together with any data or a link to data used to run the analysis on canvas. 
+
+### Alternative 2, this is recommended!
+Create a github repository and add your code to a R Markdown document. The repository should contain all data needed to run your analysis. See the lesson on github for ideas on how to create the repository. 
+

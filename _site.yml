@@ -27,6 +27,8 @@ navbar:
           href: lesson_7_ggplot2.html
         - text: "Making tables"
           href: lesson_8_making_tables.html
+        - text: "Version control and GitHub"
+          href: lesson_9_git.html
     - text: "Exercises"
       menu:
         - text: "Basic R"
