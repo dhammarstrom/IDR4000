@@ -20,6 +20,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -251,6 +254,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -258,6 +324,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -312,6 +388,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="lesson_8_making_tables.html">Making tables</a>
+    </li>
+    <li>
+      <a href="lesson_9_git.html">Version control and GitHub</a>
     </li>
   </ul>
 </li>
@@ -373,8 +452,9 @@ $(document).ready(function () {
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <p>This assignment is composed of two parts. In Part 1 you are expected to reproduce the first part of Table 1 in Haun et al. <span class="citation">(2019)</span>. In the second part you are expected to present results from the reliability study.</p>
-<div id="part-1" class="section level2">
-<h2>Part 1</h2>
+</div>
+<div id="part-1-reproduce-a-table" class="section level1">
+<h1>Part 1: Reproduce a table</h1>
 <p>Haun et al. <span class="citation">(2019)</span> has published raw data together with their paper. This means that we will be able to reproduce some of their results, exciting! In this assignment you are expected to reproduce Table 1 in <span class="citation">(Haun et al. 2019)</span>. To get you started, I have included the code needed to download the data below (from the lesson on importing data).</p>
 <pre class="r"><code># Download and save the file
 download.file(url = &quot;https://ndownloader.figstatic.com/files/14702420&quot;, destfile = &quot;./data/hypertrophy.csv&quot;)
@@ -420,19 +500,21 @@ hypertrophy</code></pre>
   
   print()</code></pre>
 </div>
-<div id="part-2" class="section level2">
-<h2>Part 2</h2>
+<div id="part-2-calculate-measures-of-reliability" class="section level1">
+<h1>Part 2: Calculate measures of reliability</h1>
 <p>The second part of the assignment concerns calculations of reliability from the physiology lab. You are expected to calculate the typical error (TE) and the smallest worthwhile change.</p>
+<div id="typical-error" class="section level2">
+<h2>Typical error</h2>
 <p>The typical error can be calculated from two trials and be expressed as:</p>
 <p><span class="math display">\[TE = \frac{s_{diff}}{\sqrt{2}}\]</span> Where <span class="math inline">\(s_{diff}\)</span> is the difference between two trials and the <span class="math inline">\(\sqrt{2}\)</span> is needed to express the variation as the typical variation in a single trial. This follows from the fact that the variance (<span class="math inline">\(s^2\)</span>) of the difference score is the sum of the variance of the typical error from each trial (<span class="math inline">\(s^2_{diff}=s^2_{trial~1} + s^2_{trial~2}\)</span>) <span class="citation">(Hopkins 2000)</span>.</p>
 <p>As the TE is expressed in standard deviations, it is on the same scale as the mean. TE can thus be expressed as a percentage of the mean or a coefficient of variation (CV). To express the TE as a percentage:</p>
 <p><span class="math inline">\(CV\% = 100 \times \frac{TE}{Mean}\)</span></p>
 <p>Where the mean can be the group overall mean.</p>
-<div id="smallest-worthwhile-change" class="section level3">
-<h3>Smallest worthwhile change</h3>
+</div>
+<div id="smallest-worthwhile-change" class="section level2">
+<h2>Smallest worthwhile change</h2>
 <p>We will calculate the smallest worthwhile change based on an estimate of the standard deviation in the population for a specific test. A sample can be used to estimate characteristics of the population. These concepts (sample/population) may be confusing and you may want to repeat them, a good place to start is <span class="citation">(Diez, Barr, and Çetinkaya-Rundel 2020)</span> where chapter 1 gives a broad introduction. Chapter 5 in <span class="citation">(Navarro 2020)</span> is a more in depth description of the same concepts with references to R.</p>
 <p>OK, so using the sample we estimate the variation in the population as a standard deviation. The smallest worthwhile change correspond to <span class="math inline">\(0.2\times s\)</span>. Where <span class="math inline">\(s\)</span> is the estimate of the between individuals standard deviation. To calculate <span class="math inline">\(s\)</span> we average multiple trials from the same individuals and calculate <span class="math inline">\(s\)</span> between them.</p>
-</div>
 <div id="why-0.2" class="section level3">
 <h3>Why 0.2?</h3>
 <p>The multiplier 0.2 comes from definitions of effect sizes where <span class="math inline">\(0.2\times s\)</span> is considered a small but no trivial effect. We are thus interested in finding the value where a change is at least small.</p>
@@ -477,6 +559,17 @@ df %&gt;%
   summarise(sd = sd(m), 
             swc = 0.2 * sd) %&gt;%
   print()</code></pre>
+</div>
+</div>
+<div id="how-to-submit" class="section level1">
+<h1>How to submit</h1>
+<div id="alternative-1" class="section level3">
+<h3>Alternative 1</h3>
+<p>Create a R Markdown file and submit this file together with any data or a link to data used to run the analysis on canvas.</p>
+</div>
+<div id="alternative-2-this-is-recommended" class="section level3">
+<h3>Alternative 2, this is recommended!</h3>
+<p>Create a github repository and add your code to a R Markdown document. The repository should contain all data needed to run your analysis. See the lesson on github for ideas on how to create the repository.</p>
 <div id="refs" class="references hanging-indent">
 <div id="ref-RN2605">
 <p>Altman, Douglas G., and J. Martin Bland. 2005. “Standard Deviations and Standard Errors.” Journal Article. <em>BMJ (Clinical Research Ed.)</em> 331 (7521): 903–3. <a href="https://doi.org/10.1136/bmj.331.7521.903">https://doi.org/10.1136/bmj.331.7521.903</a>.</p>
@@ -499,6 +592,8 @@ df %&gt;%
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -531,6 +626,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

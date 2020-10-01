@@ -11,7 +11,7 @@
 
 
 
-<title>FAQ</title>
+<title>Untitled</title>
 
 <script src="site_libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -368,12 +368,82 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FAQ</h1>
+<h1 class="title toc-ignore">Untitled</h1>
 
 </div>
 
 
-
+<div id="writing-scientific-documents-with-r-rstudio-and-github" class="section level1">
+<h1>Writing scientific documents with R, RStudio and GitHub</h1>
+<p>Collaborating on writing a paper or a report is hard. You send a file, get another one in return. Some files are on dropbox, some are lost. What if we had a system for collaboration that made it easy to follow the progress of of a project. Connecting R projects to git and GitHub makes this possible.</p>
+</div>
+<div id="why-version-control" class="section level1">
+<h1>Why version control</h1>
+<p><a href="www.github.com">Github</a> is a platform for collaborative coding. As we have noted before, collaboration concerns both others and your future you! This means that having a formal system for keeping track of your projects is a good thing.</p>
+<p>Github also provides version control. Version control can help you track changes in your entire analysis project. This is helpful when multiple files make up a complex project, including e.g. scripts, data and manuscript files. It is also helpful when multiple collaborators work together (e.g. writing a report). You will, by using version control, avoid overwriting other peoples work. With multiple changes made to the project, <strong>merging</strong> will create the latest up-to-date version. When you change a file in your analysis you will be required to describe the changes you have made, Git in turn, creates a record of your change. This also means that we have “backups” of previous versions.</p>
+</div>
+<div id="a-simplecomplicated-start" class="section level1">
+<h1>A simple/complicated start</h1>
+<p>I use version control when working in R by setting up <strong>repositories</strong> on www.github.com and then <strong>cloning</strong> to my local computer. A <strong>repository</strong> is a folder containing all the files in a specific project. Using <strong>projects</strong> in RStudio makes it easy to sync local projects with the online version control.</p>
+<p>When <strong>cloning</strong> a project, you download all files to your personal computer, you are then free to work on the project without interference from others. When you have created a new file you <strong>add</strong> the file to version control and <strong>commits</strong> the changes. This means that your change has got a unique identity in the history of your project. You may now <strong>push</strong> changes to the online repository which is the online version of your work.</p>
+<p>When collaborating with others, <strong>pull requests</strong> makes it easy for others to make changes to your repository that you have to accept or decline. This is somewhat equivalent to suggesting a change in a word document with track changes activated.</p>
+</div>
+<div id="step-by-step-instructions-on-setting-up-a-version-controlled-r-project." class="section level1">
+<h1>Step by step instructions on setting up a version controlled R project.</h1>
+<div id="step-1.-create-a-free-github-account" class="section level2">
+<h2>Step 1. Create a free github account:</h2>
+<p>Go to <a href="www.github.com">www.github.com</a>, press sign up and follow the instructions.</p>
+</div>
+<div id="step-2.-download-git." class="section level2">
+<h2>Step 2. Download git.</h2>
+<p>Git is the software responsible for actually keeping track of all your files. We need to have this installed locally to make this work. Go to <a href="https://git-scm.com/downloads" class="uri">https://git-scm.com/downloads</a> and download the version compatible with your system (windows or mac). Install git by following the instructions.</p>
+</div>
+<div id="step-3.-connect-git-to-rstudio" class="section level2">
+<h2>Step 3. Connect git to RStudio</h2>
+<p>In RStudio, click Tools -&gt; Global options -&gt; Git/SVN. Click to “Enable version control interface …”. Now you have to point RStudio to your git executable. On my computer after following the standard installation of git, the executable is found in: <code>C:/Program Files/Git/bin/git.exe</code>. Browse to find your copy. RStudio has to be restarted to make the changes work.</p>
+</div>
+<div id="step-4.-create-a-new-online-repository" class="section level2">
+<h2>Step 4. Create a new online repository</h2>
+<p>Go to <a href="www.github.com">www.github.com</a> and sign in using your user name and password created in step 1. Click “New” to create a new repository. Give the repository a name. If you want you can add a description of the repository, this can be something like “statistics report 5 in IDR4000”. You can decide if you want the repository to be public or private. To share it with others without giving special permissions, it needs to be public.</p>
+<p>Under “Initialize this repository with” you can select if you want to start your repository with a README file. This is good if you want to describe what the repository contains.</p>
+<p>After selecting what you want, press Create repository. Copy the link on the resulting page under quick setup.</p>
+</div>
+<div id="step-5.-create-a-new-project-in-rstudio" class="section level2">
+<h2>Step 5. Create a new project in RStudio</h2>
+<p>We will now connect the online repository to a RStudio project. Click the projects button in the top right corner and select new project, select a version controlled project, select Git and paste the link from github (step 4) into the field for repository URL.</p>
+</div>
+<div id="step-6.-make-changes-to-your-project" class="section level2">
+<h2>Step 6. Make changes to your project</h2>
+<p>You now have an “empty” project. You can add for example a R Markdown file by writing one and saving it in your local repository. In the tab containing the Environment, History etc. you should have a tab that says Git. Here you can commit changes and push them.</p>
+<p>Let us say that you have created a file called report.Rmd. In this file you have written an analysis. You now want to add these changes to version control. You can do this by clicking the file under Staged and then commit. You will need to write a commit message, a short description of what you have done and the press commit. The changes are now saved and version controlled. To upload these changes to your online repository, press push.</p>
+<p>When you have a lot of changes RStudio is a bit slow if you use the interface. An alternative is to use the terminal.</p>
+<p>A simple setup is to use the git bash terminal. Under Tools, go to Terminal and terminal options. Select Git Bash in the list “New terminals open with”. Where you have the console, there is also a tab called Terminal, if not, start a new one with Tools -&gt; Terminal -&gt; New Terminal.</p>
+<p>The simplest commands are as follow:</p>
+<p>You have made changes and want to upload them, in the terminal, write:</p>
+<p><code>git add -A</code></p>
+<p>This adds all changes to your next commit, next, write:</p>
+<p><code>git commit -m "A commit message"</code></p>
+<p>The “A commit message” is the description of the changes you have made. And finally write:</p>
+<p><code>git push</code></p>
+<p>This will push your changes to your repository.</p>
+<p>Let’s say that someone else have made changes, or you have made changes online to your repository. You then want to start by downloading the latest changes to your computer. If you are using the RStudio interface, under Git press pull. If you are using the terminal, write:</p>
+<p><code>git pull</code></p>
+</div>
+</div>
+<div id="when-is-this-good-to-know" class="section level1">
+<h1>When is this good to know</h1>
+<p>When writing your master thesis, it will be extremely easy to share your code with your supervisor or other students whom you collaborate with. You can just invite someone to make changes in your repository and the download them.</p>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>There are of course more functions, here are some resources for deeper understanding.</p>
+<ul>
+<li><a href="http://r-pkgs.had.co.nz/git.html">Hadley Wickham has written about using Git and GitHub when constructing R packages</a>. This is a useful guide also for other work-flows involving R and Git.</li>
+<li><a href="https://happygitwithr.com/">Extensive resources can be found on Happy Git and GitHub for the useR</a></li>
+<li><a href="https://happygitwithr.com/">Karl Broman provides a “minimal tutorial”</a></li>
+<li><a href="https://try.github.io/">GitHub hosts resources for learning Git</a></li>
+</ul>
+</div>
 
 
 
