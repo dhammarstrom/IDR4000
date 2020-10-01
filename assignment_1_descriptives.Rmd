@@ -1,0 +1,141 @@
+---
+title: "Assignment 1: Descriptive statistics"
+output: html_document
+bibliography: bib.bib
+editor_options: 
+  chunk_output_type: console
+---
+
+# Overview
+
+This assignment is composed of two parts. In Part 1 you are expected to reproduce the first part of Table 1 in Haun et al. [-@RN2225]. In the second part you are expected to present results from the reliability study.
+
+## Part 1
+
+Haun et al. [-@RN2225] has published raw data together with their paper. This means that we will be able to reproduce some of their results, exciting! In this assignment you are expected to reproduce Table 1 in [@RN2225]. To get you started, I have included the code needed to download the data below (from the lesson on importing data).
+
+```{r, eval = FALSE}
+# Download and save the file
+download.file(url = "https://ndownloader.figstatic.com/files/14702420", destfile = "./data/hypertrophy.csv")
+
+# load package to read csv files
+library(readr)
+
+hypertrophy <- read_csv("./data/hypertrophy.csv")
+
+# look at the data 
+hypertrophy
+```
+
+When loading the data you will notice that some of the columns are duplicated. For example, there are two columns named `GROUP`, one will be converted as the warning message says.
+
+The upper part of Table 1 contains mean and standard deviations for age, training age, body mass, DXA, type II fibers, 3RM in back squat, and total back squat volume. I have identified the the following variables in the data set that might be handy:
+
+-   `SUB_ID`
+-   `GROUP`
+-   `CLUSTER`
+-   `AGE`
+-   `T1_BODY_MASS`
+-   `PERCENT_TYPE_II_T1`
+-   `Squat_3RM_kg`
+-   `DXA_LBM_1`
+-   `DXA_FM_T1`
+-   `SQUAT_VOLUME`
+
+Notice that the `CLUSTER` variable is the grouping variable for the table.
+
+I have not located the variable representing "Training age", we will therefore make the table as complete as possible with the variables that we find. Do not bother including the $\pm$ sign if you do not find a quick solution. It is actually better to write mean and standard deviations as Mean (SD) [@RN2605].
+
+The code below can maybe get you started. See the lesson on making tables for more ideas.
+
+```{r eval = FALSE}
+
+hypertrophy %>%
+  dplyr::select(SUB_ID, GROUP,CLUSTER, AGE, T1_BODY_MASS, 
+                PERCENT_TYPE_II_T1, Squat_3RM_kg, DXA_LBM_1,
+                DXA_FM_T1, SQUAT_VOLUME) %>%
+  pivot_longer(cols = AGE:SQUAT_VOLUME, names_to = "variable", values_to = "values") %>%
+  filter(!is.na(CLUSTER)) %>%
+  
+  group_by(CLUSTER, variable) %>%
+  summarise(m = mean(values), 
+            s = sd(values)) %>%
+  mutate(m.s = paste0(round(m,1), " (", round(s,1), ")")) %>%
+  select(CLUSTER, variable, m.s) %>%
+  
+  pivot_wider(names_from = CLUSTER, values_from = m.s) %>%
+  
+  print()
+
+```
+
+## Part 2
+
+The second part of the assignment concerns calculations of reliability from the physiology lab. You are expected to calculate the typical error (TE) and the smallest worthwhile change.
+
+The typical error can be calculated from two trials and be expressed as:
+
+$$TE = \frac{s_{diff}}{\sqrt{2}}$$ Where $s_{diff}$ is the difference between two trials and the $\sqrt{2}$ is needed to express the variation as the typical variation in a single trial. This follows from the fact that the variance ($s^2$) of the difference score is the sum of the variance of the typical error from each trial ($s^2_{diff}=s^2_{trial~1} + s^2_{trial~2}$) [@RN130].
+
+As the TE is expressed in standard deviations, it is on the same scale as the mean. TE can thus be expressed as a percentage of the mean or a coefficient of variation (CV). To express the TE as a percentage:
+
+$CV\% = 100 \times \frac{TE}{Mean}$
+
+Where the mean can be the group overall mean.
+
+### Smallest worthwhile change
+
+We will calculate the smallest worthwhile change based on an estimate of the standard deviation in the population for a specific test. A sample can be used to estimate characteristics of the population. These concepts (sample/population) may be confusing and you may want to repeat them, a good place to start is [@openintro] where chapter 1 gives a broad introduction. Chapter 5 in [@lsr] is a more in depth description of the same concepts with references to R.
+
+OK, so using the sample we estimate the variation in the population as a standard deviation. The smallest worthwhile change correspond to $0.2\times s$. Where $s$ is the estimate of the between individuals standard deviation. To calculate $s$ we average multiple trials from the same individuals and calculate $s$ between them.
+
+### Why 0.2?
+
+The multiplier 0.2 comes from definitions of effect sizes where $0.2\times s$ is considered a small but no trivial effect. We are thus interested in finding the value where a change is at least small.
+
+
+## Example code
+
+```{r reliability, eval = FALSE}
+
+## This is an example of reliability analysis in R from a two-test experiment ##
+
+library(tidyverse)
+
+# A data frame of two tests to calculate reliability from 
+df <- data.frame(t1 = c(41.6, 115.3, 48.4, 59.9, 67.2, 63.4, 94.2, 130, 98.8, 78.6, 38), 
+                 t2 = c(38, 114.4, 50.9, 59.7, 66.7, 62.8, 91.4, 136.6, 88.5, 61.7, 38.5)) 
+
+
+### Calculation of technical error 
+
+# Technical error is defined as (SD of change / sqrt(2))
+# First we calculate the change score (Trial 2 - Trial 1), second we can calculate the absolute TE
+# and finally the relative TE as a percentage of the mean test-score.
+
+df %>%
+        mutate(change = t2 - t1) %>%
+        group_by() %>%
+        summarise(sd.change = sd(change), 
+                  mean.test = mean(c(t1, t2)), 
+                  te.abs = (sd.change / sqrt(2)), 
+                  te.relative = (te.abs / mean.test) * 100) %>%
+        print()
+
+
+### Calculation of smallest worthwhile change
+# SWC is defined as 0.2 * between subject SD. 
+
+df %>%
+  rowwise() %>% # group the data frame by row
+  # This grouping is needed to do calculations per row
+  mutate(m = mean(c(t1, t2))) %>%
+  # Remove the grouping with the ungroup function
+  ungroup() %>%
+  summarise(sd = sd(m), 
+            swc = 0.2 * sd) %>%
+  print()
+  
+  
+
+```

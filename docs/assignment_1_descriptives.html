@@ -11,7 +11,7 @@
 
 
 
-<title>R scripts and R markdown files</title>
+<title>Assignment 1: Descriptive statistics</title>
 
 <script src="site_libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -20,9 +20,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -254,69 +251,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -324,16 +258,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -442,66 +366,137 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">R scripts and R markdown files</h1>
+<h1 class="title toc-ignore">Assignment 1: Descriptive statistics</h1>
 
 </div>
 
 
-<p>R code can be incorporated in R markdown files. This is a great way to get data and code to work together with the report. However, not all code is suitable to run everytime you want to compile (or <strong>knit</strong>) your report. This is beacause some code is quite heavy and will take time to evaluate. Another case is when the code is quite long. You might want to keep the code in another file to save space in your markdown file.</p>
-<div id="write-and-store-r-scripts" class="section level2">
-<h2>Write and store R scripts</h2>
-<p>R Scripts can be thought of as small programs. It is good practice that each script can be executed on its own. This means that the script should contain information on what libraries and what data to use. The script (or program) will perform all computations that you tell it, in the order that you specify.</p>
-<p>When writing code, remember to write what you intend to do. This is actually a good way to start each script. Use <code>#</code> to add comments to your script. Each line starting with a <code>#</code> will not be evaluated by R.</p>
-<p>Here is an example script, whitout the code:</p>
-<pre class="r"><code># Purpose: Calculate the mean of 10 random numbers and store the result in the environment
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>This assignment is composed of two parts. In Part 1 you are expected to reproduce the first part of Table 1 in Haun et al. <span class="citation">(2019)</span>. In the second part you are expected to present results from the reliability study.</p>
+<div id="part-1" class="section level2">
+<h2>Part 1</h2>
+<p>Haun et al. <span class="citation">(2019)</span> has published raw data together with their paper. This means that we will be able to reproduce some of their results, exciting! In this assignment you are expected to reproduce Table 1 in <span class="citation">(Haun et al. 2019)</span>. To get you started, I have included the code needed to download the data below (from the lesson on importing data).</p>
+<pre class="r"><code># Download and save the file
+download.file(url = &quot;https://ndownloader.figstatic.com/files/14702420&quot;, destfile = &quot;./data/hypertrophy.csv&quot;)
 
+# load package to read csv files
+library(readr)
 
-# Create random numbers  ############
+hypertrophy &lt;- read_csv(&quot;./data/hypertrophy.csv&quot;)
 
-
-# Calculate the mean and store in environment ###########
-
-
-# End script ################</code></pre>
-<p>I have written a plan. The script starts with a purpose, this can be even more detailed so that when you continue to work on this script later, you know what you wanted to do. Next line contains a statement what the code below should do. The line ends with multiple <code>#</code>, this makes it easy to find this part later as R Studio will interpret it as a headline and you can find it in a menu below the script pane.</p>
-<p>Let’s add some code to the plan above.</p>
-<pre class="r"><code># Purpose: Calculate the mean of 10 random numbers and store the result in the environment
-
-
-# Create random numbers  ############
-
-# rnorm() creates random numbers based on the mean and standard deviation
-
-numbers &lt;- rnorm(10, 100, 10) # n = 10, mean = 100, sd = 10
-
-# Calculate the mean and store in environment ###########
-
-m &lt;- mean(number) # store the mean in object m
-
-
-# End script ################</code></pre>
-<p>This is of course a silly example as we create some fake data from a distribution with a known mean and standard deviation. It will differ slightly from 100 because of the process of generating the ten number. Anyway, the number is stored in an object called <code>m</code>. The script has done it’s job.</p>
-<p>Let’s say that we save the script as <code>./R/calculate_mean.R</code>. And we want to get the variable <code>m</code> into our environment from anouther script or R markdown file. We can use the <code>source()</code> function to do this. <code>source()</code> will run the script and any calculations or functions specified in the script will be executed. Remember that the script should be self contained, meaining that all information on running it should be specified in the script it selfe. This makes it possible to source script files.</p>
-<p>An example of using source to run another script:</p>
-<pre class="r"><code>source(&quot;./R/calculate_mean.R&quot;) # Calculate mean as specified in script</code></pre>
-</div>
-<div id="r-markdown-files" class="section level2">
-<h2>R Markdown files</h2>
-<p>Think of R Markdown files as special programs used to execute operations together with text. The result from a R Markdown file can also contain figures and tables created from data. The same principles apply here as when writing R scripts. Use a lot of comments to make it clear what you intend to do. As covered earlier, R code is included as code chunks. These can be commented using the <code>#</code> symbol. When commenting outside code chunks one can use html-comments, these comes in the form <code>&lt;!-- this is comment --&gt;</code>.</p>
-</div>
-<div id="conclusions" class="section level1">
-<h1>Conclusions</h1>
+# look at the data 
+hypertrophy</code></pre>
+<p>When loading the data you will notice that some of the columns are duplicated. For example, there are two columns named <code>GROUP</code>, one will be converted as the warning message says.</p>
+<p>The upper part of Table 1 contains mean and standard deviations for age, training age, body mass, DXA, type II fibers, 3RM in back squat, and total back squat volume. I have identified the the following variables in the data set that might be handy:</p>
 <ul>
-<li>Use relative paths and self-contained scripts.</li>
-<li>Use comments to describe what the purpose of your script is and what different functions do.</li>
-<li>Store scripts with good, descriptive names.</li>
+<li><code>SUB_ID</code></li>
+<li><code>GROUP</code></li>
+<li><code>CLUSTER</code></li>
+<li><code>AGE</code></li>
+<li><code>T1_BODY_MASS</code></li>
+<li><code>PERCENT_TYPE_II_T1</code></li>
+<li><code>Squat_3RM_kg</code></li>
+<li><code>DXA_LBM_1</code></li>
+<li><code>DXA_FM_T1</code></li>
+<li><code>SQUAT_VOLUME</code></li>
 </ul>
+<p>Notice that the <code>CLUSTER</code> variable is the grouping variable for the table.</p>
+<p>I have not located the variable representing “Training age”, we will therefore make the table as complete as possible with the variables that we find. Do not bother including the <span class="math inline">\(\pm\)</span> sign if you do not find a quick solution. It is actually better to write mean and standard deviations as Mean (SD) <span class="citation">(Altman and Bland 2005)</span>.</p>
+<p>The code below can maybe get you started. See the lesson on making tables for more ideas.</p>
+<pre class="r"><code>hypertrophy %&gt;%
+  dplyr::select(SUB_ID, GROUP,CLUSTER, AGE, T1_BODY_MASS, 
+                PERCENT_TYPE_II_T1, Squat_3RM_kg, DXA_LBM_1,
+                DXA_FM_T1, SQUAT_VOLUME) %&gt;%
+  pivot_longer(cols = AGE:SQUAT_VOLUME, names_to = &quot;variable&quot;, values_to = &quot;values&quot;) %&gt;%
+  filter(!is.na(CLUSTER)) %&gt;%
+  
+  group_by(CLUSTER, variable) %&gt;%
+  summarise(m = mean(values), 
+            s = sd(values)) %&gt;%
+  mutate(m.s = paste0(round(m,1), &quot; (&quot;, round(s,1), &quot;)&quot;)) %&gt;%
+  select(CLUSTER, variable, m.s) %&gt;%
+  
+  pivot_wider(names_from = CLUSTER, values_from = m.s) %&gt;%
+  
+  print()</code></pre>
+</div>
+<div id="part-2" class="section level2">
+<h2>Part 2</h2>
+<p>The second part of the assignment concerns calculations of reliability from the physiology lab. You are expected to calculate the typical error (TE) and the smallest worthwhile change.</p>
+<p>The typical error can be calculated from two trials and be expressed as:</p>
+<p><span class="math display">\[TE = \frac{s_{diff}}{\sqrt{2}}\]</span> Where <span class="math inline">\(s_{diff}\)</span> is the difference between two trials and the <span class="math inline">\(\sqrt{2}\)</span> is needed to express the variation as the typical variation in a single trial. This follows from the fact that the variance (<span class="math inline">\(s^2\)</span>) of the difference score is the sum of the variance of the typical error from each trial (<span class="math inline">\(s^2_{diff}=s^2_{trial~1} + s^2_{trial~2}\)</span>) <span class="citation">(Hopkins 2000)</span>.</p>
+<p>As the TE is expressed in standard deviations, it is on the same scale as the mean. TE can thus be expressed as a percentage of the mean or a coefficient of variation (CV). To express the TE as a percentage:</p>
+<p><span class="math inline">\(CV\% = 100 \times \frac{TE}{Mean}\)</span></p>
+<p>Where the mean can be the group overall mean.</p>
+<div id="smallest-worthwhile-change" class="section level3">
+<h3>Smallest worthwhile change</h3>
+<p>We will calculate the smallest worthwhile change based on an estimate of the standard deviation in the population for a specific test. A sample can be used to estimate characteristics of the population. These concepts (sample/population) may be confusing and you may want to repeat them, a good place to start is <span class="citation">(<span class="citeproc-not-found" data-reference-id="openintro"><strong>???</strong></span>)</span> where chapter 1 gives a broad introduction. Chapter 5 in <span class="citation">(Navarro 2020)</span> is a more in depth description of the same concepts with references to R.</p>
+<p>OK, so using the sample we estimate the variation in the population as a standard deviation. The smallest worthwhile change correspond to <span class="math inline">\(0.2\times s\)</span>. Where <span class="math inline">\(s\)</span> is the estimate of the between individuals standard deviation. To calculate <span class="math inline">\(s\)</span> we average multiple trials from the same individuals and calculate <span class="math inline">\(s\)</span> between them.</p>
+</div>
+<div id="why-0.2" class="section level3">
+<h3>Why 0.2?</h3>
+<p>The multiplier 0.2 comes from definitions of effect sizes where <span class="math inline">\(0.2\times s\)</span> is considered a small but no trivial effect. We are thus interested in finding the value where a change is at least small.</p>
+</div>
+</div>
+<div id="example-code" class="section level2">
+<h2>Example code</h2>
+<pre class="r"><code>## This is an example of reliability analysis in R from a two-test experiment ##
+
+library(tidyverse)
+
+# A data frame of two tests to calculate reliability from 
+df &lt;- data.frame(t1 = c(41.6, 115.3, 48.4, 59.9, 67.2, 63.4, 94.2, 130, 98.8, 78.6, 38), 
+                 t2 = c(38, 114.4, 50.9, 59.7, 66.7, 62.8, 91.4, 136.6, 88.5, 61.7, 38.5)) 
+
+
+### Calculation of technical error 
+
+# Technical error is defined as (SD of change / sqrt(2))
+# First we calculate the change score (Trial 2 - Trial 1), second we can calculate the absolute TE
+# and finally the relative TE as a percentage of the mean test-score.
+
+df %&gt;%
+        mutate(change = t2 - t1) %&gt;%
+        group_by() %&gt;%
+        summarise(sd.change = sd(change), 
+                  mean.test = mean(c(t1, t2)), 
+                  te.abs = (sd.change / sqrt(2)), 
+                  te.relative = (te.abs / mean.test) * 100) %&gt;%
+        print()
+
+
+### Calculation of smallest worthwhile change
+# SWC is defined as 0.2 * between subject SD. 
+
+df %&gt;%
+  rowwise() %&gt;% # group the data frame by row
+  # This grouping is needed to do calculations per row
+  mutate(m = mean(c(t1, t2))) %&gt;%
+  # Remove the grouping with the ungroup function
+  ungroup() %&gt;%
+  summarise(sd = sd(m), 
+            swc = 0.2 * sd) %&gt;%
+  print()</code></pre>
+<div id="refs" class="references hanging-indent">
+<div id="ref-RN2605">
+<p>Altman, Douglas G., and J. Martin Bland. 2005. “Standard Deviations and Standard Errors.” Journal Article. <em>BMJ (Clinical Research Ed.)</em> 331 (7521): 903–3. <a href="https://doi.org/10.1136/bmj.331.7521.903">https://doi.org/10.1136/bmj.331.7521.903</a>.</p>
+</div>
+<div id="ref-RN2225">
+<p>Haun, Cody T., Christopher G. Vann, C. Brooks Mobley, Shelby C. Osburn, Petey W. Mumford, Paul A. Roberson, Matthew A. Romero, et al. 2019. “Pre-Training Skeletal Muscle Fiber Size and Predominant Fiber Type Best Predict Hypertrophic Responses to 6 Weeks of Resistance Training in Previously Trained Young Men.” Journal Article. <em>Frontiers in Physiology</em> 10 (297). <a href="https://doi.org/10.3389/fphys.2019.00297">https://doi.org/10.3389/fphys.2019.00297</a>.</p>
+</div>
+<div id="ref-RN130">
+<p>Hopkins, W. G. 2000. “Measures of Reliability in Sports Medicine and Science.” Journal Article. <em>Sports Med</em> 30 (1): 1–15. <a href="http://www.ncbi.nlm.nih.gov/pubmed/10907753">http://www.ncbi.nlm.nih.gov/pubmed/10907753</a>.</p>
+</div>
+<div id="ref-lsr">
+<p>Navarro, D. 2020. <em>Learning Statistics with R</em>.</p>
+</div>
+</div>
+</div>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -534,32 +529,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

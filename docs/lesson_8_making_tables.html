@@ -13,6 +13,7 @@
 
 <title>Making tables</title>
 
+<script src="site_libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -344,7 +345,7 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Descriptive data</li>
     <li>
-      <a href="assignments_1_descriptive.html"></a>
+      <a href="assignment_1_descriptives.html"></a>
     </li>
   </ul>
 </li>
@@ -370,8 +371,234 @@ $(document).ready(function () {
 </div>
 
 
-<div id="section" class="section level2">
-<h2></h2>
+<div id="many-solutions-for-a-common-task" class="section level2">
+<h2>Many solutions for a common task</h2>
+<p>Constructing tables in reports can be challenging. Doing it the manual way, you would summarize your data and the enter it in a word table. To make this operation reproducible (without any copy-paste operations) we need to dive into the world of table packages.</p>
+<p>In R Markdown we can use the <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html">knitr</a> package. This package, together with the extensions provided with <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html">kableExtra</a> makes making tables in HTML and PDF-formats quite easy.</p>
+<p>If you want to make tables directly in word-format, <a href="https://davidgohel.github.io/flextable/articles/overview.html">flextable</a> is a good alternative.</p>
+<p>Other packages can be used to get basically the same results, with variation in the way you specify the table. Some examples:</p>
+<p><a href="https://cran.r-project.org/web/packages/xtable/">xtable</a> <a href="https://gt.rstudio.com/">gt</a></p>
+<p>An overview of other packages can be found <a href="https://rfortherestofus.com/2019/11/how-to-make-beautiful-tables-in-r/">here</a>.</p>
+<p>Here I will introduce knitr kableExtra and flextable.</p>
+</div>
+<div id="knitr" class="section level2">
+<h2>Knitr</h2>
+<div id="resources" class="section level3">
+<h3>Resources</h3>
+<p>The <code>kable</code> function is described in a newly developed book, available online called <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html">the R Markdown Cookbook</a>. The package, <code>kableExtra</code> comes with excellent <a href="https://cran.r-project.org/web/packages/kableExtra/">vignettes</a> for both html and pdf outputs.</p>
+</div>
+</div>
+<div id="limitations" class="section level2">
+<h2>Limitations</h2>
+<p>When using R-Markdown, we can create reports in three formats: pdf, html and word. Unfortunately, <code>kable</code>/<code>kableExtra</code> is not possible to use with word-files (see below for flextable).</p>
+</div>
+<div id="why-kablekableextra" class="section level2">
+<h2>Why <code>kable</code>/<code>kableExtra</code>?</h2>
+<ul>
+<li>The syntax is easily incorporated with <code>dplyr</code>/<code>tidyr</code> pipes.</li>
+<li><code>kable</code> offers a quick way to produce simple tables, <code>kableExtra</code> can help creating advanced tables.</li>
+</ul>
+</div>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<p>In this example we will produce a “participant characteristics table”. This is a common “Table 1” in many reports.</p>
+<div id="prerequisistes" class="section level3">
+<h3>Prerequisistes</h3>
+<p>Load packages with the following commands:</p>
+<pre class="r"><code>library(tidyverse) # for data wrangling and file download
+library(knitr) # for the kable function
+library(kableExtra) # for extended capabilities</code></pre>
+<p>Download the example file with the following command:</p>
+<pre class="r"><code>download.file(&quot;https://www.dropbox.com/s/g2t97j8edqvvktn/tr003_dxa.csv?raw=1&quot;, 
+              destfile = &quot;dxa_data.csv&quot;)
+dxa_data &lt;- read_csv(&quot;dxa_data.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="first-steps-decide-what-data-to-use-and-summarise" class="section level2">
+<h2>First steps, decide what data to use and summarise</h2>
+<p>Before we can start to format the table, we need to decide what data to put in it. The goal here is to create a summary table of participant characteristics. We can group the participants based on inclusion/exclusion from the study and sex.</p>
+<p>Above, we stored the data in an object called <code>dxa_data</code>. Use the below code to see what it contains.</p>
+<pre class="r"><code>dxa_data %&gt;%
+        print()</code></pre>
+<p>This is data from iDXA measurements that also contains weight, height, age, sex and if participants were included in the data analysis or not (<code>include == "incl"</code> or <code>include == "excl"</code>). First we want to use lean body mass as a percentage of the whole body mass as a measure to describe the participants. The below code does the calculation. We also select columns of interest for further data preparations using the <code>select()</code> function. Store the data in a new object, so that the raw data can be used later.</p>
+<pre class="r"><code>dxa &lt;- dxa_data %&gt;%
+        rowwise() %&gt;%
+        mutate(LBM = (lean.whole / (fat.whole + BMD.whole + lean.whole)) * 100) %&gt;%
+        select(subject, age, height, weight, LBM, sex, include) %&gt;%
+        print()</code></pre>
+<p>Using <code>dplyr::group_by()</code> and <code>dplyr::summarise()</code> we can now create a summary table.</p>
+<blockquote>
+<p>When writing <code>dplyr::group_by()</code> it means that we specify the function <code>group_by()</code> from the package <code>dplyr</code>. The double colon is used to connect the package to the function, we use it here to specify what package we are using.</p>
+</blockquote>
+<pre class="r"><code>dxa %&gt;%
+        ungroup() %&gt;%
+        group_by(sex, include) %&gt;%
+        summarise(m.age = mean(age), 
+                  s.age = sd(age), 
+                  m.height = mean(height), 
+                  s.height = sd(height), 
+                  m.weight = mean(weight), 
+                  s.weight = sd(weight), 
+                  m.lbm = mean(LBM), 
+                  s.lbm =sd(LBM)) %&gt;%
+        print()</code></pre>
+<p>This was somewhat inefficient. We can add a line and calculate per variable.</p>
+<pre class="r"><code>summary_table &lt;- dxa %&gt;%
+        ungroup() %&gt;%
+        pivot_longer(cols = age:LBM, names_to = &quot;variable&quot;, values_to = &quot;value&quot;) %&gt;%
+        group_by(sex, include, variable) %&gt;%
+        summarise(m = mean(value), 
+                  s = sd(value)) %&gt;%
+        print()</code></pre>
+<p>This was more efficient! But it’s not formatted to be a table just yet. Of course there are many ways to create this table. But first, we can format the numbers to make nice presentations. For simplicity, lets say that all numbers will be printed with a single digit. We could use <code>round(x, 1)</code> but this will in some cases produce a number without trailing zero. Instead we will use <code>sprintf("%.1f", x)</code> where x is the number of interest. We will also combine mean and standard deviation to a single cell using the <code>paste0()</code> function. <code>paste0()</code> combines numbers and text into a character string, this means they will lose some information but that is OK.</p>
+<pre class="r"><code>summary_table &lt;- dxa %&gt;%
+        ungroup() %&gt;%
+        pivot_longer(cols = age:LBM, names_to = &quot;variable&quot;, values_to = &quot;value&quot;) %&gt;%
+        group_by(sex, include, variable) %&gt;%
+        summarise(m = mean(value), 
+                  s = sd(value)) %&gt;%
+        ungroup() %&gt;%
+        mutate(summary = paste0(sprintf(&quot;%.1f&quot;, m),
+                                &quot; (&quot;,
+                                sprintf(&quot;%.1f&quot;, s), 
+                                &quot;)&quot;)) %&gt;%
+        select(sex, include, variable, summary) %&gt;%
+        pivot_wider(id_cols = variable, names_from = c(sex, include), values_from = summary ) %&gt;%
+        print()</code></pre>
+<p>The summary table is ready for making a table.</p>
+<p>In R Markdown chunk settings, we need to set the output format to <code>results = "asis"</code>. This will print the table correctly. To create the table, all we need to do is to is to pipe it to <code>kable()</code>. In the <code>kable</code> function we can set <code>caption</code> to the represent the title of the table. <code>col.names</code> lets you specify column names without changing variable names, this is handy when you want the same name to repeat many times.</p>
+<pre><code>```{r my_table, results=&quot;asis&quot;}
+summary_table %&gt;%
+        kable(format = &quot;html&quot;, col.names = c(&quot;Variable&quot;, 
+                                                &quot;Female excluded&quot;,
+                                                &quot;Female included&quot;, 
+                                                &quot;Male excluded&quot;, 
+                                                &quot;Male included&quot;), 
+                                        caption = &quot;Participant characteristics&quot;)
+```</code></pre>
+<p>We might want to extend the table and make it a bit nicer, this is where <code>kableExtra</code> comes in. Lets say that we want to include a row above Female/Male and only print this information once. After the <code>kable()</code> command, we use commands from the <code>kableExtra</code> package.</p>
+<pre class="r"><code>summary_table %&gt;%
+        kable(format = &quot;html&quot;, col.names = c(&quot; &quot;, 
+                                                &quot;Excluded&quot;,
+                                                &quot;Included&quot;, 
+                                                &quot;Excluded&quot;, 
+                                                &quot;Included&quot;), 
+                                        caption = &quot;Participant characteristics&quot;) %&gt;%
+                                        add_header_above(c(&quot; &quot; = 1, &quot;Female&quot; = 2, &quot;Male&quot; = 2))</code></pre>
+<p>There is still some work to do here, variable names should be with a capital letter, this is most easily done in data preparation stages by changing the variables factor.</p>
+<pre class="r"><code>dxa %&gt;%
+        ungroup() %&gt;%
+        pivot_longer(cols = age:LBM, names_to = &quot;variable&quot;, values_to = &quot;value&quot;) %&gt;%
+        group_by(sex, include, variable) %&gt;%
+        summarise(m = mean(value), 
+                  s = sd(value)) %&gt;%
+        ungroup() %&gt;%
+        mutate(summary = paste0(sprintf(&quot;%.1f&quot;, m),
+                                &quot; (&quot;,
+                                sprintf(&quot;%.1f&quot;, s), 
+                                &quot;)&quot;)) %&gt;%
+        select(sex, include, variable, summary) %&gt;%
+        pivot_wider(id_cols = variable, names_from = c(sex, include), values_from = summary ) %&gt;%
+        # sort the rows -- create a factor level
+        mutate(variable = factor(variable, levels = c(&quot;age&quot;, &quot;height&quot;, &quot;weight&quot;, &quot;LBM&quot;))) %&gt;%
+
+        mutate(Variable = c(&quot;Age (yrs)&quot;, &quot;Stature (cm)&quot;, &quot;Body mass (kg)&quot;, &quot;Lean body mass (%)&quot;)) %&gt;%
+        
+        arrange(variable) %&gt;%
+        
+        select(Variable, female_excl:male_incl) %&gt;%
+        kable(format = &quot;html&quot;, col.names = c(&quot; &quot;, 
+                                                &quot;Excluded&quot;,
+                                                &quot;Included&quot;, 
+                                                &quot;Excluded&quot;, 
+                                                &quot;Included&quot;), 
+                                        caption = &quot;Table 1. Participant characteristics&quot;) %&gt;%
+                                        add_header_above(c(&quot; &quot; = 1, &quot;Female&quot; = 2, &quot;Male&quot; = 2)) </code></pre>
+<p>kableExtra lets us add footnotes using the <code>footnote</code> function. An example of the whole pipe could be:</p>
+<pre class="r"><code>dxa %&gt;%
+        ungroup() %&gt;%
+        pivot_longer(cols = age:LBM, names_to = &quot;variable&quot;, values_to = &quot;value&quot;) %&gt;%
+        group_by(sex, include, variable) %&gt;%
+        summarise(m = mean(value), 
+                  s = sd(value)) %&gt;%
+        ungroup() %&gt;%
+        mutate(summary = paste0(sprintf(&quot;%.1f&quot;, m),
+                                &quot; (&quot;,
+                                sprintf(&quot;%.1f&quot;, s), 
+                                &quot;)&quot;)) %&gt;%
+        select(sex, include, variable, summary) %&gt;%
+        pivot_wider(id_cols = variable, names_from = c(sex, include), values_from = summary ) %&gt;%
+        # sort the rows -- create a factor level
+        mutate(variable = factor(variable, levels = c(&quot;age&quot;, &quot;height&quot;, &quot;weight&quot;, &quot;LBM&quot;))) %&gt;%
+        arrange(variable) %&gt;%
+        mutate(Variable = c(&quot;Age (yrs)&quot;, &quot;Stature (cm)&quot;, &quot;Body mass (kg)&quot;, &quot;Lean body mass (%)&quot;)) %&gt;%
+        select(Variable, female_excl:male_incl) %&gt;%
+        kable(format = &quot;html&quot;, col.names = c(&quot; &quot;, 
+                                                &quot;Excluded&quot;,
+                                                &quot;Included&quot;, 
+                                                &quot;Excluded&quot;, 
+                                                &quot;Included&quot;), 
+                                        caption = &quot;Table 1. Participant characteristics&quot;) %&gt;%
+                                        add_header_above(c(&quot; &quot; = 1, &quot;Female&quot; = 2, &quot;Male&quot; = 2)) %&gt;%
+                                        footnote(general = &quot;Values are Mean (SD)&quot;)</code></pre>
+</div>
+<div id="final-thoughts-on-knitrkable-and-kableextra" class="section level2">
+<h2>Final thoughts on <code>knitr::kable</code> and <code>kableExtra</code></h2>
+<p>The <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html">vignette describining the kableExtra package</a> is highly recommended! If you want to extend to pdf-tables (which are really nice!). Use the <span class="math inline">\(\LaTeX\)</span> vignette found <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_pdf.pdf">here</a>. When creating pdf/<span class="math inline">\(\LaTeX\)</span> tables/reports some basic understandning of <span class="math inline">\(\LaTeX\)</span> is good.</p>
+</div>
+<div id="flextable" class="section level2">
+<h2>Flextable</h2>
+<p>Flextable comes with the option of specifying tables directly in word outputs. This does not need any further formatting compared to HTML formatting.</p>
+<p>Lets use the <code>summary_table</code> to specify the flextable. Flextable also works as part of a pipe. The basic function is <code>flextable</code>.</p>
+<pre class="r"><code>library(flextable)
+
+summary_table %&gt;%
+   flextable()</code></pre>
+<p>We can now add changes to the underlying table and add new header labels to produce a table similar to the one above.</p>
+<pre class="r"><code>library(flextable)
+
+summary_table %&gt;%
+        mutate(variable = factor(variable, levels = c(&quot;age&quot;, &quot;height&quot;, &quot;weight&quot;, &quot;LBM&quot;), 
+                                          labels = c(&quot;Age (yrs)&quot;, 
+                                          &quot;Stature (cm)&quot;, 
+                                          &quot;Body mass (kg)&quot;,
+                                          &quot;Lean body mass (%)&quot;))) %&gt;%
+   flextable()  %&gt;%
+   set_header_labels(variable = &quot;&quot;,
+                    female_excl = &quot;Exclude&quot;, 
+                     female_incl = &quot;Include&quot;,
+                     male_excl = &quot;Exclude&quot;, 
+                     male_incl = &quot;Include&quot;)</code></pre>
+<p>Note that flextable does not need <code>output = "asis"</code> to work in markdown files. Similar to kable, flextable can give a preview by just running the code, meaning you do not have to knit the whole document to see what changes you have done.</p>
+<p>Lets finnish up by adding a header and a footnote.</p>
+<pre class="r"><code>library(flextable)
+
+summary_table %&gt;%
+        mutate(variable = factor(variable, levels = c(&quot;age&quot;, &quot;height&quot;, &quot;weight&quot;, &quot;LBM&quot;), 
+                                          labels = c(&quot;Age (yrs)&quot;, 
+                                          &quot;Stature (cm)&quot;, 
+                                          &quot;Body mass (kg)&quot;,
+                                          &quot;Lean body mass (%)&quot;))) %&gt;%
+   flextable()  %&gt;%
+   set_header_labels(variable = &quot;&quot;,
+                    female_excl = &quot;Exclude&quot;, 
+                     female_incl = &quot;Include&quot;,
+                     male_excl = &quot;Exclude&quot;, 
+                     male_incl = &quot;Include&quot;) %&gt;%
+      # Adds a header specified for all columns of the table
+    add_header_row(values = c(&quot;&quot;, &quot;Female&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Male&quot;)) %&gt;%
+    
+    # Merge the new cells with the same data
+    # part = &quot;header&quot; meands that we want to add a row in the &quot;header&quot; part of the table.
+    # i = 1 means row 1
+    # j = 2:3 means column 2 to 3
+    merge_at(part = &quot;header&quot;, i = 1, j = 2:3) %&gt;%
+    merge_at(part = &quot;header&quot;, i = 1, j = 4:5) %&gt;%
+    # Add footnote
+    add_footer_row(values = &quot;Values are mean and (SD)&quot;, colwidths = 5) %&gt;%
+    # Make the columns widths match the content
+    autofit()</code></pre>
+<p>Nice! This table should print if the code chunk is included in a R Markdown file and the output is choosen to be “Knit to word”. See <a href="https://davidgohel.github.io/flextable/">flextable documentation</a> for more customizations.</p>
 </div>
 
 

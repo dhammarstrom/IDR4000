@@ -40,7 +40,7 @@ navbar:
     - text: "Assignments"
       menu: 
         - text: "Descriptive data"
-        - href: assignments_1_descriptive.html
+        - href: assignment_1_descriptives.html
 
   right:
     - icon: fa-question fa-lg
