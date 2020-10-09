@@ -1,13 +1,38 @@
 ---
-title: 'Assignment Week 2: Inference, confidence intervals and p-values part 1'
+title: 'Statistical inference'
 author: "Daniel Hammarström"
-date: "11 10 2019"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
+
+
+## Descriptive and inferential statistics
+
+When dealing with statistical concepts we can separate two basic tasks. *Descriptive statistics* deals with describing the data that we have. *Inferential statistics* on the other hand deals with describing something that we do not know based on data that we have.
+
+Let's say that we gather data from a number of untrained individuals, for example 1RM strength. We may now *describe* that data based on central tendency and variation. A common measure of central tendency is the mean and a common way of describing variation is the standard deviation (when dealing with continuous data).
+
+So far we have just described our data. We may want draw conclusions based on the data, regarding the population we have drawn samples from, this is in simple terms, *inferential statistics*. This is the process of drawing general conclusions based on a limited data set. 
+
+
+### Reading instructions
+
+Before going further, I suggest the following reading:
+
+  1. Read up on descriptive statistics. A good place to start is Open intro to statistics Ch. 2 and Navarro Ch. 5. Make sure that you know what wer are talking about when we are talking about: 
+    - The mean, median and quartiles
+    - The standard deviation and variance
+  2. 
+
+
+
+
+
+
+
 
 
 ## The sampling distribution

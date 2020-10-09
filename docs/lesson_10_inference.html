@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lesson 10: Descriptive and Inferential statistics</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lessons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
+    </li>
+    <li>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
+    </li>
+    <li>
+      <a href="lesson_6_make_summaries.html">Make summaries of data</a>
+    </li>
+    <li>
+      <a href="lesson_7_ggplot2.html">Making figures</a>
+    </li>
+    <li>
+      <a href="lesson_8_making_tables.html">Making tables</a>
+    </li>
+    <li>
+      <a href="lesson_9_git.html">Version control and GitHub</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_10_inference.html">Introduction to statistical inference</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ex1_1_intro.html">Basic R</a>
+    </li>
+    <li>
+      <a href="ex1_2_import.html">Importing data</a>
+    </li>
+    <li>
+      <a href="ex1_3_summarise.html">Summarise data</a>
+    </li>
+    <li>
+      <a href="ex1_4_figures.html">Making figures</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Assignments
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="assignment_1_descriptives.html">Descriptive data</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="faq.html">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lesson 10: Descriptive and Inferential statistics</h1>
+
+</div>
+
+
+<div id="descriptive-and-inferential-statistics" class="section level1">
+<h1>Descriptive and inferential statistics</h1>
+<p>When dealing with statistical concepts we can separate two basic tasks. <em>Descriptive statistics</em> deals with describing the data that we have. <em>Inferential statistics</em> on the other hand deals with describing something that we do not know based on data that we have.</p>
+<p>Let’s say that we gather data from a number of untrained individuals, for example 1RM strength. We may now <em>describe</em> that data based on central tendency and variation. A common measure of central tendency is the mean and a common way of describing variation is the standard deviation (when dealing with continuous data).</p>
+<p>So far we have just described our data. We may want draw conclusions based on the data, regarding the population we have drawn samples from, this is in simple terms, <em>inferential statistics</em>. This is the process of drawing general conclusions based on a limited data set. Based on the data we have we can make a guess about 1RM strength in all individuals of similar characteristics.</p>
+<div id="reading-instructions" class="section level2">
+<h2>Reading instructions</h2>
+<p>Before going further, I suggest the following reading:</p>
+<ol style="list-style-type: decimal">
+<li>Read up on descriptive statistics. A good place to start is Open intro to statistics Ch. 2 and Navarro Ch. 5. Make sure that you know what we are talking:
+<ol style="list-style-type: lower-roman">
+<li>The mean, median and quartiles</li>
+<li>The standard deviation and variance</li>
+</ol></li>
+<li>In open intro to statistics Ch. 5 you get an introduction to estimates regarding proportion data. Below we will try to follow up on these examples.</li>
+<li>I strongly suggest reading Ch 9 and 10 in Navarro to the best of your abilities.</li>
+</ol>
+<p>These concepts are presented in basically every introductory textbook on statistics.</p>
+</div>
+</div>
+<div id="descriptive-statistics-in-r" class="section level1">
+<h1>Descriptive statistics in R</h1>
+<div id="simulating-data-in-r" class="section level3">
+<h3>Simulating data in R</h3>
+<p>R is great because you can create data! In the examples below we will generate data, you can copy and paste the code into your R session to run it and answer questions in this lesson.</p>
+<p>When we generate data in R we need to <strong>set the seed</strong> to make the random number generator create the same numbers every time. Basically, R generate numbers and if we want R to generate the same numbers every time we have to tell R where to start.</p>
+<p>This means that before each simulation I will include:</p>
+<pre class="r"><code>set.seed(1)</code></pre>
+<p>The number within <code>set.seed</code> is important as it defines where R starts generating numbers.</p>
+</div>
+</div>
+<div id="a-simple-example" class="section level1">
+<h1>A simple example</h1>
+<p>Let’s say that we collect data on VO<sub>2max</sub> values in trained cyclists (ml kg<sup>-1</sup> min<sup>-1</sup>). We are interested in the average. First we <strong>simulate</strong> all possible values:</p>
+<pre class="r"><code>set.seed(1)
+vo2max &lt;- rnorm(1000, 70, 5)</code></pre>
+<p>All possible values?? Yes, we create a probable distribution of values of VO<sub>2max</sub> in trained cyclists based on the <code>rnorm</code>-function. <code>rnorm</code> simulates random numbers (1000 in this case) based on a set average (in this case 75) and standard deviation (in this case 5). This population is now stored in the object <code>vo2max</code>.</p>
+<p>We conduct our study and collect data on 20 participants. This represents only 2% of all possible numbers!</p>
+<p>Below we use the <code>sample</code> function, this function draws a sample of a fixed size from our collection of random numbers. We store it in an object called <code>samp</code></p>
+<pre class="r"><code>set.seed(1)
+samp &lt;- sample(vo2max, 20, replace = FALSE)</code></pre>
+<p><code>replace = FALSE</code> makes sure that we do not sample the same numbers more than once.</p>
+<p>The <code>samp</code>object now contain numbers from a possible study. The study has recruited 20 randomly choose cyclists and measured their VO<sub>2max</sub>. Let’s describe the sample.</p>
+<p>In R we can describe the data using multiple methods, first we will calculate summary statistics.</p>
+<pre class="r"><code>m &lt;- mean(samp)
+s &lt;- sd(samp)</code></pre>
+<p>We can also use the summary function.</p>
+<pre class="r"><code>summary(samp)</code></pre>
+<p>Let’s make a graph of the sample. We can represent the sample using points, the code below may be a bit complicated, it is mostly cosmetics.</p>
+<pre class="r"><code>library(tidyverse) # Needed for making the plot!
+df &lt;- data.frame(samp = samp)
+
+df %&gt;%
+  # Plots our samples on the x axis, and sets all y to 1.
+  ggplot(aes(samp, y = 1)) + 
+  # Adds points and &quot;jitter&quot; on the y axis
+  geom_point(position = position_jitter(height = 0.2)) + 
+  # Scales the y axis to better plot the data
+  scale_y_continuous(limits = c(0,2)) +
+  # Set the name of the x axis
+  labs(x = &quot;VO2max&quot;) +
+  # The code below modifies the theme of the plot, removing 
+  # the y axis
+  theme(axis.title.y = element_blank(), 
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        axis.line.y = element_blank())</code></pre>
+<p>Another plot can be the box-plot, similar to the above we can do:</p>
+<pre class="r"><code>df %&gt;%
+  # Plots our samples on the y axis, and sets all x to 1.
+  ggplot(aes(x = 1, samp)) + 
+  # Adds the boxplot
+  geom_boxplot(width = 0.5) +
+  # Scales the x axis to better plot the data
+  scale_x_continuous(limits = c(0,2)) +
+  # Set the name of the y axis
+  labs(y = &quot;VO2max&quot;) +
+  # The code below modifies the theme of the plot, removing 
+  # the x axis
+  theme(axis.title.x = element_blank(), 
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(), 
+        axis.line.x = element_blank())</code></pre>
+<p>The boxplot summarizes the data and plots the median, the inter-quartile range minimum and maximum and any outliers. See Navarro p. 175 for a description of the box plot and alternative ways of plotting it.</p>
+<p>We can also plot the data as a histogram.</p>
+<pre class="r"><code>df %&gt;%
+  # Plots our samples on the y axis, and sets all x to 1.
+  ggplot(aes(samp)) + 
+  # Adds the histogram
+  geom_histogram(binwidth = 3, color = &quot;blue&quot;, fill = &quot;lightblue&quot;) +
+  # Set the name of the y axis
+  labs(x = &quot;VO2max&quot;, y = &quot;Count&quot;) </code></pre>
+<p>Both the statistical summaries (created with <code>mean</code>, <code>sd</code> and <code>summary</code>) and the plots are descriptive analyses of the sample. We still have not made any claims about the population.</p>
+<div id="inference-about-the-population" class="section level2">
+<h2>Inference about the population</h2>
+<p>When doing a study, we are really interested in what we can say about the population (all possible values), in other words, how we can draw conclusions about the unknown based on our data. This is were inferential statistics comes in.</p>
+<p>As we have an estimate of the mean in the population, we may say that based on our sample we believe the mean is close to <code>mean(samp)</code>. It is very likely the the mean in the population is not exatly that. Let’s try another sample:</p>
+<pre class="r"><code>set.seed(2)
+samp2 &lt;- sample(vo2max, 20, replace = FALSE)
+
+# Calculate the mean
+m2 &lt;- mean(samp2)</code></pre>
+<p>As we can see there is going to be some differences due to the fact that every time we draw a new sample (or conduct another study), we will get a slightly different estimate of the mean. How about the variation:</p>
+<pre class="r"><code>s2 &lt;- sd(samp2)</code></pre>
+<p>Indeed, slightly different.</p>
+<p>We could continue to sample in this way and record every outcome to build a distribution of means. A smarter way is to create a for-loop. This is a basic building block in programming, we tell the computer to do a task multiple times and store the results in a nice format. We will sample <code>size = 20</code> and calculate the mean. The results will be stored in a data frame.</p>
+<pre class="r"><code># set the seed
+set.seed(123)
+
+# create the data frame
+results &lt;- data.frame(mean = rep(NA, 1000)) 
+# The rep function creates a vector full of NA 
+# each NA can be replaced with a mean
+
+# Second we build the for loop
+for(i in 1:1000){
+  
+  results[i, 1] &lt;- mean(sample(x = vo2max, size = 20, replace = FALSE))
+  
+}</code></pre>
+<p>The results from this process can be plotted using ggplot2</p>
+<pre class="r"><code>ggplot(data = results, aes(mean)) +
+  geom_histogram(fill = &quot;lightblue&quot;, color = &quot;gray40&quot;, binwidth = 1) + 
+  theme_minimal()</code></pre>
+<p>What did just happened? We basically conducted 1000 studies, from each study we calculated the mean and stored them. Most of the means were very close to 70 as we can see in the graph. The <strong>distribution of the means</strong> is bell-shaped, actually the distribution looks like something that we can call a Normal distribution.</p>
+<blockquote>
+<p>Distributions can be described in different ways depending on what distribution we are takling about. The most commonly used, the normal (or Gaussion) distribution can be described by the mean and the standard deviation. Read more about distributions in Navarror Ch. 9 or Open intro Ch. 4.</p>
+</blockquote>
+<p>As the distribution means is approximately normal we can determine where most of the means are. Let’s say that we are interested in determining a range where 95% of the means can be found. To do this we can use a theoretical distribution created by estimates from the distribution (the mean and standard deviation).</p>
+<p><img src="lesson_10_inference_files/figure-html/unnamed-chunk-13-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>95% of all means are under the shaded area! This corresponds to a range of values that can be calculated in R:</p>
+<pre class="r"><code>lower &lt;- mean(results[,1]) - 1.96 * sd(results[,1])
+upper &lt;- mean(results[,1]) + 1.96 * sd(results[,1])</code></pre>
+<p>What does this mean? Well, we have drawn 1000 samples from our bag of numbers (representing all possible outcomes). We then calculated the mean of each sample and created a distribution of means. The mean of means is very, very close to the true mean.</p>
+<pre class="r"><code>mean(vo2max)
+mean(results[,1])</code></pre>
+<p>We have also calculated a range were 95% of all means are located, we did this by approximating the actual values using the normal distribution.</p>
+</div>
+<div id="estimation-of-the-sampling-distribution" class="section level2">
+<h2>Estimation of the sampling distribution</h2>
+<p>What we have done above is a very theoretical example as we never do 1000 studies. We we never get a distribution of means from many studies. However we can estimate this theoretical distribution of means using a sample!</p>
+<blockquote>
+<p>This is one of the most important concepts in statistics! This means that by doing one study we can estimate the results of doing many studies.</p>
+</blockquote>
+<div id="the-standard-error-of-a-sample-is-an-approximation-of-the-standard-deviation-of-the-sampling-distribution" class="section level4">
+<h4>The standard error of a sample is an approximation of the standard deviation of the sampling distribution</h4>
+<p>The headline says it all. Basically, using the sample we can calculate the standard deviation, the standard deviation in turn can be used to calculate the standard error. The standard error is an estimate of the standard deviation of the theoretical distribution of means.</p>
+<p>Using R we can simulate this concept. We will create a new set of random samples (or studies) and calculate statistics from them.</p>
+<pre class="r"><code># Copy and paste the code if you want the results
+
+# set the seed
+set.seed(123)
+
+# create the data frame
+results &lt;- data.frame(mean = rep(NA, 1000), 
+                      sd = rep(NA, 1000)) 
+# The rep function creates a vector full of NA 
+# each NA can be replaced with a mean
+
+# Second we build the for loop
+for(i in 1:1000){
+  
+  samp &lt;- sample(x = vo2max, size = 20, replace = FALSE)
+  
+  results[i, 1] &lt;- mean(samp)
+  results[i, 2] &lt;- sd(samp)
+}
+
+
+results %&gt;%
+  # Calculate the standard error of each sample
+  mutate(se = sd/sqrt(20)) %&gt;%
+  # Make a graph containing estimates and empirical values
+  ggplot(aes(mean)) + geom_histogram(binwidth = 0.5) + 
+  
+  # Add a line representing the standard deviation of the distribution of means
+  geom_segment(aes(y = 25, 
+                   yend = 25, 
+                   x = mean(mean), 
+                   xend = mean(mean) + sd(mean)), 
+               lty = 1, color = &quot;green&quot;, size = 2) +
+  # Add text to discribe the line
+  geom_text(aes(x = mean(mean),
+                y = 35, 
+                label = paste(&quot;Empirical: Mean &quot;, 
+                              round(mean(mean), 0), 
+                              &quot; + SD: &quot;, 
+                               round(sd(mean), 1) )), 
+            color = &quot;green&quot;) +
+  
+   # Add a line representing the average standard error of each sample
+  geom_segment(aes(y = 55, 
+                   yend = 55, 
+                   x = mean(mean), 
+                   xend = mean(mean) + mean(se)), 
+               lty = 1, color = &quot;blue&quot;, size = 2) +
+  # Add text to describe the above
+  geom_text(aes(x = mean(mean),
+                y = 65, 
+                label = paste(&quot;Estimate: Mean &quot;, 
+                              round(mean(mean), 0), 
+                              &quot; + average SE: &quot;, 
+                               round(mean(se), 1) )), 
+            color = &quot;blue&quot;) </code></pre>
+<p>In the graph, the blue line represents the average of what we estimate with each sample and the green line represent the actual values of the sampling distribution.</p>
+<p>The variation (spread) of the sampling distribution corresponds to the <strong>standard error of the mean</strong> in each sample. At least, in the long run, the standard error of the mean is a pretty good estimate of the variation in the distributions of means. From a mathematical point of view, the standard error of the mean is calculated as:</p>
+<p><span class="math display">\[SE = \frac{s}{\sqrt{n}}\]</span> where <span class="math inline">\(s\)</span> is the standard deviation, <span class="math inline">\(n\)</span> is the number of observations.</p>
+<p>Remember that we can use the standard deviation to calculate a range of values containing 95% of all values in a normal distribution. This can be done using a single sample! When calculating this using a sample we create a confidence interval!</p>
+</div>
+<div id="a-confidence-interval-for-the-mean" class="section level3">
+<h3>A confidence interval for the mean</h3>
+<p>A confidence interval for the mean can be calculated as:</p>
+<p><span class="math display">\[lower~limit=Mean - 1.96 * SE\]</span> <span class="math display">\[upper~limit=Mean+1.96 * SE\]</span></p>
+<p>(This assumes that we are using the normal distribution).</p>
+<p>The interpretation of the confidence interval is that 95% of the confidence intervals will contain the population mean. But unfortunately, we do not know if our specific interval do so.</p>
+<p>The interpretation follows from the fact that we estimate the variation in the theoretical sampling distribution. Five percent of the time we will be wrong.</p>
+<p>To test if the theory is correct, lets calculate confidence intervals from our simulated data and see how many times we catch the true mean.</p>
+<pre class="r"><code># Creat new variables with upper and lower limits of the confidence interval  
+cis &lt;- results %&gt;%
+  # Using the normal distribution
+  mutate(lower.limit = mean - 1.96 * sd/sqrt(20), 
+         upper.limit = mean + 1.96 * sd/sqrt(20)) %&gt;%
+  # Test if the true mean is within the limits
+  # If the true mean is above the lower limit and below the upper limit then TRUE
+  # otherwise FALSE
+    mutate(true.mean = if_else(mean(vo2max) &gt; lower.limit &amp; mean(vo2max) &lt; upper.limit, 
+                             TRUE, FALSE)) 
+
+# Plot the data, only plotting 100 data points to make it suitable for every computer
+
+cis[100:199, ] %&gt;%
+  ggplot(aes(seq(1:nrow(.)), 
+             y = mean, 
+             color = true.mean, # set a specific color 
+             alpha = true.mean)) + # and transparency to 
+  # intervals containing and not containing the true mean
+  
+  # add a line showing the true mean
+  geom_hline(yintercept = mean(vo2max)) +
+  # add errorbars showing each interval
+  geom_errorbar(aes(ymin = lower.limit, ymax = upper.limit)) + 
+  # scale the colors and transparency. Intervals not containing 
+  # the true mean are red.
+  scale_color_manual(values = c(&quot;red&quot;, &quot;black&quot;)) + 
+  scale_alpha_manual(values = c(1, 0.2)) + 
+  # Set label texts
+  labs(x = &quot;Sample&quot;, 
+       y = &quot;Mean&quot;, 
+       alpha = &quot;Contains\nthe true mean&quot;, 
+       color = &quot;Contains\nthe true mean&quot;) + 
+  # Change the theme
+  theme_minimal()
+  
+
+# Calculate the proportions of intervals not containing the true mean
+sum(cis$true.mean == FALSE) / sum(cis$true.mean == TRUE)
+# Almost 5%!</code></pre>
+<p>Ok so we are really close. This means that if we do a study 1000 times and calculate some statistic, in 5% of the studies we will be missing the true mean. Seen from the other side, 95% of the times, our interval will contain the true mean.</p>
+<div id="why-isnt-it-5" class="section level4">
+<h4>Why is’nt it 5%</h4>
+<p>It may be due to the fact that the normal distribution is not a good distribution when sample sizes are low. We can instead use the <span class="math inline">\(t\)</span>-distribution. (This distribution has something to do with beer!?)</p>
+<p>The t distribution changes it shape depending on how many samples we have. The code below can be changed by using the t distribution instead.</p>
+<pre class="r"><code># Creat new variables with upper and lower limits of the confidence interval  
+cis &lt;- results %&gt;%
+  # Using the t-distribution
+  mutate(lower.limit = mean - qt(0.975, 20-1) * sd/sqrt(20), 
+         upper.limit = mean + qt(0.975, 20-1) * sd/sqrt(20)) %&gt;%
+  # Test if the true mean is within the limits
+  # If the true mean is above the lower limit and below the upper limit then TRUE
+  # otherwise FALSE
+    mutate(true.mean = if_else(mean(vo2max) &gt; lower.limit &amp; mean(vo2max) &lt; upper.limit, 
+                             TRUE, FALSE)) 
+
+# Plot the data, only plotting 100 data points to make it suitable for every computer
+
+cis[100:199, ] %&gt;%
+  ggplot(aes(seq(1:nrow(.)), 
+             y = mean, 
+             color = true.mean, # set a specific color 
+             alpha = true.mean)) + # and transparency to 
+  # intervals containing and not containing the true mean
+  
+  # add a line showing the true mean
+  geom_hline(yintercept = mean(vo2max)) +
+  # add errorbars showing each interval
+  geom_errorbar(aes(ymin = lower.limit, ymax = upper.limit)) + 
+  # scale the colors and transparency. Intervals not containing 
+  # the true mean are red.
+  scale_color_manual(values = c(&quot;red&quot;, &quot;black&quot;)) + 
+  scale_alpha_manual(values = c(1, 0.2)) + 
+  # Set label texts
+  labs(x = &quot;Sample&quot;, 
+       y = &quot;Mean&quot;, 
+       alpha = &quot;Contains\nthe true mean&quot;, 
+       color = &quot;Contains\nthe true mean&quot;) + 
+  # Change the theme
+  theme_minimal()
+  
+
+# Calculate the proportions of intervals not containing the true mean
+sum(cis$true.mean == FALSE) / sum(cis$true.mean == TRUE)
+# Almost 5%!</code></pre>
+<p>Again, almost! The two distributions are very similar when we are getting closer to <span class="math inline">\(n=30\)</span>.</p>
+</div>
+</div>
+</div>
+<div id="sample-size-and-confidence-intervals" class="section level2">
+<h2>Sample size and confidence intervals</h2>
+<p>The width of confidence intervals are determined by the mean, standard deviation and the sample size. If the sample size gets lower the width will increase. This means that we will have less precision. We will still cover the true mean 95% of the time (if we repeat our study) but the range of possible values of the true mean will be wider.</p>
+</div>
+</div>
+<div id="sampling-distribution-of-iq" class="section level1">
+<h1>Sampling distribution of IQ</h1>
+<p><a href="https://en.wikipedia.org/wiki/IQ_classification">IQ values are normally distributed</a> with median 100 (since the distribution is normal, this should be very close the the mean) and standard deviation of 15. Using a sample from the population we can calculate a 95% confidence interval. We will do this with <code>n=10</code> and <code>n=25</code>. You will have to execute the code. A 95% confidence interval based on the normal distribution can be calculated as</p>
+<pre class="r"><code>pop &lt;- rnorm(100000, mean = 100, sd = 15)
+
+
+# set the seed
+set.seed(1)
+
+n10 &lt;- sample(pop, 10, replace = FALSE)
+n25 &lt;- sample(pop, 25, replace = FALSE)
+
+# n = 10
+mean_n10 &lt;- mean(n10)
+s_n10 &lt;- sd(n10)
+
+error_n10 &lt;- qnorm(0.975) * s_n10/sqrt(10)
+
+# n = 25
+mean_n25 &lt;- mean(n25)
+s_n25 &lt;- sd(n25)
+
+error_n25 &lt;- qnorm(0.975) * s_n25/sqrt(25)</code></pre>
+<p>Above we used the <code>qnorm</code> function. Test what the result is if you only run <code>round(qnorm(0.975), 2)</code>. Above I used a commonly used rounded value, do the correspond?</p>
+<p>We can collect the pieces and create a plot using this code:</p>
+<pre class="r"><code>df &lt;- data.frame(sample.size = c(10, 25),
+                 mean = c(mean_n10, mean_n25), 
+                 error = c(error_n10, error_n25))
+
+df %&gt;%
+  ggplot(aes(as.factor(sample.size), mean)) +
+  geom_errorbar(aes(ymin = mean-error, ymax = mean + error), width = 0.2) +
+  geom_point(size = 3) + 
+  theme_minimal()</code></pre>
+<p>What can you say about the effect of sample size on the confidence of an estimate?</p>
+<p>Above we used the normal distribution to calculate the confidence interval. It would be more correct to use the t-distribution.</p>
+<p>The corresponding code for calculating the error based on the t-distribution would be</p>
+<p><code>qt(0.975, df = n - 1) * s/sqrt(n)</code></p>
+<p>Adopt the code above and graph the different confidence intervals beside each other.</p>
+<a id="displayText" href="javascript:toggle(2);">Here is a possible solution</a>
+<div id="toggleText2" style="display: none">
+<pre class="r"><code># set the seed
+
+set.seed(1)
+
+
+n10 &lt;- sample(pop, 10, replace = FALSE)
+n25 &lt;- sample(pop, 25, replace = FALSE)
+
+# n = 10
+mean_n10 &lt;- mean(n10)
+s_n10 &lt;- sd(n10)
+
+error_n10 &lt;- qnorm(0.975) * s_n10/sqrt(10)
+errort_n10 &lt;- qt(0.975, df = 10 - 1) * s_n10/sqrt(10)
+
+
+# n = 25
+mean_n25 &lt;- mean(n25)
+s_n25 &lt;- sd(n25)
+
+error_n25 &lt;- qnorm(0.975) * s_n25/sqrt(25)
+errort_n25 &lt;- qt(0.975, df = 25-1) * s_n25/sqrt(25)</code></pre>
+<p>We can collect the pieces and create a plot using this code:</p>
+<pre class="r"><code>df &lt;- data.frame(sample.size = c(10, 25, 10, 25),
+                 mean = c(mean_n10, mean_n25, mean_n10, mean_n25), 
+                 error = c(error_n10, error_n25, errort_n10, errort_n25), 
+                 error.type = c(&quot;z&quot;, &quot;z&quot;, &quot;t&quot;, &quot;t&quot;))
+
+df %&gt;%
+  ggplot(aes(as.factor(sample.size), mean, color = error.type)) +
+  geom_errorbar(aes(ymin = mean-error, ymax = mean + error), 
+                width = 0.2, 
+                position = position_dodge(width = 0.2)) +
+  geom_point(size = 3, position = position_dodge(width = 0.2)) + 
+  theme_minimal()</code></pre>
+<p>What can you say about using the t- vs. the z-distribution?</p>
+</div>
+<p></br></p>
+</div>
+<div id="a-hypothesis-test" class="section level1">
+<h1>A hypothesis test</h1>
+<p>We know that a random sample will have a mean close to the center of the population distribution (100 in the case above). We want to know if chess players (<span class="math inline">\(Chess\)</span>) have higher IQ scores than average people <span class="math inline">\(Average\)</span>. We can create an alternative hypothesis stating that</p>
+<p><span class="math display">\[H_A: Chess \neq Average\]</span></p>
+<p>The null hypothesis that we are comparing to is</p>
+<p><span class="math display">\[H_0: Chess = Average\]</span></p>
+<p>We collect data from chess players (<span class="math inline">\(n=24\)</span>). Use the data below to test <span class="math inline">\(H_0\)</span>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Chess player</th>
+<th>IQ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>129</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>101</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>98</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>89</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>103</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>107</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>123</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>117</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>114</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>109</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>110</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>99</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>101</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>102</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>130</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>121</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>129</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>115</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>107</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>109</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>107</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>96</td>
+</tr>
+<tr class="odd">
+<td>23</td>
+<td>98</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>102</td>
+</tr>
+</tbody>
+</table>
+<p>Try to calculate the confidence interval and to answer these questions:</p>
+<ul>
+<li>How do you interpret the confidence interval?</li>
+<li>What does the confidence interval say about your hypothesis?</li>
+<li>Is the confidence interval a statement about your sample?</li>
+</ul>
+<a id="displayText" href="javascript:toggle(3);">Here is a possible solution</a>
+<div id="toggleText3" style="display: none">
+<pre class="r"><code>chess.players &lt;- c(129, 101,98 ,89 ,103,107,123,117,114,
+                   109,110,99 ,101,102,130,121,129,115,
+                   107,109,107,96 ,98,102)
+
+
+chess.mean &lt;- mean(chess.players)
+
+chess.error &lt;- qt(0.975, df = 24-1) * sd(chess.players)/sqrt(24)
+
+
+c(chess.mean - chess.error, chess.mean + chess.error)</code></pre>
+<pre><code>## [1] 104.265 113.735</code></pre>
+</div>
+<p></br></p>
+</div>
+<div id="using-a-confidence-interval-when-planning-a-study" class="section level1">
+<h1>Using a confidence interval when planning a study</h1>
+<p>We can calculate the mean change from pre- to post-training in the cycling study for <span class="math inline">\(\dot{V}O2_{max}\)</span>.</p>
+<p>For this exercise, use the data set <code>cyclingStudy.xlsx</code>, you will find it on canvas. The variables of interest are <code>subject</code>, <code>group</code>, <code>timepoint</code> and <code>VO2.max</code>. In the timepoint variable, <code>meso3</code> are the post-training values and pre are the pre-training values.</p>
+<p>Calculate the mean change in percentage for the whole data set together with the sample SD. Then calculate a confidence interval.</p>
+<p>How do you interpret the confidence interval?</p>
+<a id="displayText" href="javascript:toggle(4);">Here is a possible solution</a>
+<div id="toggleText4" style="display: none">
+<pre class="r"><code>library(readxl); library(tidyverse)
+
+read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        select(subject, group, timepoint, VO2.max) %&gt;%
+        filter(timepoint %in%  c(&quot;pre&quot;, &quot;meso3&quot;)) %&gt;%
+  pivot_wider(names_from = timepoint, values_from = VO2.max) %&gt;%
+  mutate(change = 100 * (meso3-pre)/pre) %&gt;%
+  group_by() %&gt;%
+  summarise(m = mean(change, na.rm = TRUE), 
+            s = sd(change, na.rm = TRUE), 
+            n = sum(!is.na(change)), 
+            error = qt(0.975, df = n -1) * s/sqrt(n), 
+            lower = m - error, 
+            upper = m + error) %&gt;%
+  print()</code></pre>
+<p>The confidence interval can be interpreted that in 95% percent of confidence intervals contains the true mean, and this confidence interval does not contain 0.</p>
+</div>
+<p></br></p>
+<p>Let’s say that we are designing a new study. We want to be able to show a difference between pre- to post-training in <span class="math inline">\(\dot{V}O2_{max}\)</span> of 2% as this might be an important difference. Given the standard deviation that you have calculated above, how many participants should be recruit to the study to be able to detect a difference of 2%?</p>
+<p>Here you can try to calculate the lower limit of a 95% confidence limit given a standard deviation equal to what you calculated above and a mean change of interest of 2% using many different alternatives for the sample size.</p>
+<a id="displayText" href="javascript:toggle(5);">Here is a possible solution</a>
+<div id="toggleText5" style="display: none">
+<pre class="r"><code>error &lt;- qt(0.975, df = seq(from = 10, to = 100, by = 2) - 1) * 4.79 / sqrt(seq(from = 10,
+                                                                                to = 100, 
+                                                                                by = 2))
+
+ggplot(data.frame(n = seq(from = 10, to = 100, by = 2), 
+                  lower.bound = 2-error), aes(n, lower.bound)) + geom_point() +
+  geom_hline(yintercept = 0)</code></pre>
+</div>
+<p></br></p>
+<p>How could the above information help you when designing a study? Why is there a relationship between sample size and the lower bound of the confidence interval?</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

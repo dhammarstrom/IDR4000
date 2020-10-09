@@ -29,6 +29,9 @@ navbar:
           href: lesson_8_making_tables.html
         - text: "Version control and GitHub"
           href: lesson_9_git.html
+        - text: "----------------------------------"
+        - text: "Introduction to statistical inference"
+          href: lesson_10_inference.html
     - text: "Exercises"
       menu:
         - text: "Basic R"
