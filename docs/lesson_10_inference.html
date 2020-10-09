@@ -461,6 +461,20 @@ div.tocify {
 </div>
 
 
+<script language="javascript"> 
+    function toggle(num) {
+      var ele = document.getElementById("toggleText" + num);
+      var text = document.getElementById("displayText" + num);
+      if(ele.style.display == "block") {
+        ele.style.display = "none";
+        text.innerHTML = "show";
+      }
+      else {
+        ele.style.display = "block";
+        text.innerHTML = "hide";
+      }
+   } 
+  </script>
 <div id="descriptive-and-inferential-statistics" class="section level1">
 <h1>Descriptive and inferential statistics</h1>
 <p>When dealing with statistical concepts we can separate two basic tasks. <em>Descriptive statistics</em> deals with describing the data that we have. <em>Inferential statistics</em> on the other hand deals with describing something that we do not know based on data that we have.</p>
@@ -811,8 +825,8 @@ df %&gt;%
 <p>The corresponding code for calculating the error based on the t-distribution would be</p>
 <p><code>qt(0.975, df = n - 1) * s/sqrt(n)</code></p>
 <p>Adopt the code above and graph the different confidence intervals beside each other.</p>
-<a id="displayText" href="javascript:toggle(2);">Here is a possible solution</a>
-<div id="toggleText2" style="display: none">
+<a id="displayText" href="javascript:toggle(1);">Here is a possible solution</a>
+<div id="toggleText1" style="display: none">
 <pre class="r"><code># set the seed
 
 set.seed(1)
@@ -971,8 +985,8 @@ df %&gt;%
 <li>What does the confidence interval say about your hypothesis?</li>
 <li>Is the confidence interval a statement about your sample?</li>
 </ul>
-<a id="displayText" href="javascript:toggle(3);">Here is a possible solution</a>
-<div id="toggleText3" style="display: none">
+<a id="displayText" href="javascript:toggle(2);">Here is a possible solution</a>
+<div id="toggleText2" style="display: none">
 <pre class="r"><code>chess.players &lt;- c(129, 101,98 ,89 ,103,107,123,117,114,
                    109,110,99 ,101,102,130,121,129,115,
                    107,109,107,96 ,98,102)
@@ -994,8 +1008,8 @@ c(chess.mean - chess.error, chess.mean + chess.error)</code></pre>
 <p>For this exercise, use the data set <code>cyclingStudy.xlsx</code>, you will find it on canvas. The variables of interest are <code>subject</code>, <code>group</code>, <code>timepoint</code> and <code>VO2.max</code>. In the timepoint variable, <code>meso3</code> are the post-training values and pre are the pre-training values.</p>
 <p>Calculate the mean change in percentage for the whole data set together with the sample SD. Then calculate a confidence interval.</p>
 <p>How do you interpret the confidence interval?</p>
-<a id="displayText" href="javascript:toggle(4);">Here is a possible solution</a>
-<div id="toggleText4" style="display: none">
+<a id="displayText" href="javascript:toggle(3);">Here is a possible solution</a>
+<div id="toggleText3" style="display: none">
 <pre class="r"><code>library(readxl); library(tidyverse)
 
 read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
@@ -1016,8 +1030,8 @@ read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
 <p></br></p>
 <p>Let’s say that we are designing a new study. We want to be able to show a difference between pre- to post-training in <span class="math inline">\(\dot{V}O2_{max}\)</span> of 2% as this might be an important difference. Given the standard deviation that you have calculated above, how many participants should be recruit to the study to be able to detect a difference of 2%?</p>
 <p>Here you can try to calculate the lower limit of a 95% confidence limit given a standard deviation equal to what you calculated above and a mean change of interest of 2% using many different alternatives for the sample size.</p>
-<a id="displayText" href="javascript:toggle(5);">Here is a possible solution</a>
-<div id="toggleText5" style="display: none">
+<a id="displayText" href="javascript:toggle(4);">Here is a possible solution</a>
+<div id="toggleText4" style="display: none">
 <pre class="r"><code>error &lt;- qt(0.975, df = seq(from = 10, to = 100, by = 2) - 1) * 4.79 / sqrt(seq(from = 10,
                                                                                 to = 100, 
                                                                                 by = 2))
