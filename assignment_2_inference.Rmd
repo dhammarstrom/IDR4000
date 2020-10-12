@@ -1,0 +1,15 @@
+---
+title: "Assignment 2: Inference"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+Using the data set from Haun et al. 2019, select one variable and estimate the difference between HIGH and LOW responders (the CLUSTER variable). Based on your estimate and its uncertainty you are asked to draw inference regarding the effect (is this effect true?). The report should contain a clearly stated question or hypothesis, descriptive statistics of the variable of interest (possibly including a figure), estimation of the effect and test of an hypothesis. You are restricted to using any test from the t-test family. A fully reproducible report with source-code expected on canvas no later than 2020-10-23.
+
+## Tips!
+
+Use the "import data" lesson to find code to import the data set. Make a boxplot of values comparing the two groups, see the lesson on plotting for inspiration. 
+

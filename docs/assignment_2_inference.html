@@ -11,7 +11,7 @@
 
 
 
-<title>Course notes: Quantitative methods and Statistics</title>
+<title>Assignment 2: Inference</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -259,6 +262,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -266,6 +332,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -367,9 +443,6 @@ $(document).ready(function () {
     <li>
       <a href="assignment_1_descriptives.html">Descriptive data</a>
     </li>
-    <li>
-      <a href="assignment_2_inference.html">Inference</a>
-    </li>
   </ul>
 </li>
       </ul>
@@ -389,48 +462,21 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Course notes: Quantitative methods and Statistics</h1>
+<h1 class="title toc-ignore">Assignment 2: Inference</h1>
 
 </div>
 
 
-<p>Welcome to the course <strong>Quantitative methods and Statistics (IDR4000)</strong>. The course aims to give students an overview of methodological aspects within the field of sport and exercise-physiology. Specifically, planning, conducting and analyzing research projects with human participants will be covered. These pages covers aspects of data analysis and statistics.</p>
-<p>During the course we will be using <a href="https://www.r-project.org/">R</a>. R is a programming language used for statistics and scientific graphics. It is extremely powerful (it can do many things), and it is free! During the course you will be instructed on how to use <a href="https://www.r-project.org/">R</a> with the help of <a href="https://www.rstudio.com/">RStudio</a> which is a software designed to make using R more convenient. You will learn how to write code, integrate code within your report, how to make figures and statistical analyses and how to do so in a reproducible way. Reproducible reports means that you can show your report, and show the code that creates the report.</p>
-<p>Learning R can be difficult.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> If you have never written computer code before, you might think learning to code is overwhelming. When you first try it out, you might get frustrated and think “this is not for me”. But it is! Everybody can do it! Take your time, ask questions, discuss with classmates and Google! A great thing about R is that there is a lot of information online on problems that you might encounter when writing code in R.</p>
-<p>It is not a prerequisite to know how to code and you can pass the course without using R, but it might actually be a lot harder. The tools that we will be using are designed to make your statistical analyses reproducible. You will therefore cover one goal in the syllabus just by using the proposed software.</p>
-<div id="before-the-course-do-this" class="section level2">
-<h2>Before the course, do this!</h2>
-<ol style="list-style-type: decimal">
-<li><a href="lesson_1_installation.html">Install R and R Studio</a> and get it started</li>
-<li>Create a report from R using <a href="lesson_2_markdown.html">these notes</a></li>
-<li>Start a <a href="lesson_3_structure.html">Project</a></li>
-<li>Go through the first course in <a href="https://swirlstats.com">Swirl</a></li>
-<li>Get to know the course literature, specifically: <span class="citation">(Wickham and Grolemund 2017; Diez, Barr, and Çetinkaya-Rundel 2015; Navarro 2019)</span></li>
-</ol>
-</div>
-<div id="references" class="section level2 unnumbered">
-<h2>References</h2>
-<div id="refs" class="references">
-<div id="ref-diez2015openintro">
-<p>Diez, D. M., C. D. Barr, and M. Çetinkaya-Rundel. 2015. <em>OpenIntro Statistics</em>. OpenIntro, Incorporated. <a href="https://leanpub.com/openintro-statistics">https://leanpub.com/openintro-statistics</a>.</p>
-</div>
-<div id="ref-Navarro">
-<p>Navarro, Daniel. 2019. <em>Learning Statistics with R: A Tutorial for Psychology Students and Other Beginners (Version 0.6.1)</em>. <a href="https://learningstatisticswithr.com/book/">https://learningstatisticswithr.com/book/</a>.</p>
-</div>
-<div id="ref-Wickham2017R">
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. Paperback; O’Reilly Media. <a href="http://r4ds.had.co.nz/">http://r4ds.had.co.nz/</a>.</p>
-</div>
-</div>
-</div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>These advice are adopted from <a href="https://evalf19.classes.andrewheiss.com/syllabus/">here</a>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
+<p>Using the data set from Haun et al. 2019, select one variable and estimate the difference between HIGH and LOW responders (the CLUSTER variable). Based on your estimate and its uncertainty you are asked to draw inference regarding the effect (is this effect true?). The report should contain a clearly stated question or hypothesis, descriptive statistics of the variable of interest (possibly including a figure), estimation of the effect and test of an hypothesis. You are restricted to using any test from the t-test family. A fully reproducible report with source-code expected on canvas no later than 2020-10-23.</p>
+<div id="tips" class="section level2">
+<h2>Tips!</h2>
+<p>Use the “import data” lesson to find code to import the data set. Make a boxplot of values comparing the two groups, see the lesson on plotting for inspiration.</p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -463,6 +509,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

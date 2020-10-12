@@ -401,9 +401,11 @@ div.tocify {
       <a href="lesson_9_git.html">Version control and GitHub</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Introduction to statistical inference</li>
     <li>
-      <a href="lesson_10_inference.html"></a>
+      <a href="lesson_10_inference.html">Introduction to statistical inference</a>
+    </li>
+    <li>
+      <a href="lesson_11_inference2.html">Statistical inference, p-values and confidence intervals</a>
     </li>
   </ul>
 </li>
@@ -425,6 +427,9 @@ div.tocify {
     </li>
     <li>
       <a href="ex1_4_figures.html">Making figures</a>
+    </li>
+    <li>
+      <a href="ex2_1_inference.html">Inference</a>
     </li>
   </ul>
 </li>
@@ -685,6 +690,8 @@ character_vector[&quot;the second name&quot;]</code></pre>
 </table>
 <p>Note that if vectors are not the same length (or a multiple of shorter object length), R will give you a warning.</p>
 <pre class="r"><code>numeric_vector * c(2, 1, 4)</code></pre>
+<pre><code>## Warning in numeric_vector * c(2, 1, 4): longer object length is not a multiple of shorter object
+## length</code></pre>
 <pre><code>## [1]  2  4 24 16</code></pre>
 <p>A vector of length 4 can be multiplied with a vector length 2 as the shorter vector can be used two times over the longer vector.</p>
 <p>Character vector can not be used in mathematical operations, try it out, what do the error message say? What does it mean?</p>

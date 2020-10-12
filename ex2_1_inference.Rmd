@@ -1,0 +1,273 @@
+---
+title: "Untitled"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+ <script language="javascript"> 
+    function toggle(num) {
+      var ele = document.getElementById("toggleText" + num);
+      var text = document.getElementById("displayText" + num);
+      if(ele.style.display == "block") {
+        ele.style.display = "none";
+        text.innerHTML = "show";
+      }
+      else {
+        ele.style.display = "block";
+        text.innerHTML = "hide";
+      }
+   } 
+  </script>
+
+
+# Exercise 1
+
+A t-test is suitable for comparing a single mean to an hypothesized mean or two means to each other. If using two means these may be collected from paired observation (the same individuals) or from independent samples (two different groups).
+
+In these examples we will work with the data set from Haun et al. 2019. To download and load the data set:
+
+```{r, eval = FALSE}
+
+library(tidyverse)
+download.file("https://ndownloader.figstatic.com/files/14702420", destfile = "./data/hypertrophy.csv")
+
+hypertrophy <- read_csv("./data/hypertrophy.csv")
+
+```
+
+We will start by looking at the variables `SUB_ID`, `CLUSTER` and `T3T1_PERCENT_CHANGE_RNA`. These variables can be selected by using the code below.
+
+```{r, eval = FALSE}
+hyp1 <- hypertrophy %>%
+  select(SUB_ID, CLUSTER, T3T1_PERCENT_CHANGE_RNA) %>%
+  print()
+
+```
+
+The `T3T1_PERCENT_CHANGE_RNA` variable is the percentage change in total RNA content per muscle weight from the beginning to the end of the training period. 
+
+Using all participants, let's say that we want to assess if training increases RNA content. What kind of test would you use and how can we formulate a null hypothesis using this limited data? 
+
+Try to write `?t.test` in the console to read the help pages for the t.test if you are not sure.
+
+
+ <a id="displayText" href="javascript:toggle(1);">Here is a possible solution</a>
+  <div id="toggleText1" style="display: none">
+  
+A one sample t-test can be used to test is a mean differs from a nulll hypothesis. Above we state a directional question "if training *increases* RNA content". If we want to keep this direction in the statistical hypothesis we want to use a one sample, one-tailed t-test with a directional alternative hypothesis `alternative = "greater"`.
+
+We could also be open to the hypothesis that RNA content can be lower or higher than 0. This would imply a two-tailed test, only testing difference (`alternative = "two.sided"`). 
+
+Since the variable of interest is calculated as a change (in percentage) the null hypothesis of no change equals 0 in percentage change. 
+
+```{r, eval = FALSE}
+# To acces the specific variable 
+t.test(hyp1$T3T1_PERCENT_CHANGE_RNA, mu = 0, alternative = "two.sided")
+```
+
+The confidence interval together with the p-value suggests that this result, or an even more extreme results is improbable if the null hypothesis is true. 
+
+  </div>
+  </br>         
+
+
+# Exercise 2
+
+The same test can be perfomed using the raw data. We will use the raw variables to test in RNA changes with training. The variables of interest are: 
+
+```{r, eval = FALSE}
+hyp2 <- hypertrophy %>%
+  select(SUB_ID, CLUSTER, T1_RNA, T3_RNA) %>%
+  print()
+```
+
+Using this new data set, how would you test if RNA changes wit training. What kind of test do you choose?
+
+
+ <a id="displayText" href="javascript:toggle(2);">Here is a possible solution</a>
+  <div id="toggleText2" style="display: none">
+  
+  The data are paired, meaning that we now have two data points from each participant. In the t-test function we need to specify `paired = TRUE` in this case. The null hypothesis can still be directional or "two.sided". 
+  
+```{r, eval = FALSE}
+
+t.test(hyp2$T3_RNA, hyp2$T1_RNA, paired = TRUE, alternative = "two.sided")
+
+```
+  
+How does this correspond to the test of percentage change above?
+
+
+  </div>
+  </br>         
+
+
+# Exercise 3
+An independent, two sample t-test compares means from two groups that are not in any meaningful way related.
+
+Calculate any difference of RNA increases between T1 and T3 between the `HIGH` and `LOW` cluster group. Are the groups different (at the population level)? 
+
+ <a id="displayText" href="javascript:toggle(3);">Here is a possible solution</a>
+  <div id="toggleText3" style="display: none">
+  
+We could use the change score, not converted to percentages to compare the groups. We have to remove participants not belonging to any group. 
+
+```{r, eval = FALSE}
+hyp3 <- hypertrophy %>%
+  select(SUB_ID, CLUSTER, T3T1__RNA) %>%
+  filter(!is.na(CLUSTER)) %>%
+  print()
+```
+
+The t-test can now be used with a formula. We want to explain the variable `T3T1__RNA` with the grouping variable (`CLUSTER`). In R we can write this as a formula `T3T1__RNA  ~ CLUSTER`. In the help-pages of `t.test`we can see that a method exists for class formula. This means that the function can be used differently than what we have previously done. Notice also that the data argument is needed since we do not enter the data directly.
+
+```{r, eval = FALSE}
+
+t.test(T3T1__RNA  ~ CLUSTER, data = hyp3)
+
+```
+
+What conclusions do you draw from the results?
+
+ <a id="displayText" href="javascript:toggle(31);">Here is a possible solution</a>
+  <div id="toggleText31" style="display: none">
+
+  The mean increase in the LOW group is slightly higher than in the HIGH group, however the results are not so different than what would be expected in the null hypothesis was true. We do not have strong evidence against the null
+  
+  It is a good idea to plot the data to see what is going on. A simple boxplot will tell the story
+  
+```{r, eval = FALSE}
+
+hyp3 %>%
+  ggplot(aes(CLUSTER, T3T1__RNA)) + geom_b
+
+```
+  
+  
+  </div>
+  </br>   
+
+
+  </div>
+  </br>         
+
+
+# Exercise 4
+
+When writing up results it is good practice to include the test statistic together with a mean difference, a confidence interval and a p-value. 
+
+How can you use R to get all these values from a single test? Use the t-test performed in exercise 2 to get all values from the test function. 
+
+
+ <a id="displayText" href="javascript:toggle(4);">Here is a possible solution</a>
+  <div id="toggleText4" style="display: none">
+  
+```{r, eval = FALSE}
+# First, save the test in an object
+
+ttest <- t.test(hyp2$T3_RNA, hyp2$T1_RNA, paired = TRUE, alternative = "two.sided")
+
+
+# the test statistic
+ttest$statistic
+
+# Mean difference 
+ttest$estimate
+
+# Confidence interval
+ttest$conf.int
+
+# The confidence interval is two numbers the upper and the lower value
+# to get only the lower
+ttest$conf.int[1]
+
+# And the upper
+ttest$conf.int[2]
+
+# And finally the p-value
+ttest$p.value
+
+```
+
+
+  </div>
+  </br>         
+
+
+# Exercise 5
+When writing results in R markdown we can add results from a test automatically in the test. Try to write Rmarkdown combined with R code to create the following output:
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+# First, save the test in an object
+
+library(tidyverse)
+download.file("https://ndownloader.figstatic.com/files/14702420", destfile = "./data/hypertrophy.csv")
+
+hypertrophy <- read_csv("./data/hypertrophy.csv")
+
+hyp2 <- hypertrophy %>%
+  select(SUB_ID, CLUSTER, T1_RNA, T3_RNA) 
+
+
+ttest <- t.test(hyp2$T3_RNA, hyp2$T1_RNA, paired = TRUE, alternative = "two.sided")
+
+
+# df
+df <- ttest$parameter
+# the test statistic
+statistic <- ttest$statistic
+
+# Mean difference 
+estimate <- ttest$estimate
+
+# Confidence interval
+ci <- ttest$conf.int
+
+# And finally the p-value
+pval <- ttest$p.value
+
+```
+
+
+> Total RNA content increased from T1 to T3 with `r round(estimate, 1)` units (95% CI: [`r round(ci[1], 1)`, `r round(ci[2], 1)`], t(`r df`) = `r round(statistic,2)`, p = `r round(pval, 3)`).
+
+ <a id="displayText" href="javascript:toggle(5);">Here is a possible solution</a>
+  <div id="toggleText5" style="display: none">
+  
+I first saves the t-test in an oject from where I save all values that I'm interested in. 
+```{r, eval = FALSE, echo = TRUE, warning=FALSE, message=FALSE}
+
+hypertrophy <- read_csv("./data/hypertrophy.csv")
+
+hyp2 <- hypertrophy %>%
+  select(SUB_ID, CLUSTER, T1_RNA, T3_RNA) 
+
+# First, save the test in an object
+ttest <- t.test(hyp2$T3_RNA, hyp2$T1_RNA, paired = TRUE, alternative = "two.sided")
+
+
+# degress of freedom
+df <- ttest$parameter
+# the test statistic
+statistic <- ttest$statistic
+# Mean difference 
+estimate <- ttest$estimate
+# Confidence interval
+ci <- ttest$conf.int
+# And finally the p-value
+pval <- ttest$p.value
+
+```
+
+I then write up a section combining text and R code
+
+```{r, eval = FALSE}
+Total RNA content increased from T1 to T3 with `r round(estimate, 1)` units (95% CI: [`r round(ci[1], 1)`, `r round(ci[2], 1)`], t(`r df`) = `r round(statistic,2)`, p = `r round(pval, 3)`).
+```
+
+
+  </div>
+  </br>         
+

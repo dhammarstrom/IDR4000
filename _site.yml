@@ -32,6 +32,8 @@ navbar:
         - text: "----------------------------------"
         - text: "Introduction to statistical inference"
           href: lesson_10_inference.html
+        - text: "Statistical inference, p-values and confidence intervals"
+          href: lesson_11_inference2.html
     - text: "Exercises"
       menu:
         - text: "Basic R"
@@ -42,10 +44,14 @@ navbar:
           href: ex1_3_summarise.html
         - text: "Making figures"
           href: ex1_4_figures.html
+        - text: "Inference"
+          href: ex2_1_inference.html
     - text: "Assignments"
       menu: 
         - text: "Descriptive data"
           href: assignment_1_descriptives.html
+        - text: "Inference"
+          href: assignment_2_inference.html
 
   right:
     - icon: fa-question fa-lg
