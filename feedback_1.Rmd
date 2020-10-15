@@ -1,0 +1,92 @@
+---
+title: "Feedback 1: Tables and descriptive statistics"
+bibliography: bib.bib
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# The assignment
+
+In Part 1 you were asked to recreate a table from Haun et al. [-@RN2225]. To achieve this you had to:
+
+1. Download the data 
+2. Select the variables that were of interest
+3. Format the table including making a new variable based on the calculated mean and standard deviation 
+4. Print the table using a table function like `flextable` or `kable`. 
+
+In Part 2 you were expected to calculate the typical error and smallest worthwhile change from your reliability study.
+
+# What was good
+
+Many of you have handed in code that actually runs. This means that you have adopted examples to your own data to create output. Some of you have cleaned up example-code to make your report.
+
+# What needs more work
+
+## Comment the code
+
+I miss comments in your code. Even though most has adopted examples to their data I suggest commenting the code, this way it is easier to change the code and copy to a new project. 
+
+In the next assignment I would like to see code that is heavily structured around comments. The comments can be more informal than the actual report and include details that are important for you to better understand your code but not useful when reading the report. Below is an example contain a longer segment detailing the over all purpose of the code and the line by line comments on what is happening.
+
+```{r, eval = FALSE}
+
+# My script 
+
+# Background and Purpose: We have collected data from a reliability 
+# study where each participant has been tested two times (t1 and t2) 
+# The aim is to calculate typical error from the data. Reliability 
+# can be calculated as the standard deviation of the change between to measures
+# divided by sqrt(2). See Hopkins (2009) for details
+
+
+# load packages
+library(tidyverse)
+
+# read the data 
+df <- read_csv("./data/reliability_data.csv")
+
+# preliminary calculation
+df %>%
+  # Calculate the change score as the difference between measures
+        mutate(change = t2 - t1) %>%
+  # calculate summary statistics on an ungrouped data frame
+        summarise(sd.change = sd(change, na.rm = TRUE), # na.rm needed because of missing data  
+                  mean.test = mean(c(t1, t2), na.rm = TRUE), 
+                  te.abs = (sd.change / sqrt(2)),  # This is the absolute te
+                  # also express as the relative error, relative to the mean as a percentage
+                  te.relative = (te.abs / mean.test) * 100) %>% 
+        print()
+
+```
+
+Most of your work is preparing your data and making calculations. If you comment your code it is easier to write up the results afterwards. 
+
+## Write the report text
+
+I also miss text describing the results of your calculations. The good thing about R Markdown is that you can combine text and analyses, do so!
+
+The first part of the assignment should have some text describing from where the data is retrieved. As an example:
+
+> Haun et al. [-@RN2225] gathered data from 30 trained men as they performed a X week resistance trainin intervention. Two groups were formed based on training outcome measures, the top and bottom third of the data set were assigned to a high- and low-responder group respectively. The baseline characteristics in each group are presented in Table 1. 
+
+A text as the one above would explain why the reader is looking at the table.
+
+In part 2 of the assignment I miss an introduction to the area, why is these measurements interesting. I also miss a short description of how the data were collected and most importantly a text detailing what the results means. All reports that have been handed in could be improved by adding this information. 
+
+## Reproducible code
+
+Most of you have handed in semi-reproducible code meaning that I had to download data sets and put them in the right folder to make the code run. This is also semi-good, but OK. Two groups have handed in a link to a GitHub folder. This works splendid! I encourage all of you to invest the time in learning some basic git. 
+
+# References
+
+
+

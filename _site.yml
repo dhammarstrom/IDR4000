@@ -50,6 +50,8 @@ navbar:
       menu: 
         - text: "Descriptive data"
           href: assignment_1_descriptives.html
+        - text: "Feedback assignment 1"
+          href: feedback_1.html
         - text: "Inference"
           href: assignment_2_inference.html
 
