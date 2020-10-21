@@ -1,0 +1,179 @@
+---
+title: "Create R-examples"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Examples in R are extremely helpful as you often do stuff that has been done before. Examples tend do give more meaning when you are using data sets that are known. In R examples, commonly used data sets are built-in in different R packages. The `mtcars` data set is an example of a data set used to show basic data wrangling.
+
+The aim of this group exercise is to write R examples using a data set that we know of. I also encurage you to write in your preffered language (Norsk!).
+
+# Exercises
+
+The exercises are designed with an known outcome, what you want to achieve, from a given starting point. They represent common scenarios in data wrangling and plotting of data. All exercises uses the data set provided bu Haun et al. 2019. Write the example with a introduction of what you want to achieve with a list detailing what you will do. Write code chunks that does the operation (with short comments). If you only want to show code in your example without having R evaluate it put `eval = FALSE` in the code chunk label `{r, eval = FALSE}`. There might be suggestions in other exercises than the one written specifically for your group to help you to solve the exercise. If you finish early, try another groups exercise.  
+
+## Group 1
+
+Plotting in `ggplot2` often requires data to be in a long format. You are expected to write an example where changes in CSA are differentiated between fast and slow fiber types. The final figure should look something like this:
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+
+hypertrophy <- read_csv("https://ndownloader.figstatic.com/files/14702420")
+
+
+hypertrophy %>%
+  select(SUB_ID, T3T1_PERCENT_CHANGE_FAST_CSA, T3T1_PERCENT_CHANGE_SLOW_CSA) %>%
+  pivot_longer(names_to = "fibertype", 
+               values_to = "change", 
+               cols = c(T3T1_PERCENT_CHANGE_FAST_CSA, T3T1_PERCENT_CHANGE_SLOW_CSA)) %>%
+  ggplot(aes(fibertype, change)) + geom_boxplot()
+
+```
+
+
+The problem is that the data set looks like this when we select the variables `SUB_ID`, `T3T1_PERCENT_CHANGE_FAST_CSA` and `T3T1_PERCENT_CHANGE_SLOW_CSA`:
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+
+hypertrophy %>%
+  select(SUB_ID, T3T1_PERCENT_CHANGE_FAST_CSA, T3T1_PERCENT_CHANGE_SLOW_CSA) %>%
+  print()
+```
+
+And before plotting, we would like it to look like this:
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+hypertrophy %>%
+  select(SUB_ID, T3T1_PERCENT_CHANGE_FAST_CSA, T3T1_PERCENT_CHANGE_SLOW_CSA) %>%
+  pivot_longer(names_to = "fibertype", 
+               values_to = "change", 
+               cols = c(T3T1_PERCENT_CHANGE_FAST_CSA, T3T1_PERCENT_CHANGE_SLOW_CSA)) %>%
+  print()
+```
+
+
+A suggestion is to look into the help pages describing `pivot_longer` and `pivot_wider` and describe their use.
+
+To get started, here is example code for downloading and selecting the variables:
+
+```{r, eval = FALSE}
+
+library(tidyverse)
+
+hypertrophy <- read_csv("https://ndownloader.figstatic.com/files/14702420")
+
+
+hypertrophy %>%
+  select(SUB_ID, T3T1_PERCENT_CHANGE_FAST_CSA, T3T1_PERCENT_CHANGE_SLOW_CSA) %>%
+  print()
+
+
+```
+
+Use `geom_boxplot()` in ggplot2 to create the graph. You are free to nmake the plot nicer, consider the following:
+
+- Change the labels and levels of the factor `fibertype`
+- Change axis labels
+- Add colors to the boxes
+
+## Group 2
+
+Before plotting data it is common to do some kine of summary of the data. In ggplot2, some "geoms" does this for you but not all. In this example you are expected to describe how to summarize data and use point estimates with some measure of variation in the graph. The final figure should look something like this:
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+
+hypertrophy <- read_csv("https://ndownloader.figstatic.com/files/14702420")
+
+
+hypertrophy %>%
+  select(SUB_ID, CLUSTER, T1_TESTOSTERONE_ngdl) %>%
+  mutate(CLUSTER = if_else(is.na(CLUSTER), "MID", CLUSTER), 
+         CLUSTER = factor(CLUSTER, levels = c("LOW", "MID", "HIGH"))) %>%
+  group_by(CLUSTER) %>%
+  summarise(Mean = mean(T1_TESTOSTERONE_ngdl, na.rm = TRUE), 
+            SD = sd(T1_TESTOSTERONE_ngdl, na.rm = TRUE)) %>%
+  ggplot(aes(CLUSTER, Mean)) + 
+  geom_errorbar(aes(ymin = Mean - SD, ymax = Mean + SD), width = 0.2) +
+  
+  geom_point(shape = 21, size = 3, fill = "red") +
+  labs(x = "Cluster", y = "Baseline testosterone (ng dl)", caption = "Data are Mean \u00B1 SD") 
+  
+
+
+```
+
+This is a case of `group_by` and `summarise`. 
+
+Things to consider:
+
+- The axis labels of the plot
+- The addition of the "MID" cluster (try `mutate(CLUSTER = if_else(is.na(CLUSTER), "MID", CLUSTER))`)
+- Change the levels of the CLUSTER factor
+- The caption (to get the &plusmn; sign, write use `\u00B1` in the `labs` function in ggplot)
+
+
+## Group 3 and 4
+
+To plot variables over time we need to create a long data set. We are here interested in plotting lean body mass over time, the data are now stored in the variables `DXA_LBM_1`, `DXA_LBM_2` and `DXA_LBM_3`, where 1, 2 and 3 are time-points in the study. We also would like to separate the plotting per group, including a "MID" group. The resulting plot should look something like this.
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+
+hypertrophy <- read_csv("https://ndownloader.figstatic.com/files/14702420")
+
+
+hypertrophy %>%
+  select(SUB_ID, CLUSTER, DXA_LBM_1, DXA_LBM_2, DXA_LBM_3) %>%
+  
+  mutate(CLUSTER = if_else(is.na(CLUSTER), "MID", CLUSTER), 
+         CLUSTER = factor(CLUSTER, levels = c("LOW", "MID", "HIGH"))) %>%
+  
+  pivot_longer(names_to = "Time", 
+               values_to = "LBM", 
+               cols = c(DXA_LBM_1, DXA_LBM_2, DXA_LBM_3)) %>%
+  
+  mutate(Time = paste0("T", gsub("DXA_LBM_", "", Time))) %>%
+  
+  group_by(CLUSTER, Time) %>%
+  summarise(Mean = mean(LBM, na.rm = TRUE)) %>%
+  ggplot(aes(Time, Mean, color = CLUSTER, group = CLUSTER)) + 
+
+  geom_line() +
+  labs(x = "Time-point", 
+       y = "Lean body mass (kg)", 
+       color = "Cluster",
+       caption = "Data are Means per group and time-point") 
+  
+
+
+```
+
+Things to consider:
+
+- Changing the axis labels and color labels (look up `labs` in ggplot2 documentation)
+- Check out `?pivot_longer`, 
+- Change the labels or re-write the whole time variable to get the right labelling
+- This is a case of `group_by` and `summarise`, make sure to use a group and time variable for grouping
+- What summary function should you use?
+- In `aes()`, grouping needs to be set to cluster (`group = CLUSTER`) to make lines between data points.
+- Add a figure caption. 
+
+
+
+
+
+
+

@@ -44,6 +44,8 @@ navbar:
           href: ex1_3_summarise.html
         - text: "Making figures"
           href: ex1_4_figures.html
+        - text: "Group exercises"
+          href: ex1_5_group_exercise.html
         - text: "Inference"
           href: ex2_1_inference.html
     - text: "Assignments"
