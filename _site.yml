@@ -36,9 +36,11 @@ navbar:
           href: lesson_11_inference2.html
         - text: "----------------------------------"
         - text: "Regression models part 1"
-          href: lesson_12_regressionModels.Rmd
+          href: lesson_12_regressionModels.html
         - text: "Regression models part 2: Lactate threshold analysis"
-          href: lesson_13_regressionModels2.Rmd
+          href: lesson_13_regressionModels2.html
+        - text: "Regression models and correlations"
+          href: lesson_14_correlation.html
     - text: "Exercises"
       menu:
         - text: "Basic R"

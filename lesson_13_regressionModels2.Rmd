@@ -202,6 +202,9 @@ Moving back to our example data we can use the `poly` function to add an extra t
 We could also compare the different models to check which one makes the better fit. First we use the straight line and then add the polynomial terms. We mentioned $R^2$ earlier, this is a meassure of how much of the variation in the data that can be explained by the model. Let's compare $R^2$ between models.
 
 ```{r, echo = FALSE}
+
+library(tidyverse); library(readxl)
+
 # Save the data in an object 
 dat <- read_excel("./data/cyclingStudy.xlsx", na = "NA") %>%
         filter(timepoint == "pre", subject == "7") %>%
