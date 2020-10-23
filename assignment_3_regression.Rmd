@@ -8,7 +8,7 @@ editor_options:
 
 # Introduction 
 
-Regression models are extreamly flexible and the working horse of statistics! We will attempt to understand them better in this course as they are very common in data analysis. This weeks assignment is composed of several parts, one of which is optional (meaning you do not have to do them).
+Regression models are extremely flexible and the working horse of statistics! We will attempt to understand them better in this course as they are very common in data analysis. This weeks assignment is composed of several parts, one of which is optional (meaning you do not have to do them).
 
 # Part 1: t-tests and regression analysis
 
@@ -20,14 +20,14 @@ Write up the results with a short introduction including a question (and some ba
 
 # Part 2: Is there a relationship between muscle size and strength
 
-The Haun et al. 2019 data set contains a variable for muscle strength `Squat_3RM_kg`. In this assignment I want you to estimate the relationship between msucle mass and strength. There are several muscle mass meassures in the data set at time 1 (T1). Select one or more of these varaibles and estimate the relationship between muscle mass and strength. Think about the relationship as a bigger muscle could produce more force, muscle mass is the predictor and muscle strength is the dependent variable. Use the whole data set!
+The Haun et al. 2019 data set contains a variable for muscle strength `Squat_3RM_kg`. In this assignment I want you to estimate the relationship between muscle mass and strength. There are several muscle mass measures in the data set at time 1 (T1). Select one or more of these variables and estimate the relationship between muscle mass and strength. Think about the relationship as a bigger muscle could produce more force, muscle mass is the predictor and muscle strength is the dependent variable. Use the whole data set!
 
-# Calculate lactate thresholds (Optional)
+# Part 3: Calculate lactate thresholds (Optional)
 
 Using the data you collected in the physiology lab. Estimate the exercise intensity at 4 mmol blood lactate. Make use of the code in the second lesson this week.
 
 # How to hand in?
 
-As always, I preffer a githiub submission. But a R-markdown file AND an html-file on canvas is OK. I would like to have a report (html-file) without any code and the R-markdown file for reference (where I can read the code). Try to make the report and figures to look elegant!
+As always, I prefer a github submission. But a R-markdown file AND an html-file on canvas is OK. I would like to have a report (html-file) without any code and the R-markdown file for reference (where I can read the code). Try to make the report and figures to look elegant!
 
 Good luck!
