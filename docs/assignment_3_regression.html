@@ -11,7 +11,7 @@
 
 
 
-<title>Exercises Week 1</title>
+<title>Assignment 3: Regression models</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -405,226 +405,33 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Exercises Week 1</h1>
+<h1 class="title toc-ignore">Assignment 3: Regression models</h1>
 
 </div>
 
 
-<p><a href="ex1_2_import.html">Go to importing data</a></p>
-<p><a href="ex1_3_summarise.html">Go to summarising data</a></p>
-<p><a href="ex1_4_figures.html">Go to making figures</a></p>
-<div id="basic-r-operations-data-frames-functions-and-packages" class="section level2">
-<h2>Basic R operations, data frames, functions and packages</h2>
-<script language="javascript"> 
-    function toggle(num) {
-      var ele = document.getElementById("toggleText" + num);
-      var text = document.getElementById("displayText" + num);
-      if(ele.style.display == "block") {
-        ele.style.display = "none";
-        text.innerHTML = "show";
-      }
-      else {
-        ele.style.display = "block";
-        text.innerHTML = "hide";
-      }
-   } 
-  </script>
-<p><strong>Exercise 1.</strong> Assign the numeric <code>3</code> to an object called <code>a</code>.</p>
-<a id="displayText" href="javascript:toggle(1);">Solution Ex. 1</a>
-<div id="toggleText1" style="display: none">
-<pre class="r"><code>a &lt;- 3</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Regression models are extreamly flexible and the working horse of statistics! We will attempt to understand them better in this course as they are very common in data analysis. This weeks assignment is composed of several parts, one of which is optional (meaning you do not have to do them).</p>
 </div>
-<p></br></p>
-<p><em>Exercise 2.</em> What are the differences between these operations?</p>
-<pre class="r"><code>a &lt;- 3</code></pre>
-<pre class="r"><code>a = 3</code></pre>
-<pre class="r"><code>3 -&gt; a</code></pre>
-<pre class="r"><code>3 = a</code></pre>
-<p>Try to explain your results.</p>
-<a id="displayText" href="javascript:toggle(2);">Solution Ex. 2</a>
-<div id="toggleText2" style="display: none">
-<p><br></p>
-<p>Using the assign operator <code>&lt;-</code> gives the direction of the assignment. This means that <code>a &lt;- 3</code> is equivalent to <code>a = 3</code>. However the assign oerator <code>&lt;-</code> can be reversed and thus gives the direction of assignment <code>-&gt;</code>. Using the equal sign as a assignment oeperator is restricted to one direction.</p>
+<div id="part-1-t-tests-and-regression-analysis" class="section level1">
+<h1>Part 1: t-tests and regression analysis</h1>
+<p>In the last assignment you were expected to perform a t-test to compare the HIGH and LOW group in some variable. Here I would like you to compare <code>AVG_CSA_T1</code> between the HIGH and LOW group with a simple t-test and compare your results to a regression model using CLUSTER as a predictor.</p>
+<p>Make sure that you use <code>var.equal = TRUE</code> in your t-test when comparing with the regression model. How do you interpret the results of the regression model? Do you get the same answer?</p>
+<p>Write up the results with a short introduction including a question (and some background information if you like). The results from the regression model can be displayed as a table with the coefficients, SE, t- and p-values. See if you find inspiration in the <code>broom</code> package.</p>
 </div>
-<p><br></p>
-<p><strong>Exercise 3</strong>. Combine the numeric values 3, 5, 6, 7 in a vector.</p>
-<a id="displayText" href="javascript:toggle(3);">Solution Ex. 3</a>
-<div id="toggleText3" style="display: none">
-<pre class="r"><code>my_vector &lt;- c(3, 5, 6, 7)</code></pre>
+<div id="part-2-is-there-a-relationship-between-muscle-size-and-strength" class="section level1">
+<h1>Part 2: Is there a relationship between muscle size and strength</h1>
+<p>The Haun et al. 2019 data set contains a variable for muscle strength <code>Squat_3RM_kg</code>. In this assignment I want you to estimate the relationship between msucle mass and strength. There are several muscle mass meassures in the data set at time 1 (T1). Select one or more of these varaibles and estimate the relationship between muscle mass and strength. Think about the relationship as a bigger muscle could produce more force, muscle mass is the predictor and muscle strength is the dependent variable. Use the whole data set!</p>
 </div>
-<p><br></p>
-<p><strong>Exercise 4</strong>. Print the second value from your vector.</p>
-<a id="displayText" href="javascript:toggle(4);">Solution Ex. 4</a>
-<div id="toggleText4" style="display: none">
-<pre class="r"><code>my_vector[2]</code></pre>
+<div id="calculate-lactate-thresholds-optional" class="section level1">
+<h1>Calculate lactate thresholds (Optional)</h1>
+<p>Using the data you collected in the physiology lab. Estimate the exercise intensity at 4 mmol blood lactate. Make use of the code in the second lesson this week.</p>
 </div>
-<p><br> <strong>Exercise 5</strong>. Change the second value of your vector to 23.</p>
-<a id="displayText" href="javascript:toggle(5);">Solution Ex. 5</a>
-<div id="toggleText5" style="display: none">
-<pre class="r"><code>my_vector[2] &lt;- 23</code></pre>
-</div>
-<p><br></p>
-<p><strong>Exercise 6</strong>. A <em>parameter</em> can be regarded as a constant in a given situation but can take different values in other situations. The benefit of working with parameters is that we can use the name of the parameter to describe for example mathematical operations.</p>
-<p>Write code that corresponds to the following equation:</p>
-<p><span class="math display">\[a = \frac{beta}{alpha}\]</span></p>
-<p>given that <span class="math inline">\(beta = 3\)</span> and <span class="math inline">\(alpha = 6\)</span>.</p>
-<a id="displayText" href="javascript:toggle(6);">Solution Ex. 6</a>
-<div id="toggleText6" style="display: none">
-<pre class="r"><code>beta &lt;- 3
-alpha &lt;- 6
-
-a &lt;- beta/alpha</code></pre>
-</div>
-<p><br></p>
-<p><strong>Exercise 7.</strong> What is the problem with the following operation:</p>
-<pre class="r"><code>vector_a &lt;- c(3, 5, 2, 7, 9)
-
-vector_b &lt;- c(3, 3)
-
-vector_a * vector_b</code></pre>
-<p><br> And how is this correct?</p>
-<pre class="r"><code>vector_c &lt;- c(3, 5, 2, 7)
-
-vector_d &lt;- c(3, 2)
-
-vector_c * vector_d</code></pre>
-<p>How do R calculate the second situation?</p>
-<a id="displayText" href="javascript:toggle(7);">Solution Ex. 7</a>
-<div id="toggleText7" style="display: none">
-<p>Read the warning meassage in from situation 1. What does that mean?</p>
-<a id="displayText" href="javascript:toggle(8);">Solution 7a</a>
-<div id="toggleText8" style="display: none">
-<p>Vector can only be multiplied if they have corresponding length or the longer object is a multiple of the shorter. In the second situation the shorter is a multiple of the longer object. The operations are <span class="math inline">\(3*5,~ 2*5,~ 3*2,~ 2*7\)</span>.</p>
-</div>
-</div>
-<p><br></p>
-<p><strong>Exercise 8</strong>. A data frame is basically multiple vectors of data stacked in columns. Create a data frame by hand that corresponds to the table below.</p>
-<table>
-<thead>
-<tr class="header">
-<th>ID</th>
-<th>Age</th>
-<th>Sex</th>
-<th>Performance</th>
-<th>Body_mass</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>id1</td>
-<td>24</td>
-<td>M</td>
-<td>250</td>
-<td>82</td>
-</tr>
-<tr class="even">
-<td>id2</td>
-<td>25</td>
-<td>F</td>
-<td>180</td>
-<td>65</td>
-</tr>
-<tr class="odd">
-<td>id3</td>
-<td>22</td>
-<td>F</td>
-<td>187</td>
-<td>55</td>
-</tr>
-<tr class="even">
-<td>id4</td>
-<td>26</td>
-<td>F</td>
-<td>210</td>
-<td>59</td>
-</tr>
-<tr class="odd">
-<td>id5</td>
-<td>25</td>
-<td>M</td>
-<td>205</td>
-<td>75</td>
-</tr>
-<tr class="even">
-<td>id6</td>
-<td>29</td>
-<td>M</td>
-<td>199</td>
-<td>89</td>
-</tr>
-</tbody>
-</table>
-<a id="displayText" href="javascript:toggle(9);">Solution 8</a>
-<div id="toggleText9" style="display: none">
-<p>A data frame can be created using the <code>data.frame()</code>-function, name the columns in the data frame and enter values using the <code>c()</code> function.</p>
-<a id="displayText" href="javascript:toggle(10);">Solution 8</a>
-<div id="toggleText10" style="display: none">
-<pre class="r"><code>my_df &lt;- data.frame(ID = c(&quot;id1&quot;, &quot;id2&quot;, &quot;id3&quot;, &quot;id4&quot;, &quot;id5&quot;, &quot;id6&quot;), 
-                    Age = c(24, 25, 22, 26, 25, 29), 
-                    Sex = c(&quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;M&quot;),
-                    Performance = c(250, 180, 187, 210, 205, 199), 
-                    Body_mass = c(82, 65, 55, 59, 75, 89))
-
-
-my_df</code></pre>
-</div>
-</div>
-<p><br></p>
-<p>Write code to: 1. return the first row in the data frame 2. create a new variable calculated as Performance per Body mass 3. print the the new variable from the data frame</p>
-<a id="displayText" href="javascript:toggle(11);">Solution 9.1</a>
-<div id="toggleText11" style="display: none">
-<pre class="r"><code>my_df[1, ] # read as [row, column]</code></pre>
-</div>
-<p><br></p>
-<a id="displayText" href="javascript:toggle(12);">Solution 9.2</a>
-<div id="toggleText12" style="display: none">
-<pre class="r"><code>my_df$p_bm &lt;- my_df$Performance / my_df$Body_mass
-
-# An alternative is
-
-my_df$p_bm &lt;- my_df[,4] / my_df[,5]</code></pre>
-</div>
-<p><br></p>
-<a id="displayText" href="javascript:toggle(13);">Solution 9.3</a>
-<div id="toggleText13" style="display: none">
-<pre class="r"><code>my_df$p_bm</code></pre>
-</div>
-<p><br></p>
-<p><strong>Exercise 10</strong>. We can use functions to calculate mean, standard deviation, minimum and so on. Calculate the mean and standard deviation of Performance and Body mass. Store the results in a new data frame.</p>
-<br> <a id="displayText" href="javascript:toggle(14);">Solution 10</a>
-<div id="toggleText14" style="display: none">
-<pre class="r"><code>data.frame(variable = c(&quot;Peromance&quot;, &quot;Body_mass&quot;), 
-           m = c(mean(my_df$Performance), mean(my_df$Body_mass)), 
-           s = c(sd(my_df$Performance), sd(my_df$Body_mass)))</code></pre>
-</div>
-<p><br></p>
-<p><strong>Exercise 11</strong>. We will be using several packages during the course. Install the follwing packages using the <code>install.package()</code> function:</p>
-<table>
-<thead>
-<tr class="header">
-<th>Package</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>dplyr</td>
-</tr>
-<tr class="even">
-<td>tidyr</td>
-</tr>
-<tr class="odd">
-<td>readxl</td>
-</tr>
-<tr class="even">
-<td>ggplot2</td>
-</tr>
-</tbody>
-</table>
-<br> <a id="displayText" href="javascript:toggle(15);">Solution 10</a>
-<div id="toggleText15" style="display: none">
-<pre class="r"><code>install.packages(c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;readxl&quot;, &quot;ggplot2&quot;))</code></pre>
-</div>
-<p><br></p>
+<div id="how-to-hand-in" class="section level1">
+<h1>How to hand in?</h1>
+<p>As always, I preffer a githiub submission. But a R-markdown file AND an html-file on canvas is OK. I would like to have a report (html-file) without any code and the R-markdown file for reference (where I can read the code). Try to make the report and figures to look elegant!</p>
+<p>Good luck!</p>
 </div>
 
 

@@ -34,6 +34,11 @@ navbar:
           href: lesson_10_inference.html
         - text: "Statistical inference, p-values and confidence intervals"
           href: lesson_11_inference2.html
+        - text: "----------------------------------"
+        - text: "Regression models part 1"
+          href: lesson_12_regressionModels.Rmd
+        - text: "Regression models part 2: Lactate threshold analysis"
+          href: lesson_13_regressionModels2.Rmd
     - text: "Exercises"
       menu:
         - text: "Basic R"
@@ -56,6 +61,8 @@ navbar:
           href: feedback_1.html
         - text: "Inference"
           href: assignment_2_inference.html
+        - text: "Regression models"
+          href: assignment_3_regression.html
 
   right:
     - icon: fa-question fa-lg

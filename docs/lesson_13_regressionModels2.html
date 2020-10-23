@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Regression models: Curve-linear relationships</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lessons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
+    </li>
+    <li>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
+    </li>
+    <li>
+      <a href="lesson_6_make_summaries.html">Make summaries of data</a>
+    </li>
+    <li>
+      <a href="lesson_7_ggplot2.html">Making figures</a>
+    </li>
+    <li>
+      <a href="lesson_8_making_tables.html">Making tables</a>
+    </li>
+    <li>
+      <a href="lesson_9_git.html">Version control and GitHub</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_10_inference.html">Introduction to statistical inference</a>
+    </li>
+    <li>
+      <a href="lesson_11_inference2.html">Statistical inference, p-values and confidence intervals</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_12_regressionModels.Rmd">Regression models part 1</a>
+    </li>
+    <li>
+      <a href="lesson_13_regressionModels2.Rmd">Regression models part 2: Lactate threshold analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ex1_1_intro.html">Basic R</a>
+    </li>
+    <li>
+      <a href="ex1_2_import.html">Importing data</a>
+    </li>
+    <li>
+      <a href="ex1_3_summarise.html">Summarise data</a>
+    </li>
+    <li>
+      <a href="ex1_4_figures.html">Making figures</a>
+    </li>
+    <li>
+      <a href="ex1_5_group_exercise.html">Group exercises</a>
+    </li>
+    <li>
+      <a href="ex2_1_inference.html">Inference</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Assignments
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="assignment_1_descriptives.html">Descriptive data</a>
+    </li>
+    <li>
+      <a href="feedback_1.html">Feedback assignment 1</a>
+    </li>
+    <li>
+      <a href="assignment_2_inference.html">Inference</a>
+    </li>
+    <li>
+      <a href="assignment_3_regression.html">Regression models</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="faq.html">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Regression models: Curve-linear relationships</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This lesson contains extensions of the linear regression models where we model curve-linear relationships. In the last lesson we focused on straight lines, here we will see that we can bend the line in our model.</p>
+</div>
+<div id="a-common-scenario-for-the-curve-in-sport-science" class="section level1">
+<h1>A common scenario for the curve in sport science</h1>
+<p>We routinely calculate lactate thresholds in our lab. The physiological background is that lactate accumulates as a consequence of change in balance between aerobic and anaerobic metabolisom during exercise. A lactate threshold test measures lactate concentrations during incremental intensity to determine the relationship between exercise intensity and lactate concentration.</p>
+<p>The <code>cyclingStudy</code> data set contains data from such tests. We first need to do some data wrangling. We first will focus on one participant.</p>
+<pre class="r"><code>library(readxl); library(tidyverse)
+
+ read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        filter(timepoint == &quot;pre&quot;, subject == &quot;7&quot;) %&gt;%
+   select(subject, lac.125:lac.375) %&gt;%
+   pivot_longer(names_to = &quot;intensity&quot;, 
+                values_to = &quot;lactate&quot;, 
+                cols = lac.125:lac.375) %&gt;%
+   print()</code></pre>
+<p>Using the above code you can see that participant 7 has measured lactate from 125 W to 300 W. To remove the <code>lac.</code> part from the intensity we can use the <code>gsub()</code> function. Let’s also filter away the NAs.</p>
+<pre class="r"><code> read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        filter(timepoint == &quot;pre&quot;, subject == &quot;7&quot;) %&gt;%
+   select(subject, lac.125:lac.375) %&gt;%
+   pivot_longer(names_to = &quot;intensity&quot;, 
+                values_to = &quot;lactate&quot;, 
+                cols = lac.125:lac.375) %&gt;%
+   mutate(intensity = gsub(&quot;lac.&quot;, &quot;&quot;, intensity), 
+          intensity = as.numeric(intensity)) %&gt;%
+   filter(!is.na(lactate)) %&gt;%
+   print()</code></pre>
+<p>The code below makes abasic plot of the relationship.</p>
+<pre class="r"><code> read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        filter(timepoint == &quot;pre&quot;, subject == &quot;7&quot;) %&gt;%
+   select(subject, lac.125:lac.375) %&gt;%
+   pivot_longer(names_to = &quot;intensity&quot;, 
+                values_to = &quot;lactate&quot;, 
+                cols = lac.125:lac.375) %&gt;%
+   mutate(intensity = gsub(&quot;lac.&quot;, &quot;&quot;, intensity), 
+          intensity = as.numeric(intensity)) %&gt;%
+   filter(!is.na(lactate)) %&gt;%
+   ggplot(aes(intensity, lactate)) + 
+  geom_point(shape = 21, size = 2, fill = &quot;lightblue&quot;) +
+  theme_minimal()</code></pre>
+<p>From the plot we can clearly see that the relationship is curve-linear, meaning that a straight line will have problems explaining the data. We can add a straight line to the plot to prove this. To add lines we will use the ggplot function and <code>geom_smooth(method = "lm", se = FALSE)</code>. <code>method = "lm"</code> specify that we are interested in an ordinary linear model, <code>se = FALSE</code> says that we do not want any confidence bounds around the straight line.</p>
+<pre class="r"><code> read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        filter(timepoint == &quot;pre&quot;, subject == &quot;7&quot;) %&gt;%
+   select(subject, lac.125:lac.375) %&gt;%
+   pivot_longer(names_to = &quot;intensity&quot;, 
+                values_to = &quot;lactate&quot;, 
+                cols = lac.125:lac.375) %&gt;%
+   mutate(intensity = gsub(&quot;lac.&quot;, &quot;&quot;, intensity), 
+          intensity = as.numeric(intensity)) %&gt;%
+   filter(!is.na(lactate)) %&gt;%
+   ggplot(aes(intensity, lactate)) + 
+  geom_point(shape = 21, size = 2, fill = &quot;lightblue&quot;) +
+  # Add a straight line
+  geom_smooth(method = &quot;lm&quot;, se = FALSE) +
+  
+  theme_minimal()</code></pre>
+<p>By running the code, you can clearly see that the straight line under estimates the first and last data point and over estimates the other points.</p>
+<p>To folllow through, we can fit a regression model that describes the straight line.</p>
+<pre class="r"><code># Save the data in an object 
+dat &lt;- read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        filter(timepoint == &quot;pre&quot;, subject == &quot;7&quot;) %&gt;%
+   select(subject, lac.125:lac.375) %&gt;%
+   pivot_longer(names_to = &quot;intensity&quot;, 
+                values_to = &quot;lactate&quot;, 
+                cols = lac.125:lac.375) %&gt;%
+   mutate(intensity = gsub(&quot;lac.&quot;, &quot;&quot;, intensity), 
+          intensity = as.numeric(intensity)) %&gt;%
+   filter(!is.na(lactate))
+
+# Fit a simple model 
+
+m &lt;- lm(lactate ~ intensity, data = dat)
+
+# Look at the results
+
+summary(m)
+
+# Make a residual plot
+
+dat$resid &lt;- resid(m)
+dat$fitted &lt;- fitted(m)
+
+dat %&gt;%
+  ggplot(aes(fitted, resid)) + geom_point() + theme_minimal()</code></pre>
+<p>Think about the residual plot, it confirms what we already suspected, right?</p>
+<p>To make a better fit to the data we need to make use of polynomials!</p>
+</div>
+<div id="curve-linear-regression-models" class="section level1">
+<h1>Curve-linear regression models</h1>
+<p>We can first see if a curve linear model does a better job by plotting it. We can extend <code>geom_smooth</code> to also incorporate polynomials using the formula argument.</p>
+<pre class="r"><code> read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        filter(timepoint == &quot;pre&quot;, subject == &quot;7&quot;) %&gt;%
+   select(subject, lac.125:lac.375) %&gt;%
+   pivot_longer(names_to = &quot;intensity&quot;, 
+                values_to = &quot;lactate&quot;, 
+                cols = lac.125:lac.375) %&gt;%
+   mutate(intensity = gsub(&quot;lac.&quot;, &quot;&quot;, intensity), 
+          intensity = as.numeric(intensity)) %&gt;%
+   filter(!is.na(lactate)) %&gt;%
+   ggplot(aes(intensity, lactate)) + 
+  geom_point(shape = 21, size = 2, fill = &quot;lightblue&quot;) +
+  # Add curved line 
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, formula = y ~ poly(x, 2)) +
+  
+  theme_minimal()</code></pre>
+<p>The addition of <code>formula = y ~ poly(x, 2)</code> fits a second degree polynomial model to the data. This is equivalent to</p>
+<p><span class="math display">\[y_i=\beta_0+\beta_1x_i+\beta_2x^2_i\]</span> where <span class="math inline">\(i\)</span> indicates each observation, <span class="math inline">\(\beta\)</span> are coefficients, <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_i^2\)</span> are the predictors (intensity) where a second predictor is added as a squared term (<span class="math inline">\(x_i^2\)</span>).</p>
+<p>It turns out that a third degree polynomial function generally fits the lactate-intensity relationship better<span class="citation">(Heuberger et al. 2018)</span>.</p>
+<p><span class="math display">\[y_i=\beta_0+\beta_1x_i+\beta_2x^2_i+\beta_2x^3_i\]</span> Both above polynomial functions are special cases of multiple regression. With the special part being that the predictors (<span class="math inline">\(x\)</span>, <span class="math inline">\(x^2\)</span> and <span class="math inline">\(x^3\)</span>) are correlated. R avoids problems with correlations between predictors in polynomial regression by converting them to orthogonal using the <code>poly</code> function.</p>
+<p>Moving back to our example data we can use the <code>poly</code> function to add an extra term, to make the underlying regression model a third degree model.</p>
+<pre class="r"><code> read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        filter(timepoint == &quot;pre&quot;, subject == &quot;7&quot;) %&gt;%
+   select(subject, lac.125:lac.375) %&gt;%
+   pivot_longer(names_to = &quot;intensity&quot;, 
+                values_to = &quot;lactate&quot;, 
+                cols = lac.125:lac.375) %&gt;%
+   mutate(intensity = gsub(&quot;lac.&quot;, &quot;&quot;, intensity), 
+          intensity = as.numeric(intensity)) %&gt;%
+   filter(!is.na(lactate)) %&gt;%
+   ggplot(aes(intensity, lactate)) + 
+  geom_point(shape = 21, size = 2, fill = &quot;lightblue&quot;) +
+  # Add curved line 
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, formula = y ~ poly(x, 3)) +
+  
+  theme_minimal()</code></pre>
+<p>We could also compare the different models to check which one makes the better fit. First we use the straight line and then add the polynomial terms. We mentioned <span class="math inline">\(R^2\)</span> earlier, this is a meassure of how much of the variation in the data that can be explained by the model. Let’s compare <span class="math inline">\(R^2\)</span> between models.</p>
+<pre class="r"><code># A model with a straight line
+m &lt;- lm(lactate ~ intensity, data = dat)
+
+# A model with 2nd degree polynomial
+m2 &lt;- lm(lactate ~ poly(intensity,2), data = dat)
+
+# A model with 3rd degree polynomial
+m3 &lt;- lm(lactate ~ poly(intensity,3), data = dat)
+
+
+library(knitr)
+
+data.frame(model = c(&quot;Straight line&quot;, 
+                     &quot;Second degree polynomial&quot;, 
+                     &quot;Third degree polynomial&quot;), 
+           R.squared = c(round(summary(m)$r.squared, 3), 
+                         round(summary(m2)$r.squared, 3), 
+                         round(summary(m3)$r.squared, 3)))  %&gt;%
+  kable(caption = c(&quot;Model&quot;, &quot;R-squared&quot;))</code></pre>
+<table>
+<caption>Model Table: R-squared</caption>
+<thead>
+<tr class="header">
+<th align="left">model</th>
+<th align="right">R.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Straight line</td>
+<td align="right">0.634</td>
+</tr>
+<tr class="even">
+<td align="left">Second degree polynomial</td>
+<td align="right">0.950</td>
+</tr>
+<tr class="odd">
+<td align="left">Third degree polynomial</td>
+<td align="right">0.998</td>
+</tr>
+</tbody>
+</table>
+<p>We can see that the the third degree model almost perfectly predicts the data! (See page 465 in <span class="citation">(Navarro 2020)</span> for a explenation about <span class="math inline">\(R^2\)</span>). This is good for our purposes!</p>
+<p>The aim of this analysis is to predict the exercise intensity at which we reach a specific lactate value. The 4 mmol threshold has a long history and is still very much in use in exercise science.</p>
+<p>Using the predict function we can take our model and insert new values for intensity to predict the lactate value. The code below makes use of the <code>m3</code> model and the <code>predict</code> function. <code>predict</code> lets you insert your own <code>x</code> value, in our case an intensity value and you will get a predicted <code>y</code> value in return (in our case lactate).</p>
+<pre class="r"><code>predict(m3, newdata = data.frame(intensity = 281.3))</code></pre>
+<pre><code>##        1 
+## 3.992802</code></pre>
+<p>This is a slow process where you eventually find a value that predicts 4 mmol. I was not able to find a function to directly predict x from y values, so we need to make some programming:</p>
+<p>A first step is to create a lot of intensity data to predict over.</p>
+<pre class="r"><code>new_data &lt;- data.frame(intensity = seq(from = 125, to = 300, by = 0.01))</code></pre>
+<p>We then use the predict function together with our model (<code>m3</code>) to predict lactate values</p>
+<pre class="r"><code>preds &lt;- predict(m3, newdata = new_data)</code></pre>
+<p>To find what value of intensity best correspond to a lactate value of 4 we need to device a function where we locate the predicted value closest to 4. I name the function “closest”. It returns the index of the value closest to four.</p>
+<pre class="r"><code>closest &lt;- function(xv, sv) {
+                  which(abs(xv-sv) == min(abs(xv-sv)))}</code></pre>
+<p>We finnaly combine the closest function and the <code>new_data</code> data frame created above to predict new values. The code below returns the row corresponding to the intensity value closest to where lactate is 4 mmol.</p>
+<pre class="r"><code>intensity_at_4mmol &lt;- new_data[closest(preds, 4), ]</code></pre>
+<p>We can finnaly use our predicted value in the plot:</p>
+<pre class="r"><code> read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        filter(timepoint == &quot;pre&quot;, subject == &quot;7&quot;) %&gt;%
+   select(subject, lac.125:lac.375) %&gt;%
+   pivot_longer(names_to = &quot;intensity&quot;, 
+                values_to = &quot;lactate&quot;, 
+                cols = lac.125:lac.375) %&gt;%
+   mutate(intensity = gsub(&quot;lac.&quot;, &quot;&quot;, intensity), 
+          intensity = as.numeric(intensity)) %&gt;%
+   filter(!is.na(lactate)) %&gt;%
+   ggplot(aes(intensity, lactate)) + 
+  geom_point(shape = 21, size = 2, fill = &quot;lightblue&quot;) +
+  # Add curved line 
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, formula = y ~ poly(x, 3)) +
+  
+  # Add a predicted point
+  geom_point(data = data.frame(lactate = 4, intensity = intensity_at_4mmol), 
+             shape = 21, 
+             fill = &quot;red&quot;, 
+             size = 4) +
+  
+  theme_minimal()</code></pre>
+<p><img src="lesson_13_regressionModels2_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>The regression model is very flexible, we can model different curve linear relationships and this is useful when analyzing for example lactate data. The code used above exemplifies a single case but can be extended to many cases by fitting multiple models, one for each participant and time-point in a e.g. a pre- post-trainin study.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-RN2614">
+<p>Heuberger, Jules A. A. C., Pim Gal, Frederik E. Stuurman, Wouter A. S. de Muinck Keizer, Yuri Mejia Miranda, and Adam F. Cohen. 2018. “Repeatability and Predictive Value of Lactate Threshold Concepts in Endurance Sports.” Journal Article. <em>PLOS ONE</em> 13 (11): e0206846. <a href="https://doi.org/10.1371/journal.pone.0206846">https://doi.org/10.1371/journal.pone.0206846</a>.</p>
+</div>
+<div id="ref-lsr">
+<p>Navarro, D. 2020. <em>Learning Statistics with R</em>.</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
