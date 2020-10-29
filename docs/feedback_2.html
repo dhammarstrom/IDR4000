@@ -11,7 +11,7 @@
 
 
 
-<title>Exercises Week 1</title>
+<title>Feedback 2: Inference</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -259,6 +262,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -266,6 +332,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -411,119 +487,76 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Exercises Week 1</h1>
+<h1 class="title toc-ignore">Feedback 2: Inference</h1>
 
 </div>
 
 
-<p><a href="ex1_1_intro.html">Go to basic R</a></p>
-<p><a href="ex1_2_import.html">Go to importing data</a></p>
-<p><a href="ex1_3_summarise.html">Go to summarising data</a></p>
-<script language="javascript"> 
-    function toggle(num) {
-      var ele = document.getElementById("toggleText" + num);
-      var text = document.getElementById("displayText" + num);
-      if(ele.style.display == "block") {
-        ele.style.display = "none";
-        text.innerHTML = "show";
-      }
-      else {
-        ele.style.display = "block";
-        text.innerHTML = "hide";
-      }
-   } 
-  </script>
-<p><strong>Exercise 1.</strong> Using the cycling study data set, plot the <span class="math inline">\(\dot VO_{2max}\)</span> as a function of time (<code>timepoint</code> of x-axis and <code>VO2.max</code> on the y-axis). Plot box-plots per group.</p>
-<a id="displayText" href="javascript:toggle(1);">Solution Ex. 1</a>
-<div id="toggleText1" style="display: none">
-<pre class="r"><code># load packages
-library(tidyverse)
-library(readxl)
-
-cyclingStudy &lt;- read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) # remember to use the na argument
-
-cyclingStudy %&gt;%
-        select(subject, group, timepoint, VO2.max) %&gt;%
-        ggplot(aes(timepoint, VO2.max, color = group)) + geom_boxplot()</code></pre>
+<div id="the-assignment" class="section level1">
+<h1>The assignment</h1>
+<p>Using the data set from Haun et al. <span class="citation">(2019)</span>, you were expected to:</p>
+<ol style="list-style-type: decimal">
+<li>select one variable and estimate the difference between HIGH and LOW responders (the CLUSTER variable).</li>
+<li>Based on your estimate and its uncertainty you were asked to draw inference regarding the effect.</li>
+<li>The report was expected to contain a clearly stated question or hypothesis, descriptive statistics of the variable of interest (possibly including a figure), estimation of the effect and test of an hypothesis.</li>
+<li>You were restricted to using any test from the t-test family.</li>
+<li>A fully reproducible report <strong>with</strong> source-code was expected on canvas (or github).</li>
+</ol>
+<p>These feedback notes are general comments regarding these points. I have highlighted “take-away” messages from each point.</p>
 </div>
-<p><br></p>
-<p><strong>Exercise 2.</strong> Using the cycling study data set, plot the <span class="math inline">\(\dot VO_{2max}\)</span> per kg body weight <code>weight.T1</code>as a function of time (<code>timepoint</code> of x-axis and <code>VO2.max</code> on the y-axis). Plot box-plots per group. Control the order of the <code>timepoint</code> factor so that “pre” is first followed by “meso1”, “meso2” and “meso3”.</p>
-<a id="displayText" href="javascript:toggle(2);">Solution Ex. 2</a>
-<div id="toggleText2" style="display: none">
-<pre class="r"><code># load packages
-library(tidyverse)
-library(readxl)
-
-cyclingStudy &lt;- read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) # remember to use the na argument
-
-cyclingStudy %&gt;%
-        select(subject, group, timepoint, VO2.max, weight.T1) %&gt;%
-        mutate(vo2max.kg = VO2.max / weight.T1,
-               timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;meso1&quot;, &quot;meso2&quot;, &quot;meso3&quot;))) %&gt;%
-        
-        ggplot(aes(timepoint, VO2.max, color = group)) + geom_boxplot()</code></pre>
+<div id="data-wrangling-and-selecting-a-variable" class="section level1">
+<h1>Data wrangling and selecting a variable</h1>
+<p>All reports successfully used the data set to select a single (dependent) variable and prepared it both for descriptive data, making a figure and the <em>t</em>-test. <strong>Good work!</strong> Some of the reports were however not fully reproducible in the sense that they did not contain code to download the data set. This was true also for some reports on github where data is easily stored.</p>
+<blockquote>
+<p>If you do not provide data with your code, make sure that the code downloads the data set. Code together with data makes a fully reproducible report.</p>
+</blockquote>
 </div>
-<p><br></p>
-<p><strong>Exercise 3.</strong> Using the cycling study data set, plot the <span class="math inline">\(\dot VO_{2max}\)</span> per kg body weight <code>weight.T1</code>as a function of time (<code>timepoint</code> of x-axis and <code>VO2.max</code> on the y-axis). Instead of box plots, set color per group but show each data point with points and connected line. The lines should connect per subject, you need to control <code>group =</code> in <code>aes</code>. Control the order of the <code>timepoint</code> factor so that “pre” is first followed by “meso1”, “meso2” and “meso3”.</p>
-<a id="displayText" href="javascript:toggle(3);">Solution Ex. 3</a>
-<div id="toggleText3" style="display: none">
-<pre class="r"><code># load packages
-library(tidyverse)
-library(readxl)
-
-cyclingStudy &lt;- read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) # remember to use the na argument
-
-cyclingStudy %&gt;%
-        select(subject, group, timepoint, VO2.max, weight.T1) %&gt;%
-        mutate(vo2max.kg = VO2.max / weight.T1,
-               timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;meso1&quot;, &quot;meso2&quot;, &quot;meso3&quot;))) %&gt;%
-        ggplot(aes(timepoint, VO2.max, color = group, group = subject)) + geom_point() + geom_line()</code></pre>
+<div id="inference-regarding-the-true-effect" class="section level1">
+<h1>Inference regarding the true effect</h1>
+<p>All reports made some statements based on a <em>t</em>-test, good! However, not all interpreted the test in the correct way. <strong>The <em>p</em>-value is the probability of the observed result (or a more extreme result) if the null-hypothesis is true</strong>. This means that we can use this evidence against the null hypothesis, but never in favor of an alternative hypothesis. The philosophy behind this mechanism can be traced to falsifiability. Although not everybody see null-hypothesis testing as a case of strict falsification <span class="citation">(see footnote in Navarro 2020, 331)</span>, the general rule applies that the <em>p</em>-value is never evidence for the alternative hypothesis. An interpretation could be that while rejecting the null-hypothesis (p &lt; 0.05), the alternative hypothesis still stands but is not proven.</p>
+<blockquote>
+<p>The <em>p</em>-value is the probability of the observed result or a more extreme result if the null-hypothesis is true. When making inference based on null-hypothesis testing you are testing against the null-hypothesis, not to prove the alternative.</p>
+</blockquote>
 </div>
-<p><br></p>
-<p><strong>Exercise 4.</strong> Do your best to replicate the figure below.</p>
-<p>Things to google:</p>
-<ul>
-<li>“remove legend from ggplot”</li>
-<li>“Adding plus minus sign to ggplot title”</li>
-<li>“Change shape of geom_point ggplot2”</li>
-</ul>
-<p><img src="ex1_4_figures_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<a id="displayText" href="javascript:toggle(4);">Solution Ex. 4</a>
-<div id="toggleText4" style="display: none">
-<pre class="r"><code># load packages
-# load packages
-library(tidyverse)
-library(readxl)
-
-cyclingStudy &lt;- read_excel(&quot;./data/cyclingStudy.xlsx&quot;, na = &quot;NA&quot;) # remember to use the na argument
-
-cyclingStudy %&gt;%
-        # Calculate relative vo2max
-        mutate(vo2max.kg = VO2.max / weight.T1) %&gt;%
-        # Select variables
-        select(subject, group, timepoint, vo2max.kg) %&gt;%
-        # Make the data into wide format
-        pivot_wider(names_from = timepoint, 
-                    values_from = vo2max.kg) %&gt;%
-        # Calculate percentage change pre to meso3
-        mutate(change = ((meso3 / pre)-1) * 100) %&gt;%
-        # group by group and calculate statistics
-        group_by(group) %&gt;%
-        summarise(m = mean(change, na.rm = TRUE), 
-                  s = sd(change, na.rm = TRUE)) %&gt;%
-        # Using fill per group 
-        ggplot(aes(group, m, fill = group)) + 
-        # Adding error bar first, the overplot with points
-        geom_errorbar(aes(ymin = m - s, ymax = m + s), width = 0.2) +
-        # shape = 21 gives circles that can be filled
-        geom_point(size = 4, shape = 21) +
-        labs(x = &quot;Group&quot;, y = &quot;VO2max per kg % change pre to meso3 (mean \U00B1 SD)&quot;) +
-        theme(legend.position = &quot;none&quot;) # legend position = &quot;none&quot; removes legend.</code></pre>
+<div id="clearly-stating-a-question-or-an-hypothesis" class="section level1">
+<h1>Clearly stating a question or an hypothesis</h1>
+<p>Presenting both the alternative hypothesis and the null-hypothesis was a good idea in this assignment since it makes everything very explicit. However, you will (almost?) never see a scientific paper write both the alternative- and null-hypothesis. The alternative hypothesis is often presented as a scientific hypothesis. If the authors are using null-hypothesis testing they will test against the null and in that way give indirect evidence for or against their alternative hypothesis.</p>
+<p>A clear question or hypothesis is needed to make inference and not confuse the reader. For example, when testing the difference in testosterone between groups some of the reports makes no difference between testing differences in testosterone and testing testosterone differences between time-points between groups. <strong>Make sure your questions is clear!</strong></p>
+<p>Regardless of whether you are using a question or an hypothesis it is a good idea to explain why you think this is a good question. This is where the literature comes in. Using previous research you should motivate why you would like to test your hypothesis or find the answer to your question.</p>
+<blockquote>
+<p>Clearly state your question or hypothesis based on an explanation on why the question/hypothesis is of interest.</p>
+</blockquote>
 </div>
-<p><br></p>
+<div id="the-t-test-family" class="section level1">
+<h1>The <em>t</em>-test family</h1>
+<p>When using a <em>t</em>-test to test between CLUSTER groups you were in practice restricted to independent two-sample <em>t</em>-tests. (Although we could re-formulate the data to perform a one-sample <em>t</em>-test). Some of you actually tested the assumptions of the <em>t</em>-test. Good! The data had to be approximately normally distributed <span class="citation">(Navarro 2020, 416)</span> and there should be equal variance between groups. If you find a situation where variances between groups are not equal the Welch <em>t</em>-test can be used <span class="citation">(Navarro 2020, Ch. 13.4.2)</span>. The Welch <em>t</em>-test is the default in R as it gives the same results as an ordinary <em>t</em>-test when variances (spread of the data) are equal between groups but gives a less biased result if the variances are not equal (heteroscedasticity). In practice, heteroscedasticity is not a big problem. If you encounter data that is not normally distributed, non-parametric alternatives can help <span class="citation">(see Navarro 2020, Ch. 13.10)</span>.</p>
+</div>
+<div id="github-and-reproducible-results" class="section level1">
+<h1>Github and reproducible results</h1>
+<p>Most of you handed in a link to a github repository, great work! This gives me an opportunity to give more feedback as I can suggest changes in the code in an easy way (pull requests).</p>
+<p>As I noted in the first point, not all reports came with data. In these cases it is important to provide code (or instructions) on how to obtain the data.</p>
+<p>For your next assignment it is a good idea to see the report and the underlying code as two different documents. The report does not need to show code as these are in the markdown document. Focus on creating a nice report! And hand in both files.</p>
+<p>Regarding the report not all of you have used the built in reference system, <a href="https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html">it is simple, try it out next time!</a>.</p>
+<blockquote>
+<p>Remember to include code that downloads data or a description on how to get the data used in the report to make the report fully reproducible. Think of your report as at least two documents, the code that produces the report and the actual report. Both should be handed in (or referenced as a github folder or similar).</p>
+</blockquote>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-RN2225">
+<p>Haun, Cody T., Christopher G. Vann, C. Brooks Mobley, Shelby C. Osburn, Petey W. Mumford, Paul A. Roberson, Matthew A. Romero, et al. 2019. “Pre-Training Skeletal Muscle Fiber Size and Predominant Fiber Type Best Predict Hypertrophic Responses to 6 Weeks of Resistance Training in Previously Trained Young Men.” Journal Article. <em>Frontiers in Physiology</em> 10 (297). <a href="https://doi.org/10.3389/fphys.2019.00297">https://doi.org/10.3389/fphys.2019.00297</a>.</p>
+</div>
+<div id="ref-lsr">
+<p>Navarro, D. 2020. <em>Learning Statistics with R</em>.</p>
+</div>
+</div>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -556,6 +589,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

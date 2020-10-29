@@ -1,0 +1,65 @@
+---
+title: "Feedback 2: Inference"
+bibliography: bib.bib
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# The assignment
+
+Using the data set from Haun et al. [-@RN2225], you were expected to:
+
+1. select one variable and estimate the difference between HIGH and LOW responders (the CLUSTER variable).
+2. Based on your estimate and its uncertainty you were asked to draw inference regarding the effect. 
+3. The report was expected to contain a clearly stated question or hypothesis, descriptive statistics of the variable of interest (possibly including a figure), estimation of the effect and test of an hypothesis.
+4. You were restricted to using any test from the t-test family.
+5. A fully reproducible report **with** source-code was expected on canvas (or github).
+
+These feedback notes are general comments regarding these points. I have highlighted "take-away" messages from each point.
+
+# Data wrangling and selecting a variable
+
+All reports successfully used the data set to select a single (dependent) variable and prepared it both for descriptive data, making a figure and the *t*-test. **Good work!** Some of the reports were however not fully reproducible in the sense that they did not contain code to download the data set. This was true also for some reports on github where data is easily stored. 
+
+> If you do not provide data with your code, make sure that the code downloads the data set. Code together with data makes a fully reproducible report. 
+
+# Inference regarding the true effect
+
+All reports made some statements based on a *t*-test, good! However, not all interpreted the test in the correct way. __The *p*-value is the probability of the observed result (or a more extreme result) if the null-hypothesis is true__. This means that we can use this evidence against the null hypothesis, but never in favor of an alternative hypothesis. The philosophy behind this mechanism can be traced to falsifiability. Although not everybody see null-hypothesis testing as a case of strict falsification [see footnote in @lsr, pp. 331], the general rule applies that the *p*-value is never evidence for the alternative hypothesis. An interpretation could be that while rejecting the null-hypothesis (p < 0.05), the alternative hypothesis still stands but is not proven.
+
+> The *p*-value is the probability of the observed result or a more extreme result if the null-hypothesis is true. When making inference based on null-hypothesis testing you are testing against the null-hypothesis, not to prove the alternative.
+
+# Clearly stating a question or an hypothesis
+
+Presenting both the alternative hypothesis and the null-hypothesis was a good idea in this assignment since it makes everything very explicit. However, you will (almost?) never see a scientific paper write both the alternative- and null-hypothesis. The alternative hypothesis is often presented as a scientific hypothesis. If the authors are using null-hypothesis testing they will test against the null and in that way give indirect evidence for or against their alternative hypothesis. 
+
+A clear question or hypothesis is needed to make inference and not confuse the reader. For example, when testing the difference in testosterone between groups some of the reports makes no difference between testing differences in testosterone and testing testosterone differences between time-points between groups. **Make sure your questions is clear!**
+
+Regardless of whether you are using a question or an hypothesis it is a good idea to explain why you think this is a good question. This is where the literature comes in. Using previous research you should motivate why you would like to test your hypothesis or find the answer to your question. 
+
+> Clearly state your question or hypothesis based on an explanation on why the question/hypothesis is of interest.
+
+# The *t*-test family
+
+When using a *t*-test to test between CLUSTER groups you were in practice restricted to independent two-sample *t*-tests. (Although we could re-formulate the data to perform a one-sample *t*-test). Some of you actually tested the assumptions of the *t*-test. Good! The data had to be approximately normally distributed [@lsr, pp. 416] and there should be equal variance between groups. If you find a situation where variances between groups are not equal the Welch *t*-test can be used  [@lsr, Ch. 13.4.2]. The Welch *t*-test is the default in R as it gives the same results as an ordinary *t*-test when variances (spread of the data) are equal between groups but gives a less biased result if the variances are not equal (heteroscedasticity). In practice, heteroscedasticity is not a big problem. If you encounter data that is not normally distributed, non-parametric alternatives can help [see @lsr, Ch. 13.10].
+
+# Github and reproducible results
+
+Most of you handed in a link to a github repository, great work! This gives me an opportunity to give more feedback as I can suggest changes in the code in an easy way (pull requests).
+
+As I noted in the first point, not all reports came with data. In these cases it is important to provide code (or instructions) on how to obtain the data.
+
+For your next assignment it is a good idea to see the report and the underlying code as two different documents. The report does not need to show code as these are in the markdown document. Focus on creating a nice report! And hand in both files.
+
+Regarding the report not all of you have used the built in reference system, [it is simple, try it out next time!](https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html). 
+
+> Remember to include code that downloads data or a description on how to get the data used in the report to make the report fully reproducible. Think of your report as at least two documents, the code that produces the report and the actual report. Both should be handed in (or referenced as a github folder or similar). 
+
+
+
+# References

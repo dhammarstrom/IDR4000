@@ -63,6 +63,8 @@ navbar:
           href: feedback_1.html
         - text: "Inference"
           href: assignment_2_inference.html
+        - text: "Feedback assignment 2"
+          href: feedback_2.html
         - text: "Regression models"
           href: assignment_3_regression.html
 
