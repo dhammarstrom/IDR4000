@@ -4,8 +4,7 @@
     <title>Regression</title>
     <meta charset="utf-8" />
     <meta name="author" content="Daniel Hammarström" />
-    <meta name="date" content="2020-11-05" />
-    <script src="libs/header-attrs-2.4/header-attrs.js"></script>
+    <meta name="date" content="2020-11-06" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -16,88 +15,92 @@ class: center, middle, inverse, title-slide
 # Regression
 ### Daniel Hammarström
 ### IDR4000
-### 2020-11-05
+### 2020-11-06
 
 ---
 
 
 
 
-# Issues in studies of association
-
-* Influential data points
-* Correlation does not imply causation
 
 ---
+# The regression model 
 
-# Influential data points -- mTOR signaling and exercise induced muscle hypertrophy
 
-&lt;img src="./img/nutrientsmtor.png" width="100%" style="display: block; margin: auto;" /&gt;
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
 
-&lt;font size=2&gt;
-Pasiakos, S. M. (2012). "Exercise and Amino Acid Anabolic Cell Signaling and the Regulation of Skeletal Muscle Mass." Nutrients 4(7).
-&lt;/font&gt;
-
----
-
-# Exercise induced P70 S6-kinase phosphorylation predicts muscle hypertrophy (Mitchell et al. 2013)
-
-&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-1.png" style="display: block; margin: auto;" /&gt;
-
-&lt;font size=2&gt;
-Mitchell, C. J., et al. (2013). "Muscular and Systemic Correlates of Resistance Training-Induced Muscle Hypertrophy." PLoS One 8(10): e78636.
-&lt;/font&gt;
-
----
-
-# Influential data points
-
-* Data points that substantially deviates from the rest of the data may affect the interpretation of regression models.
-
---
-
-* "Leverage" is the effect each data point has on the model, unusual X-values produces larger leverage
-
---
-
-* This can be assessed by looking at the graph, and numerically
-
---
-
-* A tool in simple regression would be to assess outliers (in the X-axis) on model characteristics
-
----
-
-# Detect outliers
-
-* An outlier is defined as `\(Q3/Q1 \pm 1.5 \times IQR\)`
-
-&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-fig2-1.png" style="display: block; margin: auto;" /&gt;
+A univariate regression model can be expressed as `\(y=Intercept + x\times Slope\)`. 
 
 
 ---
 
+# Building the model
 
-# Re-do analysis without outlier
+A regression model built using observed data often contains some error:
 
-&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-fig3-1.png" style="display: block; margin: auto;" /&gt;
+`$$y=Intercept + x\times Slope + Error$$`
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 
-What can we conclude from the Mitchell data-set?
+A more formal description of the model:
+`$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$`
+where `\(y_i\)` are the performance values for each participant `\((i = 1, ..., n)\)`, `\(\beta_0\)` is the intercept, `\(\beta_1\)` is the slope and `\(\epsilon_i\)` is the difference between each observation from its predicted values.
 
 ---
 
+# Fitting the model in R
 
-# Multiple linear regression
 
-* The simple linear regression model... 
+```r
+model &lt;- lm(performance ~ vo2max, data = dat)
+```
 
-`$$y = \beta_0 + \beta_1X_1 + \epsilon$$`
 
-* ... can be extended to include multiple covariates (or independent variables)
+|term        | estimate| std.error| statistic|p.value |
+|:-----------|--------:|---------:|---------:|:-------|
+|(Intercept) |   685.80|     11.60|     59.10|&lt; 0.001 |
+|vo2max      |    -2.48|      0.19|    -12.75|&lt; 0.001 |
 
-$$y = \beta_0 + \beta_1X_1 + \beta_2X_2 ... \beta_pX_p + \epsilon $$
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
-* The model can contain continuous covariates and covariates that only take `\(0\)` and `\(1\)`, these are called *dummy variables*
+---
+
+# How is the regression model contructed?
+
+- We are trying to fit a line that most accurately predicts the observed points
+
+- The "best fit line" minimizes distances from *predicted* values to *fitted values* (the best fit line).
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+# Additional information can improve the model
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+# Additional information can improve the model
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+# Additional information can improve the model
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+# Minimizing the error of the model
+
+
+|Model   |term        | estimate| std.error| statistic|p.value |
+|:-------|:-----------|--------:|---------:|---------:|:-------|
+|Model 1 |(Intercept) |   685.80|     11.60|     59.10|&lt; 0.001 |
+|Model 1 |vo2max      |    -2.48|      0.19|    -12.75|&lt; 0.001 |
+|Model 2 |(Intercept) |   660.02|      9.35|     70.63|&lt; 0.001 |
+|Model 2 |vo2max      |    -1.91|      0.17|    -11.08|&lt; 0.001 |
+|Model 2 |sexmale     |   -15.64|      3.03|     -5.15|&lt; 0.001 |
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -215,6 +218,114 @@ If `\(group = C\)` then `\(X_1 = 0, X_2 = 1\)`
 ---
 
 
+
+
+
+---
+
+# Estimation, an example
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+- What conclusions can be drawn from the two studies (using NHST vs. estimation)?
+
+&lt;font size = "3"&gt;
+Example from: Cumming, G. (2012). **Understanding the new statistics : effect sizes, confidence intervals, and meta-analysis**. New York, Routledge.
+&lt;/font&gt;
+
+---
+
+# Estimation
+
+- In addition to giving a interval representing the precision of the estimate, the confidence interval can be used to assess the clinical importance of a study. 
+- Are values inside the confidence interval large (or small) enough to care about in a clinical sense (e.g. weight gain study)
+
+---
+
+
+---
+
+# Issues in studies of association
+
+* Influential data points
+* Correlation does not imply causation
+* Regression towards the mean
+
+---
+
+# Influential data points -- mTOR signaling and exercise induced muscle hypertrophy
+
+&lt;img src="./img/nutrientsmtor.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;font size=2&gt;
+Pasiakos, S. M. (2012). "Exercise and Amino Acid Anabolic Cell Signaling and the Regulation of Skeletal Muscle Mass." Nutrients 4(7).
+&lt;/font&gt;
+
+---
+
+# Exercise induced P70 S6-kinase phosphorylation predicts muscle hypertrophy (Mitchell et al. 2013)
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-1.png" style="display: block; margin: auto;" /&gt;
+
+&lt;font size=2&gt;
+Mitchell, C. J., et al. (2013). "Muscular and Systemic Correlates of Resistance Training-Induced Muscle Hypertrophy." PLoS One 8(10): e78636.
+&lt;/font&gt;
+
+---
+
+# Influential data points
+
+* Data points that substantially deviates from the rest of the data may affect the interpretation of regression models.
+
+--
+
+* "Leverage" is the effect each data point has on the model, unusual X-values produces larger leverage
+
+--
+
+* This can be assessed by looking at the graph, and numerically
+
+--
+
+* A tool in simple regression would be to assess outliers (in the X-axis) on model characteristics
+
+---
+
+# Detect outliers
+
+* An outlier is defined as `\(Q3/Q1 \pm 1.5 \times IQR\)`
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-fig2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+# Re-do analysis without outlier
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-fig3-1.png" style="display: block; margin: auto;" /&gt;
+
+What can we conclude from the Mitchell data-set?
+
+---
+
+# Graphical evaluation of regression models
+
+```r
+dat &lt;- read_excel("./data/Mitchell2013.xlsx") # Import the data
+m &lt;- lm(CSA ~ p70, data = dat) # Fitting the model
+plot(m) # Create diagnostic plots of the model
+```
+
+
+
+---
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+
+---
+
+
 # Regression towards the mean
 
 * Francis Galton analyzed parents and children heights to study heritability (how much of a trait can be explained by genetics?)
@@ -248,7 +359,7 @@ If `\(group = C\)` then `\(X_1 = 0, X_2 = 1\)`
 
 # Regression towards the mean
 
-&lt;img src="lecture-2020-3-regression2_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture-2020-3-regression2_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -265,8 +376,6 @@ Skovereng, K., et al. (2018). "Effects of Initial Performance, Gross Efficiency 
 &lt;/font&gt;
 
 ---
-
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

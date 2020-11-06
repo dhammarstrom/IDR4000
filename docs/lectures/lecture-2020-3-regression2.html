@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Daniel Hammarström" />
+    <meta name="date" content="2020-11-06" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Regression
+### Daniel Hammarström
+### IDR4000
+### 2020-11-06
+
+---
+
+
+
+
+
+---
+# The regression model 
+
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+
+A univariate regression model can be expressed as `\(y=Intercept + x\times Slope\)`. 
+
+
+---
+
+# Building the model
+
+A regression model built using observed data often contains some error:
+
+`$$y=Intercept + x\times Slope + Error$$`
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+A more formal description of the model:
+`$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$`
+where `\(y_i\)` are the performance values for each participant `\((i = 1, ..., n)\)`, `\(\beta_0\)` is the intercept, `\(\beta_1\)` is the slope and `\(\epsilon_i\)` is the difference between each observation from its predicted values.
+
+---
+
+# Fitting the model in R
+
+
+```r
+model &lt;- lm(performance ~ vo2max, data = dat)
+```
+
+
+|term        | estimate| std.error| statistic|p.value |
+|:-----------|--------:|---------:|---------:|:-------|
+|(Intercept) |   685.80|     11.60|     59.10|&lt; 0.001 |
+|vo2max      |    -2.48|      0.19|    -12.75|&lt; 0.001 |
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+# How is the regression model contructed?
+
+- We are trying to fit a line that most accurately predicts the observed points
+
+- The "best fit line" minimizes distances from *predicted* values to *fitted values* (the best fit line).
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+# Additional information can improve the model
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+# Additional information can improve the model
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+# Additional information can improve the model
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+# Minimizing the error of the model
+
+
+|Model   |term        | estimate| std.error| statistic|p.value |
+|:-------|:-----------|--------:|---------:|---------:|:-------|
+|Model 1 |(Intercept) |   685.80|     11.60|     59.10|&lt; 0.001 |
+|Model 1 |vo2max      |    -2.48|      0.19|    -12.75|&lt; 0.001 |
+|Model 2 |(Intercept) |   660.02|      9.35|     70.63|&lt; 0.001 |
+|Model 2 |vo2max      |    -1.91|      0.17|    -11.08|&lt; 0.001 |
+|Model 2 |sexmale     |   -15.64|      3.03|     -5.15|&lt; 0.001 |
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+---
+
+# Dummy variables
+
+* A dummy variable can be used in a regression model representing a qualitative variable (e.g. Male and Female) where the first **level** of the variable is **coded** `\(0\)` and the second level is **coded** `\(1\)`
+
+* In the regression model, the numerical coded variable is used, a simple uni-variate example:
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/simple-dichotomous-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Dummy variables
+
+* In the case of Female and Male the dummy variable for sex is coded
+
+if `\(sex = Female\)` then `\(X = 0\)`
+
+if `\(sex = Male\)` then `\(X = 1\)`
+
+Mean values for women:
+
+`$$y = \beta_0 + \beta_1 \times 0 = \beta_0$$`
+
+Mean values for men:
+
+`$$y = \beta_0 + \beta_1 \times 1 = \beta_0 + \beta_1$$`
+
+---
+
+
+# Dummy variables can used to code more levels than 2
+
+* Using dummy variables, more **levels** can be coded into the model
+* More parameters will have to be estimated, if three groups ($A$, `\(B\)` and `\(C\)`) are to be included in the model, 3-1 dummy variables are needed
+
+If `\(group = A\)` then `\(X_1 = 0, X_2 = 0\)`
+
+If `\(group = B\)` then `\(X_1 = 1, X_2 = 0\)`
+
+If `\(group = C\)` then `\(X_1 = 0, X_2 = 1\)`
+
+---
+
+# Dummy variables can be used to control for group effects
+
+* Simpson's paradox is when **marginal** and **partial** relationships in the data set have different signs, i.e. a positive relationship in the whole data-set and negative relationships within subgroups
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/simpsons-paradox-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Dummy variables can be used to control for group effects
+
+&lt;table&gt;
+&lt;caption&gt;Simple model&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std. Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 895.83 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 121.07 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.40 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; x &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.67 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.71 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.27 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+&lt;caption&gt;Controlling for groups&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std. Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1489.18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 56.69 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.27 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; x &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -20.45 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.62 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -5.64 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; GroupG2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 546.72 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.03 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.22 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+
+
+
+
+---
+
+# Estimation, an example
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+- What conclusions can be drawn from the two studies (using NHST vs. estimation)?
+
+&lt;font size = "3"&gt;
+Example from: Cumming, G. (2012). **Understanding the new statistics : effect sizes, confidence intervals, and meta-analysis**. New York, Routledge.
+&lt;/font&gt;
+
+---
+
+# Estimation
+
+- In addition to giving a interval representing the precision of the estimate, the confidence interval can be used to assess the clinical importance of a study. 
+- Are values inside the confidence interval large (or small) enough to care about in a clinical sense (e.g. weight gain study)
+
+---
+
+
+---
+
+# Issues in studies of association
+
+* Influential data points
+* Correlation does not imply causation
+* Regression towards the mean
+
+---
+
+# Influential data points -- mTOR signaling and exercise induced muscle hypertrophy
+
+&lt;img src="./img/nutrientsmtor.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+&lt;font size=2&gt;
+Pasiakos, S. M. (2012). "Exercise and Amino Acid Anabolic Cell Signaling and the Regulation of Skeletal Muscle Mass." Nutrients 4(7).
+&lt;/font&gt;
+
+---
+
+# Exercise induced P70 S6-kinase phosphorylation predicts muscle hypertrophy (Mitchell et al. 2013)
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-1.png" style="display: block; margin: auto;" /&gt;
+
+&lt;font size=2&gt;
+Mitchell, C. J., et al. (2013). "Muscular and Systemic Correlates of Resistance Training-Induced Muscle Hypertrophy." PLoS One 8(10): e78636.
+&lt;/font&gt;
+
+---
+
+# Influential data points
+
+* Data points that substantially deviates from the rest of the data may affect the interpretation of regression models.
+
+--
+
+* "Leverage" is the effect each data point has on the model, unusual X-values produces larger leverage
+
+--
+
+* This can be assessed by looking at the graph, and numerically
+
+--
+
+* A tool in simple regression would be to assess outliers (in the X-axis) on model characteristics
+
+---
+
+# Detect outliers
+
+* An outlier is defined as `\(Q3/Q1 \pm 1.5 \times IQR\)`
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-fig2-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+# Re-do analysis without outlier
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/mitchell-fig3-1.png" style="display: block; margin: auto;" /&gt;
+
+What can we conclude from the Mitchell data-set?
+
+---
+
+# Graphical evaluation of regression models
+
+```r
+dat &lt;- read_excel("./data/Mitchell2013.xlsx") # Import the data
+m &lt;- lm(CSA ~ p70, data = dat) # Fitting the model
+plot(m) # Create diagnostic plots of the model
+```
+
+
+
+---
+
+![](lecture-2020-3-regression2_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+
+---
+
+
+# Regression towards the mean
+
+* Francis Galton analyzed parents and children heights to study heritability (how much of a trait can be explained by genetics?)
+* Does parents heights determine children heights?
+
+---
+
+# Regression towards the mean
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/galton-1.png" style="display: block; margin: auto;" /&gt;
+
+* Do tall parents have tall children?
+
+---
+
+# Regression towards the mean
+
+* If parents heights would predict children heights, what would the regression line look like? 
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/galton-hypothesis-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regression towards the mean
+
+* Regression towards the mean predicts that upon repeated sampling from a normal distribution, extreme values will be less frequent than values close to the mean.
+* An extreme value **within** a family will be "replaced" by a less extreme.
+* How would the regression line look?
+
+---
+
+# Regression towards the mean
+
+&lt;img src="lecture-2020-3-regression2_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regression towards the mean
+
+* This poses a problem when analyzing baseline characteristics and change due to training 
+&lt;img src="./img/geRegression.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+When using a correction "*...to minimize the effect* [of regression to the mean], *the correlations in the present study were weakened.*"
+
+&lt;font size=2&gt;
+Skovereng, K., et al. (2018). "Effects of Initial Performance, Gross Efficiency and O~2peak~ Characteristics on Subsequent Adaptations to Endurance Training in Competitive Cyclists." Front Physiol 9(713).
+&lt;/font&gt;
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

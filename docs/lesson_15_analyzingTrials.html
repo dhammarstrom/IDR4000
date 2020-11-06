@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Pre- to post-treatment analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lessons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
+    </li>
+    <li>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
+    </li>
+    <li>
+      <a href="lesson_6_make_summaries.html">Make summaries of data</a>
+    </li>
+    <li>
+      <a href="lesson_7_ggplot2.html">Making figures</a>
+    </li>
+    <li>
+      <a href="lesson_8_making_tables.html">Making tables</a>
+    </li>
+    <li>
+      <a href="lesson_9_git.html">Version control and GitHub</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_10_inference.html">Introduction to statistical inference</a>
+    </li>
+    <li>
+      <a href="lesson_11_inference2.html">Statistical inference, p-values and confidence intervals</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_12_regressionModels.html">Regression models part 1</a>
+    </li>
+    <li>
+      <a href="lesson_13_regressionModels2.html">Regression models part 2: Lactate threshold analysis</a>
+    </li>
+    <li>
+      <a href="lesson_14_correlation.html">Regression models and correlations</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_15_analyzingTrials.html">Analyzing pre- to post-experiments</a>
+    </li>
+    <li>
+      <a href="lesson_16_mixed_models.html">Analyzing trials with mixed-model</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ex1_1_intro.html">Basic R</a>
+    </li>
+    <li>
+      <a href="ex1_2_import.html">Importing data</a>
+    </li>
+    <li>
+      <a href="ex1_3_summarise.html">Summarise data</a>
+    </li>
+    <li>
+      <a href="ex1_4_figures.html">Making figures</a>
+    </li>
+    <li>
+      <a href="ex1_5_group_exercise.html">Group exercises</a>
+    </li>
+    <li>
+      <a href="ex2_1_inference.html">Inference</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Assignments
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="assignment_1_descriptives.html">Descriptive data</a>
+    </li>
+    <li>
+      <a href="feedback_1.html">Feedback assignment 1</a>
+    </li>
+    <li>
+      <a href="assignment_2_inference.html">Inference</a>
+    </li>
+    <li>
+      <a href="feedback_2.html">Feedback assignment 2</a>
+    </li>
+    <li>
+      <a href="assignment_3_regression.html">Regression models</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="faq.html">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Pre- to post-treatment analysis</h1>
+
+</div>
+
+
+<style type="text/css">
+body {
+  counter-reset: counter-rchunks;
+}
+
+div.main-container {
+  padding-left: 5em;
+}
+
+pre.r {
+  counter-increment: counter-rchunks;
+  position: relative;
+  overflow: visible;
+}
+
+pre.r::before {
+  content: 'CC [' counter(counter-rchunks) ']: ';
+  display: inline-block;
+  position: absolute;
+  left: -5em;
+  color: rgb(48, 63, 159);
+}
+</style>
+<div id="background" class="section level1">
+<h1><span class="header-section-number">1</span> Background</h1>
+<p>In sport science (and e.g. medical-, nutritional-, psychological-sciences), intervention-studies are common. We are interested in the effect of e.g. a training method, nutritional supplement or drug. The outcome in these studies could be physical performance, degree of symptoms, muscle size or some other measure that we are interested in studying. These studies are often called <em>Randomized Controlled Trials</em> (RCT)</p>
+<p>The choice of study design relates to the research-question and dictates what statistical methods can be applied. The study design affects the ability of the study to detect an effect (the power). A common case of a RCT is the parallel-groups design. In a parallel-group design participants are <strong>allocated</strong> to two or more “treatment groups”, <strong>at random</strong>, one group gets a treatment, the other group acts as the control. Usually, a measurement is made prior to the intervention (Baseline) and after the intervention. This is a common design <strong>when wash-out period</strong> is not possible and thus, the two treatment can not be compared within the same individual.</p>
+<p>In a design where we have a Treatment group and a control group for comparison hypothesized outcomes can look something like in Figure 1.1.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-3"></span>
+<img src="lesson_15_analyzingTrials_files/figure-html/unnamed-chunk-3-1.png" alt="Hypothesized values from a simple pre-post parallel-groups design" width="1200" />
+<p class="caption">
+Figure 1.1: Hypothesized values from a simple pre-post parallel-groups design
+</p>
+</div>
+<p>Another common scenario is that we expect progress in two different treatments groups as in figure 1.2</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="lesson_15_analyzingTrials_files/figure-html/unnamed-chunk-4-1.png" alt="Hypothesized values from a simple pre-post parallel-groups design including to different treatments" width="1200" />
+<p class="caption">
+Figure 1.2: Hypothesized values from a simple pre-post parallel-groups design including to different treatments
+</p>
+</div>
+<p>In both scenarios we are interested in the <strong>treatment effect</strong> (or the difference in effect of two different treatments). This means that we want to establish if</p>
+<p><span class="math display">\[ \Delta Y_A-\Delta Y_B \neq 0 \]</span></p>
+<p>… meaning that the <strong>null hypothesis</strong> is that the <strong>change</strong> (<span class="math inline">\(\Delta\)</span>) in group A is not different to the <strong>change</strong> in group B. To evaluate these studies we could do a <em>t-test</em> on the change score between groups. This is equivalent to a regression model where we model estimates the difference between groups</p>
+<p><span class="math display">\[outcome = \beta_0 + \beta_1 Group_B\]</span>
+In R, these to alternatives can be easily fitted using the code presented in code chunk (CC) 1:</p>
+<pre class="r"><code># t.test example
+with(data, t.test(outcome_A, outcome_B, paired = FALSE)
+
+# The same in regression
+lm(change ~ group, data = data)</code></pre>
+<p>This seemingly simple solution has some benefits but does not take into account that baseline values can affect the interpretation of a pre- to post-intervention study through <strong>regression to the mean</strong>. If we analyze change scores (<span class="math inline">\(post-pre\)</span>), regression to the mean will give an overestimation of the effect, if there is, by chance, a difference in baseline values between groups (lower values in treatment group) <span class="citation">(Vickers and Altman 2001a)</span>. If we analyze follow up scores (differences in post-scores between groups), the pattern will be reversed. To fix this problem we could control for the relationship between baseline values and the change scores. This technique is called Analysis of Co-Variance (ANCOVA), where the baseline is considered the added co-variance. This is an extension of the simple linear regression model (CC2).</p>
+<pre class="r"><code># Extending the linear regression equation
+lm(change ~ baseline + group, data = data)</code></pre>
+<p>We prefer the ANOCOVA model over the ordinary regression model as the ANCOVA model has better power <span class="citation">(Senn 2006a)</span>. The ANCOVA model also gives <strong>unbiased</strong> estimates of differences between groups <span class="citation">(Vickers and Altman 2001a)</span>. We can use the ANCOVA model when the allocation of participants have been done at random (e.g. RCTs) meaning that differences at baseline should be due to random variation.</p>
+</div>
+<div id="exercises-10-vs-30rm-study" class="section level1">
+<h1><span class="header-section-number">2</span> Exercises: 10 vs 30RM-study</h1>
+<p>Thirty-one participants were assigned to one of two groups training with either 10 repetition maximum (RM) or 30RM, 27 participants completed the trials (24 participants completed to full time). The main question in the study was whether these two different treatments resulted in different magnitudes of strength development or muscle hypertrophy (we are interested in strength).</p>
+<p>The file is available on canvas and contains the following variables:</p>
+<ol style="list-style-type: lower-alpha">
+<li><code>subject</code>: ID of participant</li>
+<li><code>timepoint</code>: prior to <em>pre</em> or after the intervention <em>post</em></li>
+<li><code>group</code>: The intervention group</li>
+<li><code>exercise</code>: The exercise that was tested, <em>legpress</em>, <em>benchpress</em> or <em>bicepscurl</em></li>
+<li><code>load</code>: The load lifted in 1RM test (kg)</li>
+</ol>
+<p>An example of loading the data and plotting the data can be seen in CC3:</p>
+<pre class="r"><code>read_excel(&quot;./data/ten_vs_thirty.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+        mutate(timepoint = factor(timepoint, 
+                                  levels = c(&quot;pre&quot;, &quot;mid&quot;, &quot;post&quot;))) %&gt;%
+        ggplot(aes(timepoint, load, fill = group)) + 
+        geom_boxplot() +
+        facet_wrap(~ exercise, scales = &quot;free&quot;) + 
+  theme_minimal()</code></pre>
+<p>The main purposo of our study is to answer the question: <strong>what training method would you recommend for improving maximal strength?</strong> To answer this question we will (1) Choose an appropriate 1RM test, (2) choose the most appropriate statistical model/test. To illustrate differences between models we will compare different models (<code>lm</code> on the change-score, <code>lm</code> with baseline as covariate, <code>lm</code> on post-values with baseline as a covariate).</p>
+<div id="reducing-the-data-set" class="section level2">
+<h2><span class="header-section-number">2.1</span> Reducing the data set</h2>
+<p>For this exercise we will fous on the pre- to post-analysis of leg-press. To filter the data set we can use the code in CC4. We will have to re-shape the data for the calculation of change scores. We do this and add a simple calculation of change scores <span class="math inline">\(post-pre\)</span>.</p>
+<pre class="r"><code>ten_vs_thirty &lt;- read_excel(&quot;./data/ten_vs_thirty.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
+  filter(timepoint != &quot;mid&quot;, 
+         exercise == &quot;legpress&quot;) %&gt;%
+  # To get the variables in the correct order we need...
+        mutate(timepoint = factor(timepoint, 
+                                  levels = c(&quot;pre&quot;,  &quot;post&quot;))) %&gt;% 
+  pivot_wider(names_from = timepoint, 
+              values_from = load) %&gt;%
+  mutate(change = post - pre) </code></pre>
+<p>We are now ready to fit some models, these are outlined in CC5.</p>
+<p>Before we look at the models, a word of caution: We should not select the model that best suit our hypothesis. Instead we should formulate a model that fits our question and intepret the results from a model that meets the assumptions of the analysis (homoscedasticity, normally distributed residuals etc.).</p>
+<p>In this study it is reasonable to account for the baseline difference between groups. These differences are there because of the randomization. We may account for them by including them in our analysis (as in <code>m2</code> and <code>m4</code>). To check if the addition of the baseline helps explain the data we can perform analysis of variance when comparing two models using the <code>anova()</code>-function.</p>
+<p>The null hypothesis is that the addition of the <code>pre</code> variable does not help explain the observed variation in the data. Comparing model 1 and 2, and 3 and 4 (these have the same dependent variable) we see that there is strong evidence against the null hypothesis (CC6). In at least one case. The effect is not as clear in the other case but we could argue that this is evidence enough to include the variable as a calibrator.</p>
+<p>To check if the models are well behaved we can use the plot function. Let’s first look at <code>m1</code> comparing change score between groups.</p>
+<div class="figure"><span id="fig:unnamed-chunk-11"></span>
+<img src="lesson_15_analyzingTrials_files/figure-html/unnamed-chunk-11-1.png" alt="Diagnostic plots of Model 1" width="2100" />
+<p class="caption">
+Figure 2.1: Diagnostic plots of Model 1
+</p>
+</div>
+<p>The plots in Figure 1.3 suggests that there is evidence of violation of the assumption of homoscedasticity (Residuals vs fitted, larger spread in higher fitted values also evident in the scale location plot). We can also see that the residuals are not normally distributed (Normal Q-Q plot). This model is not that good.</p>
+<p>Let’s check the model with change between groups controlling for baseline values (Model 2). To create a similar grouped plot as above use the code in CC7</p>
+<p>This is not a perfect model either, but the residuals looks a bit better. In fact the only model that would (almost) fail a more formal test is Model 1. The Brusch-Pagan test (see CC8) tests for heteroscedasticity. (This implies that a Welch t-test would be preferred (<code>var.equal = FALSE</code>))</p>
+</div>
+<div id="inference" class="section level2">
+<h2><span class="header-section-number">2.2</span> Inference</h2>
+<p>Success! our models are somewhat OK. We may draw inference from them. It turns out that model modeling the change score or the post score does not matter when we control for the baseline. The difference between groups are exactly the same in Model 2 and 4 (CC9).</p>
+<p>The <code>pre</code> variable changes as the relationship to the change is different to the relationship to post scores but the model does the same thing! This is now a question of how we would like to frame our question. If the question is “do people that train with 10RM <strong>increase</strong> their strength more than people that train with 30RM?” then model 2 is preferred. If the question is “are people who <strong>have trained</strong> with 10RM stronger than people who have trained with 30RM?” model 4 is preferred. The differences are basically semantics as the models tests the same thing, the differences between groups when controlling for baseline differences.</p>
+<p>As we control for the baseline, we removes some of the unexplained error from the model, this will lead to a more powerful model. This is reflected in the stronger evidence (in a Fisherian way) against the null-hypothesis of no difference between groups.</p>
+</div>
+<div id="what-if-the-model-diagnostics-says-the-models-are-no-good" class="section level2">
+<h2><span class="header-section-number">2.3</span> What if the model diagnostics says the models are no good?</h2>
+<p>Biological data and performance data often exhibit larger variation at larger values. This leads to heteroscedasticity. A common way of dealing with this is the log transformation. Transforming the data to the log scale changes the interpretation of the regression coefficients.</p>
+<pre class="r"><code># A linear model with the dependent variable on the linear scale!
+m.linear &lt;- lm(post ~ group + pre,  data = ten_vs_thirty)
+
+# A linear model with the dependent variable on the log scale!
+m.log &lt;- lm(log(post) ~ group + pre,  data = ten_vs_thirty)</code></pre>
+<p>As we interpret the regression coefficients as differences the laws of the log are important to remember:</p>
+<p><span class="math display">\[log(\frac{A}{B}) = log(A) - log(B)\]</span>
+This means that the difference between two variables on the log scale is the same as the log of their quotient. When we <strong>back-transform</strong> values from the log scale we get the fold differences.</p>
+<p>Let’s say that we have a mean in group A of 40 and a mean in group B of 20. The difference is 20. If we estimate the difference on the log scale however we will get (CC9):</p>
+<pre class="r"><code>a &lt;- log(40/20)  
+
+b &lt;- log(40) - log(20)
+
+c &lt;- 40/20
+
+exp(a)
+exp(b)
+c</code></pre>
+<p>The <code>exp</code> function back-transforms data from the log scale. Back-transforming a difference between two groups (as estimated in our model) will yield the fold-difference, this can be calculated as a percentage difference.</p>
+<p>The 30RM group has a strength level 88% of the 10RM group at post, we can say that the 30RM group is 11% weaker than the 10RM group. Similarly, a confidence interval may also be back-transformed.</p>
+</div>
+</div>
+<div id="exercises-single-vs.-multiple-sets" class="section level1">
+<h1><span class="header-section-number">3</span> Exercises: Single vs. multiple sets</h1>
+<p>In this study, n = 34 participants were randomized to completed a strength training intervention with multiple-set and single-set randomized to either leg. Strength was evaluated as isokinetic strength at 60, 120 and 240 degrees and isometric strength, all using knee extension. In these exercises we will analyze data were participants have been selected either to belong to the single- or multiple-set group. This means we will only analyze one leg per participant!</p>
+<div id="the-data-set" class="section level2">
+<h2><span class="header-section-number">3.1</span> The data set</h2>
+<p>The data can be found on canvas and contains six variables:</p>
+<ul>
+<li><code>subject</code></li>
+<li><code>timepoint</code> (<code>pre</code>=Pre-training, <code>session1</code>=Pre-training second test, <code>post</code>=Post training)</li>
+<li><code>exercise</code> (<code>isok.60</code>=Isokinetic 60 degrees per sec, <code>isok.120</code>, <code>isok.240</code>, <code>isom</code>=Isometric)</li>
+<li><code>load</code> (Peak torque in Nm)</li>
+<li><code>sex</code> (<code>male</code>, <code>female</code>)</li>
+<li><code>group</code> (<code>multiple</code>, <code>single</code>)</li>
+</ul>
+<p>The data can be found in <code>strengthTests.csv</code> on canvas. Use the <code>read_csv()</code> function (loaded in tidyverse) to load the data:</p>
+<pre class="r"><code>strength &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;%
+  print()</code></pre>
+</div>
+<div id="exploratory-analysis" class="section level2">
+<h2><span class="header-section-number">3.2</span> Exploratory analysis</h2>
+<p>Use descriptive methods (summary statistics and figures to describe results from the trial). What are the mean and standard deviations of the <code>load</code> variable for each <code>timepoint</code>, <code>exercise</code> and <code>group</code>. Use tables and figures to show the results.</p>
+<script language="javascript"> 
+    function toggle(num) {
+      var ele = document.getElementById("toggleText" + num);
+      var text = document.getElementById("displayText" + num);
+      if(ele.style.display == "block") {
+        ele.style.display = "none";
+        text.innerHTML = "show";
+      }
+      else {
+        ele.style.display = "block";
+        text.innerHTML = "hide";
+      }
+   } 
+  </script>
+<a id="displayText" href="javascript:toggle(1);">Here is a possible solution for a table</a>
+<div id="toggleText1" style="display: none">
+<p>We want to summarize data per group, exercise and time-point and we want the means, standard deviations and the number of observations.</p>
+</div>
+<p></br></p>
+<a id="displayText" href="javascript:toggle(2);">Here is a possible solution for a figure</a>
+<div id="toggleText2" style="display: none">
+<p>Using the same summary statistics, we can create a figure. We might want to sort variables so that time-points are in the right order. In the figure we can use geom_errorbar to display SD</p>
+</div>
+<p></br></p>
+<p>What can you say about the effect of single- vs. multiple-sets training on muscle strength using these observations?</p>
+</div>
+<div id="change-from-baseline" class="section level2">
+<h2><span class="header-section-number">3.3</span> Change from baseline</h2>
+<p>We will now focus on the change from baseline (<code>pre</code>) to the <code>post</code> time-point. To only use this data, use the filter function:</p>
+<p>Calculate the average percentage change from baseline (<code>pre</code>) in each group and create a graph of the results. Focus on the isokinetic test performed at 120 degrees per second (<code>isok.120</code>). Make a plan of your code before you start writing it!</p>
+<a id="displayText" href="javascript:toggle(3);">Here is a possible solution for a figure</a>
+<div id="toggleText3" style="display: none">
+<p>Here we want to perform the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Filter the data to only contain <code>pre</code> and <code>post</code> time-points and <code>exercise == "isok.120"</code></li>
+<li>Make the data set wider and calculate percentage change as <span class="math inline">\(\frac{post-pre}{pre} \times 100\)</span></li>
+<li>Group the data set by group and exercise</li>
+<li>Summarize the data and create a figure with groups on the x-axis and %-change on the y-axis.</li>
+</ol>
+<a id="displayText" href="javascript:toggle(4);">Example code</a>
+<div id="toggleText4" style="display: none">
+
+</div>
+<p></br></p>
+</div>
+<p></br></p>
+</div>
+<div id="model-the-change" class="section level2">
+<h2><span class="header-section-number">3.4</span> Model the change</h2>
+<p>The present data set is an example of a simple randomized trial. Participants have been randomized to either treatment before the trial and we are interested in the difference in treatments. There are several options for analyzing these data. A simple alternative would be to analyse the difference in post-training values with a t-test. This is not very efficient in terms of statistical power, i.e. we would need a lot of participants to show a difference if it existed due to differences between participants. In the case of the present data set, we have also collected more data than just follow-up scores. These baseline scores can be used to calculate a change-score which in turn can be used to compare treatments. This is a more direct comparison related to our actual question. We want to know what treatment is more effective in <em>improving</em> strength.</p>
+<p>An example. We focus on the <code>isok.120</code> data. State a hypothesis that compares the two groups and run a test that test against the corresponding null-hypothesis. Remember that we did this using both <code>t.test()</code> and <code>lm()</code>. Using <code>var.equal = TRUE</code> do the corresponding test also in <code>lm</code>. Write a short summary of your results!</p>
+<a id="displayText" href="javascript:toggle(5);">Example code</a>
+<div id="toggleText5" style="display: none">
+
+</div>
+<p></br></p>
+</div>
+<div id="accounting-for-the-baseline-regression-to-the-mean-and-extending-the-linear-model" class="section level2">
+<h2><span class="header-section-number">3.5</span> Accounting for the baseline – Regression to the mean and extending the linear model</h2>
+<p>Above we created a linear model from where you got exactly the same results as from the t-test. In this section we will see that the linear model is easily extended to create more robust statistics of change scores.</p>
+<p>When we have calculated a change score (e.g. percentage change), this score might be related to the baseline. This can be expected due to a phenomena known as regression towards the mean. When we do repeated testing on the same participants, test scores that were close to the upper or lower limit of a participant potential scores will be replaced with a score closer to the mean. This in turn will create a negative association between initial values and change.</p>
+<p>Using the strength test data-set, calculate the change score using <span class="math inline">\(\frac{post-pre}{pre} *100\)</span> and evaluate the association between change (y-axis) and baseline (x-axis) with a graph. Use <code>+ facte_wrap(~exercise, scales = "free")</code> to get get a panel for each exercise.</p>
+<p>How do you interpret the graphs?</p>
+<a id="displayText" href="javascript:toggle(6);">Example code</a>
+<div id="toggleText6" style="display: none">
+<pre class="r"><code>read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
+        pivot_wider(names_from = timepoint, 
+                    values_from = load) %&gt;%
+        mutate(change = (post-pre) / pre * 100) %&gt;%
+  ggplot(aes(pre, change)) + geom_point() + geom_smooth(method = &quot;lm&quot;) + facet_wrap(~exercise, scales = &quot;free&quot;)</code></pre>
+</div>
+<p></br></p>
+<p>An association between baseline and change scores means possible problems when we want to compare groups in the ordinary linear model. We can think of it in two ways. In the ordinary linear model (or the t-test of change scores) there is some unexplained variation that goes into the standard errors making it harder to see differences between groups. Taking the relationship into account creates a more powerful model. Secondly, there might be slight differences between groups in the baseline, when accounted for, we get an estimate of the difference between groups taking the baseline into account.</p>
+<p>This extended model is called ANCOVA (ANalysis of CO-VAriance). The ordinary linear model we use above can be written as:</p>
+<p><span class="math display">\[Change = \beta_0 + \beta_1 \times Group\]</span></p>
+<p>The extended, ANCOVA model can be written as</p>
+<p><span class="math display">\[Change =  \beta_0 + \beta_1 \times Baseline + \beta_2 \times Group\]</span></p>
+<p>In the following example we will use <code>isom</code> to infer on the effect of single- vs. multiple-set training. We will use the pre- to post training scores for change score calculations. In the data set we have men and women, to get an unbiased association to the baseline, we will mean center the pre-values per sex.</p>
+<pre class="r"><code>change.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
+        pivot_wider(names_from = timepoint, 
+                    values_from = load) %&gt;%
+          mutate(change = (post-pre) / pre * 100) %&gt;%
+  group_by(sex) %&gt;%
+  mutate(pre = pre - mean(pre)) %&gt;%
+  filter(exercise == &quot;isom&quot;) 
+
+
+# An ordinary lm
+m1 &lt;- lm(change ~ group, data = change.data)
+
+# An ancova
+m2 &lt;- lm(change ~ pre + group, data = change.data)</code></pre>
+<p><strong>Side note:</strong> To get nice summaries of the model we will use <code>kable()</code> from the <code>knitr</code> package and <code>tidy()</code> from the <code>broom</code> package.</p>
+<pre class="r"><code>library(knitr); library(broom)
+
+tidy(m1) %&gt;%
+  kable(col.names = c(&quot;Parameter&quot;, &quot;Estimate&quot;, &quot;SE&quot;, &quot;t-statistic&quot;, &quot;P-value&quot;), 
+        caption = &quot;The ordinary linear model&quot;, digits = c(NA, 2, 2, 2, 3)) </code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-28">Table 3.1: </span>The ordinary linear model</caption>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="right">Estimate</th>
+<th align="right">SE</th>
+<th align="right">t-statistic</th>
+<th align="right">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">29.71</td>
+<td align="right">4.46</td>
+<td align="right">6.66</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">groupsingle</td>
+<td align="right">-11.51</td>
+<td align="right">6.22</td>
+<td align="right">-1.85</td>
+<td align="right">0.074</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>tidy(m2) %&gt;%
+  kable(col.names = c(&quot;Parameter&quot;, &quot;Estimate&quot;, &quot;SE&quot;, &quot;t-statistic&quot;, &quot;P-value&quot;), 
+        caption = &quot;The ANCOVA model&quot;, digits = c(NA, 2, 2, 2, 3))</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-28">Table 3.1: </span>The ANCOVA model</caption>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="right">Estimate</th>
+<th align="right">SE</th>
+<th align="right">t-statistic</th>
+<th align="right">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">40.39</td>
+<td align="right">4.91</td>
+<td align="right">8.23</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">pre</td>
+<td align="right">-0.19</td>
+<td align="right">0.06</td>
+<td align="right">-3.48</td>
+<td align="right">0.002</td>
+</tr>
+<tr class="odd">
+<td align="left">groupsingle</td>
+<td align="right">-10.95</td>
+<td align="right">5.34</td>
+<td align="right">-2.05</td>
+<td align="right">0.049</td>
+</tr>
+</tbody>
+</table>
+<p>In this case, modeling change-scores (percentage-change) together with the baseline makes a difference. We can be more confident on the results as some of the unexplained variation is cached in the association with the baseline.</p>
+<p>We can use confidence intervals to see the estimates for the group effect:</p>
+<pre class="r"><code>data.frame(model = c(&quot;Linear-model&quot;, &quot;ANCOVA&quot;), 
+           lower.CI = c(confint(m1)[2], confint(m2)[3]), 
+           upper.CI = c(confint(m1)[4], confint(m2)[6])) %&gt;%
+  kable(col.names = c(&quot;Model&quot;, &quot;Lower CI&quot;, &quot;Upper CI&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Model</th>
+<th align="right">Lower CI</th>
+<th align="right">Upper CI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Linear-model</td>
+<td align="right">-24.19385</td>
+<td align="right">1.1663784</td>
+</tr>
+<tr class="even">
+<td align="left">ANCOVA</td>
+<td align="right">-21.85448</td>
+<td align="right">-0.0548598</td>
+</tr>
+</tbody>
+</table>
+<p>These result will not repeat for all tests, but generally, the ANCOVA has more power and represents a good way of controlling for baseline measurements in change score analysis <span class="citation">(Vickers and Altman 2001b; Senn 2006b)</span>.</p>
+</div>
+<div id="exercises" class="section level2">
+<h2><span class="header-section-number">3.6</span> Exercises</h2>
+<p>Perform an analysis of <code>isok.120</code> data, infer on the effect of single- vs. multiple-sets on change in strength using the confidence intervals from an ANCOVA model. Remember to mean center the baseline per sex.</p>
+<a id="displayText" href="javascript:toggle(7);">Example code</a>
+<div id="toggleText7" style="display: none">
+<pre class="r"><code># Store the data set 
+
+# Load data
+change.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
+  # Pivot to a wide format for change calculation
+        pivot_wider(names_from = timepoint, 
+                    values_from = load) %&gt;% 
+  # Calculate the change
+          mutate(change = (post-pre) / pre * 100) %&gt;%
+  # Mean center pre-variable with grouping on sex
+  group_by(sex) %&gt;%
+  mutate(pre = pre - mean(pre)) %&gt;%
+  # Only use the isok.120 data
+  filter(exercise == &quot;isok.120&quot;) 
+
+
+
+# Create the model
+m1 &lt;- lm(change ~ pre + group, data = change.data)
+
+# Get confidence intervals
+confint(m1)[c(3, 6)]
+
+# Interpretation of the model 
+summary(m1)
+
+# The average %-change of the single-set group was ~5.6%-point lower than the multiple-set group. This effect was not significant on the 5% level. </code></pre>
+</div>
+<p></br></p>
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-RN2116">
+<p>Senn, S. 2006a. “Change from Baseline and Analysis of Covariance Revisited.” Journal Article. <em>Stat Med</em> 25 (24): 4334–44. <a href="https://doi.org/10.1002/sim.2682">https://doi.org/10.1002/sim.2682</a>.</p>
+</div>
+<div id="ref-senn2006">
+<p>———. 2006b. “Change from Baseline and Analysis of Covariance Revisited.” Journal Article. <em>Stat Med</em> 25 (24): 4334–44. <a href="https://doi.org/10.1002/sim.2682">https://doi.org/10.1002/sim.2682</a>.</p>
+</div>
+<div id="ref-RN2118">
+<p>Vickers, Andrew J., and Douglas G. Altman. 2001a. “Analysing Controlled Trials with Baseline and Follow up Measurements.” Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–4. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/%0Ahttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.</p>
+</div>
+<div id="ref-vickers2001">
+<p>———. 2001b. “Analysing Controlled Trials with Baseline and Follow up Measurements.” Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–4. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/%0Ahttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

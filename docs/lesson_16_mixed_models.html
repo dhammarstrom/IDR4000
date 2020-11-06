@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Mixed models - Analyzing repeated measures designs</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lessons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
+    </li>
+    <li>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
+    </li>
+    <li>
+      <a href="lesson_6_make_summaries.html">Make summaries of data</a>
+    </li>
+    <li>
+      <a href="lesson_7_ggplot2.html">Making figures</a>
+    </li>
+    <li>
+      <a href="lesson_8_making_tables.html">Making tables</a>
+    </li>
+    <li>
+      <a href="lesson_9_git.html">Version control and GitHub</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_10_inference.html">Introduction to statistical inference</a>
+    </li>
+    <li>
+      <a href="lesson_11_inference2.html">Statistical inference, p-values and confidence intervals</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_12_regressionModels.html">Regression models part 1</a>
+    </li>
+    <li>
+      <a href="lesson_13_regressionModels2.html">Regression models part 2: Lactate threshold analysis</a>
+    </li>
+    <li>
+      <a href="lesson_14_correlation.html">Regression models and correlations</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_15_analyzingTrials.html">Analyzing pre- to post-experiments</a>
+    </li>
+    <li>
+      <a href="lesson_16_mixed_models.html">Analyzing trials with mixed-model</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ex1_1_intro.html">Basic R</a>
+    </li>
+    <li>
+      <a href="ex1_2_import.html">Importing data</a>
+    </li>
+    <li>
+      <a href="ex1_3_summarise.html">Summarise data</a>
+    </li>
+    <li>
+      <a href="ex1_4_figures.html">Making figures</a>
+    </li>
+    <li>
+      <a href="ex1_5_group_exercise.html">Group exercises</a>
+    </li>
+    <li>
+      <a href="ex2_1_inference.html">Inference</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Assignments
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="assignment_1_descriptives.html">Descriptive data</a>
+    </li>
+    <li>
+      <a href="feedback_1.html">Feedback assignment 1</a>
+    </li>
+    <li>
+      <a href="assignment_2_inference.html">Inference</a>
+    </li>
+    <li>
+      <a href="feedback_2.html">Feedback assignment 2</a>
+    </li>
+    <li>
+      <a href="assignment_3_regression.html">Regression models</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="faq.html">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Mixed models - Analyzing repeated measures designs</h1>
+
+</div>
+
+
+<div id="accounting-for-the-baseline-differences-between-group-and-mixed-models" class="section level1">
+<h1>Accounting for the baseline – Differences between group and mixed models</h1>
+<p>In a randomized trial, there might be difference between groups at baseline just by chance. These differences can be controlled for using the ANCOVA model as described above. Another way to account for the baseline is to analyze raw scores (not e.g. percentage change) given potential baseline differences. This can be done using another “extension” of the ordinary linear model, the mixed effects model.</p>
+<div id="statistical-name-dropping" class="section level2">
+<h2>Statistical name dropping</h2>
+<p>Here we will very briefly talk about <em>mixed effects models</em> (or <em>linear mixed models</em>, or <em>hierarchical models</em>) which are models for <em>continuous outcomes</em> with <em>normally distributed errors</em>. These models can account for <em>non-independence</em> between data-points, meaning that we can fit a model using <em>correlated data</em>. This is advantageous when we want to analyze the same participants in a time-course manner (<em>repeated measures design</em>). Traditionally in exercise science, this has been done using <em>repeated measures analysis of variance</em> (<em>repeated measures ANOVA</em>). One might say that this is an outdated technique as the modern <em>mixed effects model</em> is more flexible and robust as it allows for e.g. <em>unbalanced data</em> (e.g. different number of participants in each group), <em>missing data</em> and more complex model formulations.</p>
+<p>The purpose of this section is to introduce a simple mixed effects model. The mixed effects model can be extended to other problems and it is related to the <em>generalized linear models</em> that brings further flexibility as data from different distributions can be modeled.</p>
+</div>
+<div id="the-model" class="section level2">
+<h2>The model</h2>
+<p>The thing with a mixed model is that it contains to kinds of effects. In our previous models (made with <code>lm()</code>), we have dealt with “fixed effects”, these are the effects we try to estimate. This can be the difference between groups, or the slope in a model where we try to explain VO<sub>2max</sub> with height. In the mixed model, we also include “random effects”. In the simple case we can think of these as a separate starting point in the model for each participant. This simple case is called a model with <em>random intercepts</em>. Why <em>random</em>? This is because we can think of these effects as sampled from a population of possible effects. A fixed effect on the other hand has a fixed number of possible values. In the model we will create this will be time-points (three) and training conditions (two). These are fixed by design in the study, but participants has been sampled at random.</p>
+<p>We will use the function <code>lmer()</code> from the package <code>lme</code> to fit mixed effects models.</p>
+<p>Hold up! Why use this new stuff, can we not just use the <code>lm</code> function?</p>
+<p>Let’s try. Before we do, we should agree that when fitting correlated data (data from the same participants sampled multiple times therefore creating data points “related” to each other) we violate an assumption of the ordinary linear model, the assumption of independence.</p>
+<p>In the data we have for these examples, we have two groups. One group has performed training with multiple sets (3 exercises in legs, 2-3 sessions per week for twelve weeks) and the other group with a single set per exercise. Testing was done twice before the training period and once after. We will use time-points <code>pre</code> and <code>post</code> and exercise <code>isok.60</code> in this example.</p>
+<p>Let’s start by fitting a model where we try to estimate the difference between groups over time using <code>lm()</code>.</p>
+<pre class="r"><code>library(tidyverse); library(readxl)
+
+isok.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
+  filter(exercise == &quot;isok.60&quot;, 
+         timepoint %in% c(&quot;pre&quot;, &quot;post&quot;)) %&gt;%
+  # fix the order of timepoint factor
+  mutate(timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;post&quot;))) %&gt;%
+  
+  print()
+
+
+# The model
+
+lm1 &lt;- lm(load ~ timepoint * group, data = isok.data)
+
+summary(lm1)</code></pre>
+<p>The model formulation estimates four parameters. The intercept is the mean in the multiple-set group at baseline (<code>pre</code>). <code>timepointpost</code> is the mean in the multiple-set group at time-point <code>post</code>. <code>groupsingle</code> is the difference at baseline between groups and <code>timepointpost:groupsingle</code> is the difference in single-set compared to multiple-set at time-point <code>post</code>. This is the parameter of interest in this model. We want to know if the change from pre to post differs between groups, we can assess this by testing if the difference is smaller or greater than zero. This is done with the difference at baseline in mind (we control for the baseline).</p>
+<p>The model formulation contains an interaction, meaning that the two groups are allowed to change differently between time-points.</p>
+<p>We can see that we estimate the difference to about -24 units. However, this is not significant.</p>
+<p>Now let’s try to fit a mixed effects model.</p>
+<pre class="r"><code># Load packages
+library(lme4)
+
+isok.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
+  filter(exercise == &quot;isok.60&quot;, 
+         timepoint %in% c(&quot;pre&quot;, &quot;post&quot;)) %&gt;%
+  # fix the order of timepoint factor
+  mutate(timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;post&quot;))) %&gt;%
+  
+  print()
+
+
+# The model
+lmer1 &lt;- lmer(load ~ timepoint * group + (1|subject), data = isok.data)
+
+summary(lmer1)</code></pre>
+<p>From the fixed effects part of the summary, we can read about the same parameters. However the estimates differs from the linear model. We can also compare t-values, these differ considerably.</p>
+<p>Notice that <code>lme4</code> does not produce p-values. If you write <code>?pvalues</code> in your console you will get some explanation to why.</p>
+<p>Instead of p-values we can use confidence intervals to evaluate our fixed effects. These are accessed from both <code>lm</code>and <code>lmer</code> with the <code>confint</code> function.</p>
+<pre class="r"><code># Confidence intervals from lm
+confint(lm1)
+
+
+# Confidence intervals from lmer
+confint(lmer1)</code></pre>
+<p>What is your interpretation of the results from these two models.</p>
+<p>In this comparison we have seen that the mixed effects model is more powerful by accounting for correlated data.</p>
+<div id="exercise" class="section level4">
+<h4>Exercise</h4>
+<p>Fit a mixed effects model to <code>isom</code> data from <code>pre</code> and <code>post</code> training. Interpret the model parameters and estimates.</p>
+<a id="displayText" href="javascript:toggle(8);">Example code</a>
+<div id="toggleText8" style="display: none">
+<pre class="r"><code># Load packages
+library(lme4); library(tidyverse); library(readxl)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## -- Attaching packages ---------------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## v ggplot2 3.3.2     v purrr   0.3.4
+## v tibble  3.0.3     v dplyr   1.0.2
+## v tidyr   1.1.2     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------------- tidyverse_conflicts() --
+## x tidyr::expand() masks Matrix::expand()
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## x tidyr::pack()   masks Matrix::pack()
+## x tidyr::unpack() masks Matrix::unpack()</code></pre>
+<pre class="r"><code>isom.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
+  filter(exercise == &quot;isom&quot;, 
+         timepoint %in% c(&quot;pre&quot;, &quot;post&quot;)) %&gt;%
+  # fix the order of timepoint factor
+  mutate(timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;post&quot;)))</code></pre>
+<pre><code>## 
+## -- Column specification ---------------------------------------------------------------
+## cols(
+##   subject = col_character(),
+##   timepoint = col_character(),
+##   exercise = col_character(),
+##   load = col_double(),
+##   sex = col_character(),
+##   group = col_character()
+## )</code></pre>
+<pre class="r"><code># The model
+lmer2 &lt;- lmer(load ~ timepoint * group + (1|subject), data = isom.data)</code></pre>
+<p>The resulting model has the same parameters as in the previous example.</p>
+<p>The intercept is the mean in the reference group (multiple-set group) at <code>pre</code>. <code>timepointpost</code> is the mean in the reference group at time-point <code>post</code>. <code>groupsingle</code> is the difference at baseline between groups and <code>timepointpost:groupsingle</code> is the difference between single-set and multiple-set at time-point <code>post</code>. This is the parameter of interest in this model. We want to know if the change from pre to post differs between groups, we can assess this by testing if the difference is smaller or greater than zero. This is done with the difference at baseline in mind (we control for the baseline).</p>
+<p>Using the <code>confint</code>we can see that the interaction term (<code>timepointpost:groupsingle</code>) contains zero.</p>
+</div>
+<p></br></p>
+</div>
+<div id="multiple-time-point-mixed-models" class="section level3">
+<h3>Multiple time-point – Mixed models</h3>
+<p>The model can be extended using all time-point, we do not anticipate any differences between time-points <code>pre</code> and <code>session1</code>, lets see if we are correct. We use the <code>isom</code> data.</p>
+<pre class="r"><code># Load packages
+library(lme4)
+
+isom.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
+  filter(exercise == &quot;isom&quot;) %&gt;%
+  # fix the order of timepoint factor
+  mutate(timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;session1&quot;,&quot;post&quot;))) 
+
+
+
+# The model
+lmer3 &lt;- lmer(load ~ timepoint * group + (1|subject), data = isom.data)
+
+summary(lmer3)</code></pre>
+<p>Do your best to interpret the output from the model</p>
+<a id="displayText" href="javascript:toggle(9);">An interpretation</a>
+<div id="toggleText9" style="display: none">
+<p>The mean in the multiple-set group at <code>pre</code> is 211.8 Nm. From <code>pre</code> to <code>session1</code> the multiple-set group increases by 6.1 Nm, from <code>pre</code> to <code>post</code> the multiple-set group increases by 54.4 Nm. At <code>pre</code> there is a 3.3 unit difference between groups. Given this difference, at time-point <code>session1</code> the single set group is -3.9 units lower than the multiple-sets group, and at time-point <code>post</code> the single-set group is -20 Nm lower than the multiple set group given a baseline difference and an increase in the multiple-set group.</p>
+<p>By adding these terms we can get the estimated mean for each group at <code>post</code>:</p>
+<p><code>multiple-set at post = (Intercept) + timepointpost</code></p>
+<p><code>single-set at post = (Intercept) + timepointpost + groupsingle + timepointpost:groupsingle</code></p>
+</div>
+<p></br></p>
+</div>
+<div id="diagnostics" class="section level3">
+<h3>Diagnostics</h3>
+<p>The same rules apply for the mixed effects model as for the ordinary linear model (except for the independence assumption). Using simple commands we can first check the residual plot:</p>
+<p><code>plot(lmer2)</code></p>
+<p>The residuals should show no pattern.</p>
+<p>We can also make a qqplot of the residuals to check for normality:</p>
+<p><code>qqnorm(resid(lmer2)); qqline(resid(lmer2))</code></p>
+<p>This is really two commands separated with a <code>;</code> . The first plots the data, the second adds the line.</p>
+</div>
+<div id="more-about-mixed-effects-models" class="section level3">
+<h3>More about mixed effects models</h3>
+<p>We have only scratched the surface. The models can be extended far beyond this course but if you do an experiment in your master thesis, I’m pretty sure you will analyze it with a mixed model! I might be a good idea to read further.</p>
+<p>This is a nice paper (the first part is a general introduction):</p>
+<p>Harrison, X. A., et al. (2018). “A brief introduction to mixed effects modelling and multi-model inference in ecology.” PeerJ 6: e4794-e4794.</p>
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -41,6 +41,11 @@ navbar:
           href: lesson_13_regressionModels2.html
         - text: "Regression models and correlations"
           href: lesson_14_correlation.html
+        - text: "----------------------------------"
+        - text: "Analyzing pre- to post-experiments"
+          href: lesson_15_analyzingTrials.html
+        - text: "Analyzing trials with mixed-model"
+          href: lesson_16_mixed_models.html
     - text: "Exercises"
       menu:
         - text: "Basic R"
