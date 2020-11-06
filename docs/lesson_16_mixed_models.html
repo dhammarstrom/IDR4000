@@ -499,6 +499,20 @@ div.tocify {
 </div>
 
 
+<script language="javascript"> 
+    function toggle(num) {
+      var ele = document.getElementById("toggleText" + num);
+      var text = document.getElementById("displayText" + num);
+      if(ele.style.display == "block") {
+        ele.style.display = "none";
+        text.innerHTML = "show";
+      }
+      else {
+        ele.style.display = "block";
+        text.innerHTML = "hide";
+      }
+   } 
+  </script>
 <div id="accounting-for-the-baseline-differences-between-group-and-mixed-models" class="section level1">
 <h1>Accounting for the baseline – Differences between group and mixed models</h1>
 <p>In a randomized trial, there might be difference between groups at baseline just by chance. These differences can be controlled for using the ANCOVA model as described above. Another way to account for the baseline is to analyze raw scores (not e.g. percentage change) given potential baseline differences. This can be done using another “extension” of the ordinary linear model, the mixed effects model.</p>
