@@ -33,9 +33,11 @@ p.caption {
   
 # A multiple time-point study
 
-In previous lessons where we used ANCOVA models to account for the baseline we were able to get away with a simple linear model. This because we modeled the change- or post-scores, we did not get any correlated errors (not multiple data points from each participant). The `ten_vs_thirty.xlsx` data set contains three time-points per participant, it is thus not straight forward to put all this data in one model as the data are correlated. As we saw in a previous lesson, not accounting for the correlation in repeated measures studies could affect statistical power.
+In previous lessons where we used ANCOVA models to account for the baseline we were able to get away with a simple linear regression model. This because we modeled the change- or post-scores, we did not get any correlated errors (not multiple data points from each participant). The `ten_vs_thirty.xlsx` data set contains three time-points per participant, it is thus not straight forward to put all this data in one model as the data are correlated. As we saw in a previous lesson, not accounting for the correlation in repeated measures studies could affect statistical power.
 
-In this lesson we will model strength data with a linear mixed model (LMM). We will intepret the output and make plots of the model estimates.
+In this lesson we will model strength data with a linear mixed model (LMM). We will interpret the output and make plots of the model estimates.
+
+## An hypothetical example
 
 A theoretical outcome of the study in this example could look something like in Figure 1 below.
 
@@ -90,11 +92,9 @@ In R, we would write this model formula as
 strength ~ 1
 ``` 
 
+given that the dependent variable (y) is a variable we call strength. The number 1 indicates that we only include an intercept in the model. Thus, the data are explained with an intercept only. In the figure below, this model is represented by the black cross.
 
-
-The data are explained with an intercept only. In the figure below, this model is represented by the black cross.
-
-We could add information about the time-points, still leaving out information regarding the grouping. This model formulation could look something like this:
+We could add information about the time-points to the model, still leaving out information regarding grouping. This model formulation could look something like this:
 
 $$y = \beta_0 + \beta_{Mid} + \beta_{Post}$$
 Where $\beta_{Mid}$ is a dummy variable assigned number 1 when time = "mid" otherwise 0, and $\beta_{Post}$ is a dummy variable assigned 1 when time = "post" otherwise 0. This model, given our hypothetical data in this example could look like the black line in the plot below.   
@@ -105,7 +105,7 @@ In R, we would write this model formula as
 strength ~ time
 ``` 
 
-
+R automatically converts the time variable to two dummy variables as described in the formula above.
 
 ```{r, echo = FALSE,warning = FALSE, message=FALSE, dpi = 300, fig.height = 4, fig.width = 6, fig.align='center', fig.cap = "Figure 2. Hypothetical model of a study strength development in two groups. The black cross represents a model of the data only modelling the mean, the black line represents a model modelling the average change over time in the two groups. Hypothetical values per group and time are represented in colored lines"}
 
@@ -154,7 +154,7 @@ data.frame(Time = c("Pre", "Mid", "Post"),
 
 ```
 
-To account for the difference between groups at baseline we could add an estimate of the effect of baseline differences. In as simplified description this could look like: 
+To account for the difference between groups at baseline we could add an estimate of the effect of baseline differences. In a simplified description this could look like: 
 
 $$y = \beta_0 + \beta_{Group} + \beta_{Mid} + \beta_{Post}$$
 Where the additional $\beta_{Group}$ is a dummy variable assigning 1 to all observations in the 30RM group and 0 otherwise. In R we extend the model formulation simply by adding group:
@@ -166,7 +166,6 @@ strength ~ group + time
 ``` 
 
 Estimates from the new model will have one "line" per group representing the average difference between groups at baseline but not accounting for differences in changes over time per group. The two black dashed lines in Figure 3 represents this model. 
-
 
 ```{r, echo = FALSE,warning = FALSE, message=FALSE, dpi = 300, fig.height = 4, fig.width = 6, fig.align='center', fig.cap = "Figure 3. Hypothetical model of a study strength development in two groups. The black cross represents a model of the data only modelling the mean, the solid black line represents a model modelling the average change over time in the two groups. The dashed black lines represents the average change over time with baseline difference between groups at baseline accounted for. Hypothetical values per group and time are represented in colored lines"}
 
@@ -265,7 +264,7 @@ We may also simplify the above formula like this:
 strength ~ group * time 
 ``` 
 
-The output from this model given our hypothetical data could look like this:
+The output from this model given our hypothetical data could look like in table 1.
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 library(knitr)
@@ -277,7 +276,7 @@ data.frame(Coefficient = c("Intercept", "TimeMid", "TimePost",
                         0.05, 
                         0.15, 
                         0.2)) %>%
-  kable()
+  kable(caption = "Table 1. Regression coefficients from an hypothetical data set.")
 
 ```
 
@@ -289,13 +288,11 @@ $$y = \beta_0 + \beta_{Mid} $$
 $$y = 0.45 + 0.15$$
 
 $$y = 0.6$$
- The same principles apply if we want to know the estimated mean in the 10RM group at Post, keeping the relevant terms:
- 
+The same principles apply if we want to know the estimated mean in the 10RM group at Post, keeping the relevant terms:
  
 $$y = \beta_0 + \beta_{Group}  + \beta_{Post} + \beta_{Post:Group}$$
 $$y=0.45 + 0.05 + 0.2 + 0.2$$
 $$y=0.9$$
-
 By adding up the terms in a linear fashion (hence linear regression) we can calculate the estimated averages from both groups. 
 
 The final model allows for different changes over time per group. And different regression estimates will reflect these patterns (Figure 4).
@@ -403,9 +400,32 @@ data.frame(Time = c("Pre", "Mid", "Post"),
 
 ```
 
-# Inference from a repeated measures study
+## Inference from a repeated measures study
 
-In the scenario described above the most meaningful comparison between groups are the differences in change over time between groups. This is because....
+In the scenario described above the most meaningful comparison between groups are the differences in change over time between groups. This is because our design let us do this comparison. A comparison that is much more uncertain in a study like this is the within-group changes over time. This is because we do not have a control condition for comparison. Imagine that our example above the two groups are both training, coparing the two groups means thta we are comparing two different training protocols. We might be tempted to say that the average increase in strength is due to the training, however, strictly speaking this problematic as we do not have a group of randomly assigned individuals who have performed all tests but not performed the training. The effect we see on strength on average could be an effect of learning the strength test. We can not isolate the training effect from other effects when we do not have a control group!
+
+In comparing the two training protocols we do have control as we are comparing the two groups to each other. 
+
+### Evaluating regression coefficients
+
+In the hypothetical example above the two coefficients that are of interest are the two interaction estimates. Let's evaluate their confidence intervals. Table 2 gives hypothetical 95% confidence intervals on the interaction terms.
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+data.frame(Coefficient = c("TimeMid:Group10RM", "TimePost:Group10RM"), 
+           Estimate = c(0.15, 
+                        0.2), 
+           ci = c("-0.05, 0.35", 
+                                     "0.05, 0.35")) %>%
+  kable(caption = "Table 2. Interaction coefficients from an hypothetical data set.", 
+        col.names = c("Coefficient", "Estimate", "95% CI"))
+
+```
+
+The interpretation could be that the 10RM group increases strength more than the 30RM group, the 95% CI at time-point mid 
+
+
+
 
 
 
