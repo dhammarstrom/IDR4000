@@ -13,6 +13,7 @@
 
 <title>Pre- to post-treatment analysis</title>
 
+<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -475,6 +476,9 @@ div.tocify {
     <li>
       <a href="assignment_3_regression.html">Regression models</a>
     </li>
+    <li>
+      <a href="assignment_4_repeated.html">Repeated measures studies</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -522,7 +526,7 @@ pre.r::before {
   color: rgb(48, 63, 159);
 }
 </style>
-<div id="background" class="section level1">
+<div id="background" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Background</h1>
 <p>In sport science (and e.g. medical-, nutritional-, psychological-sciences), intervention-studies are common. We are interested in the effect of e.g. a training method, nutritional supplement or drug. The outcome in these studies could be physical performance, degree of symptoms, muscle size or some other measure that we are interested in studying. These studies are often called <em>Randomized Controlled Trials</em> (RCT)</p>
 <p>The choice of study design relates to the research-question and dictates what statistical methods can be applied. The study design affects the ability of the study to detect an effect (the power). A common case of a RCT is the parallel-groups design. In a parallel-group design participants are <strong>allocated</strong> to two or more “treatment groups”, <strong>at random</strong>, one group gets a treatment, the other group acts as the control. Usually, a measurement is made prior to the intervention (Baseline) and after the intervention. This is a common design <strong>when wash-out period</strong> is not possible and thus, the two treatment can not be compared within the same individual.</p>
@@ -555,7 +559,7 @@ lm(change ~ group, data = data)</code></pre>
 lm(change ~ baseline + group, data = data)</code></pre>
 <p>We prefer the ANOCOVA model over the ordinary regression model as the ANCOVA model has better power <span class="citation">(Senn 2006a)</span>. The ANCOVA model also gives <strong>unbiased</strong> estimates of differences between groups <span class="citation">(Vickers and Altman 2001a)</span>. We can use the ANCOVA model when the allocation of participants have been done at random (e.g. RCTs) meaning that differences at baseline should be due to random variation.</p>
 </div>
-<div id="exercises-10-vs-30rm-study" class="section level1">
+<div id="exercises-10-vs-30rm-study" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Exercises: 10 vs 30RM-study</h1>
 <p>Thirty-one participants were assigned to one of two groups training with either 10 repetition maximum (RM) or 30RM, 27 participants completed the trials (24 participants completed to full time). The main question in the study was whether these two different treatments resulted in different magnitudes of strength development or muscle hypertrophy (we are interested in strength).</p>
 <p>The file is available on canvas and contains the following variables:</p>
@@ -575,7 +579,7 @@ lm(change ~ baseline + group, data = data)</code></pre>
         facet_wrap(~ exercise, scales = &quot;free&quot;) + 
   theme_minimal()</code></pre>
 <p>The main purposo of our study is to answer the question: <strong>what training method would you recommend for improving maximal strength?</strong> To answer this question we will (1) Choose an appropriate 1RM test, (2) choose the most appropriate statistical model/test. To illustrate differences between models we will compare different models (<code>lm</code> on the change-score, <code>lm</code> with baseline as covariate, <code>lm</code> on post-values with baseline as a covariate).</p>
-<div id="reducing-the-data-set" class="section level2">
+<div id="reducing-the-data-set" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Reducing the data set</h2>
 <p>For this exercise we will fous on the pre- to post-analysis of leg-press. To filter the data set we can use the code in CC4. We will have to re-shape the data for the calculation of change scores. We do this and add a simple calculation of change scores <span class="math inline">\(post-pre\)</span>.</p>
 <pre class="r"><code>ten_vs_thirty &lt;- read_excel(&quot;./data/ten_vs_thirty.xlsx&quot;, na = &quot;NA&quot;) %&gt;%
@@ -602,13 +606,13 @@ Figure 2.1: Diagnostic plots of Model 1
 <p>Let’s check the model with change between groups controlling for baseline values (Model 2). To create a similar grouped plot as above use the code in CC7</p>
 <p>This is not a perfect model either, but the residuals looks a bit better. In fact the only model that would (almost) fail a more formal test is Model 1. The Brusch-Pagan test (see CC8) tests for heteroscedasticity. (This implies that a Welch t-test would be preferred (<code>var.equal = FALSE</code>))</p>
 </div>
-<div id="inference" class="section level2">
+<div id="inference" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Inference</h2>
 <p>Success! our models are somewhat OK. We may draw inference from them. It turns out that model modeling the change score or the post score does not matter when we control for the baseline. The difference between groups are exactly the same in Model 2 and 4 (CC9).</p>
 <p>The <code>pre</code> variable changes as the relationship to the change is different to the relationship to post scores but the model does the same thing! This is now a question of how we would like to frame our question. If the question is “do people that train with 10RM <strong>increase</strong> their strength more than people that train with 30RM?” then model 2 is preferred. If the question is “are people who <strong>have trained</strong> with 10RM stronger than people who have trained with 30RM?” model 4 is preferred. The differences are basically semantics as the models tests the same thing, the differences between groups when controlling for baseline differences.</p>
 <p>As we control for the baseline, we removes some of the unexplained error from the model, this will lead to a more powerful model. This is reflected in the stronger evidence (in a Fisherian way) against the null-hypothesis of no difference between groups.</p>
 </div>
-<div id="what-if-the-model-diagnostics-says-the-models-are-no-good" class="section level2">
+<div id="what-if-the-model-diagnostics-says-the-models-are-no-good" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> What if the model diagnostics says the models are no good?</h2>
 <p>Biological data and performance data often exhibit larger variation at larger values. This leads to heteroscedasticity. A common way of dealing with this is the log transformation. Transforming the data to the log scale changes the interpretation of the regression coefficients.</p>
 <pre class="r"><code># A linear model with the dependent variable on the linear scale!
@@ -633,10 +637,10 @@ c</code></pre>
 <p>The 30RM group has a strength level 88% of the 10RM group at post, we can say that the 30RM group is 11% weaker than the 10RM group. Similarly, a confidence interval may also be back-transformed.</p>
 </div>
 </div>
-<div id="exercises-single-vs.-multiple-sets" class="section level1">
+<div id="exercises-single-vs.-multiple-sets" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Exercises: Single vs. multiple sets</h1>
 <p>In this study, n = 34 participants were randomized to completed a strength training intervention with multiple-set and single-set randomized to either leg. Strength was evaluated as isokinetic strength at 60, 120 and 240 degrees and isometric strength, all using knee extension. In these exercises we will analyze data were participants have been selected either to belong to the single- or multiple-set group. This means we will only analyze one leg per participant!</p>
-<div id="the-data-set" class="section level2">
+<div id="the-data-set" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> The data set</h2>
 <p>The data can be found on canvas and contains six variables:</p>
 <ul>
@@ -651,7 +655,7 @@ c</code></pre>
 <pre class="r"><code>strength &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;%
   print()</code></pre>
 </div>
-<div id="exploratory-analysis" class="section level2">
+<div id="exploratory-analysis" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Exploratory analysis</h2>
 <p>Use descriptive methods (summary statistics and figures to describe results from the trial). What are the mean and standard deviations of the <code>load</code> variable for each <code>timepoint</code>, <code>exercise</code> and <code>group</code>. Use tables and figures to show the results.</p>
 <script language="javascript"> 
@@ -680,7 +684,7 @@ c</code></pre>
 <p></br></p>
 <p>What can you say about the effect of single- vs. multiple-sets training on muscle strength using these observations?</p>
 </div>
-<div id="change-from-baseline" class="section level2">
+<div id="change-from-baseline" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Change from baseline</h2>
 <p>We will now focus on the change from baseline (<code>pre</code>) to the <code>post</code> time-point. To only use this data, use the filter function:</p>
 <p>Calculate the average percentage change from baseline (<code>pre</code>) in each group and create a graph of the results. Focus on the isokinetic test performed at 120 degrees per second (<code>isok.120</code>). Make a plan of your code before you start writing it!</p>
@@ -701,7 +705,7 @@ c</code></pre>
 </div>
 <p></br></p>
 </div>
-<div id="model-the-change" class="section level2">
+<div id="model-the-change" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Model the change</h2>
 <p>The present data set is an example of a simple randomized trial. Participants have been randomized to either treatment before the trial and we are interested in the difference in treatments. There are several options for analyzing these data. A simple alternative would be to analyse the difference in post-training values with a t-test. This is not very efficient in terms of statistical power, i.e. we would need a lot of participants to show a difference if it existed due to differences between participants. In the case of the present data set, we have also collected more data than just follow-up scores. These baseline scores can be used to calculate a change-score which in turn can be used to compare treatments. This is a more direct comparison related to our actual question. We want to know what treatment is more effective in <em>improving</em> strength.</p>
 <p>An example. We focus on the <code>isok.120</code> data. State a hypothesis that compares the two groups and run a test that test against the corresponding null-hypothesis. Remember that we did this using both <code>t.test()</code> and <code>lm()</code>. Using <code>var.equal = TRUE</code> do the corresponding test also in <code>lm</code>. Write a short summary of your results!</p>
@@ -711,7 +715,7 @@ c</code></pre>
 </div>
 <p></br></p>
 </div>
-<div id="accounting-for-the-baseline-regression-to-the-mean-and-extending-the-linear-model" class="section level2">
+<div id="accounting-for-the-baseline-regression-to-the-mean-and-extending-the-linear-model" class="section level2" number="3.5">
 <h2><span class="header-section-number">3.5</span> Accounting for the baseline – Regression to the mean and extending the linear model</h2>
 <p>Above we created a linear model from where you got exactly the same results as from the t-test. In this section we will see that the linear model is easily extended to create more robust statistics of change scores.</p>
 <p>When we have calculated a change score (e.g. percentage change), this score might be related to the baseline. This can be expected due to a phenomena known as regression towards the mean. When we do repeated testing on the same participants, test scores that were close to the upper or lower limit of a participant potential scores will be replaced with a score closer to the mean. This in turn will create a negative association between initial values and change.</p>
@@ -847,7 +851,7 @@ tidy(m1) %&gt;%
 </table>
 <p>These result will not repeat for all tests, but generally, the ANCOVA has more power and represents a good way of controlling for baseline measurements in change score analysis <span class="citation">(Vickers and Altman 2001b; Senn 2006b)</span>.</p>
 </div>
-<div id="exercises" class="section level2">
+<div id="exercises" class="section level2" number="3.6">
 <h2><span class="header-section-number">3.6</span> Exercises</h2>
 <p>Perform an analysis of <code>isok.120</code> data, infer on the effect of single- vs. multiple-sets on change in strength using the confidence intervals from an ANCOVA model. Remember to mean center the baseline per sex.</p>
 <a id="displayText" href="javascript:toggle(7);">Example code</a>
@@ -883,9 +887,9 @@ summary(m1)
 <p></br></p>
 </div>
 </div>
-<div id="references" class="section level1 unnumbered">
+<div id="references" class="section level1 unnumbered" number="">
 <h1>References</h1>
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 <div id="ref-RN2116">
 <p>Senn, S. 2006a. “Change from Baseline and Analysis of Covariance Revisited.” Journal Article. <em>Stat Med</em> 25 (24): 4334–44. <a href="https://doi.org/10.1002/sim.2682">https://doi.org/10.1002/sim.2682</a>.</p>
 </div>
@@ -893,11 +897,11 @@ summary(m1)
 <p>———. 2006b. “Change from Baseline and Analysis of Covariance Revisited.” Journal Article. <em>Stat Med</em> 25 (24): 4334–44. <a href="https://doi.org/10.1002/sim.2682">https://doi.org/10.1002/sim.2682</a>.</p>
 </div>
 <div id="ref-RN2118">
-<p>Vickers, Andrew J., and Douglas G. Altman. 2001a. “Analysing Controlled Trials with Baseline and Follow up Measurements.” Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–4. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/%0Ahttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/
+<p>Vickers, Andrew J., and Douglas G. Altman. 2001a. “Analysing Controlled Trials with Baseline and Follow up Measurements.” Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–4. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/%0D%0Ahttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.</p>
 </div>
 <div id="ref-vickers2001">
-<p>———. 2001b. “Analysing Controlled Trials with Baseline and Follow up Measurements.” Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–4. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/%0Ahttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/
+<p>———. 2001b. “Analysing Controlled Trials with Baseline and Follow up Measurements.” Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–4. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/%0D%0Ahttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.</p>
 </div>
 </div>

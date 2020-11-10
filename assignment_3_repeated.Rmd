@@ -1,0 +1,31 @@
+---
+title: "Assignment 4: Repeated measures studies"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+This report has two parts. In part 1, use the ten_vs_thirty.xlsx data set and answer the question "what should be the recommended intensity for strength development?". In the second part, use `strengthTests.csv` and answer the question "what should be the recommended volume (one or three sets) for strength development?".
+
+You have to make several choices in your data analysis:
+
+- Are you interested in all strength variables, a single one or an weighted average?
+- Are you interested in all time-points or only pre-post/pre-mid?
+- Do you want to use a simple comparison of change scores, an ANCOVA or a mixed model?
+- Do you test an hypothesis or estimate differences (do you think there is a difference in these two approaches?)
+
+Report your results with at least one figure and if needed tables and of course results in the text. A simple way to structure the report is background, methods (including "Statistical analysis"), results and discussion. I expect that you make a little review of the literature for each study, what are the evidence for increased intensity and volume? Include 2-3 references per study.
+
+Try hard to describe what you do in your statistical analysis in the methods section.
+
+Set all code chunks to `echo = FALSE` and upload both the report and an Rmd-file with your code. 
+
+## Tips
+
+- Use the built in reference system in R-markdown to format your references. 
+- Use the emmeans package to get model estimates (see lesson on mixed models) for figures
+- Take some time to format your figures and write figure captions using `fig.cap = ` in each code chunk. This makes the report look nice!

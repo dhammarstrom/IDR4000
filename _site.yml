@@ -72,6 +72,8 @@ navbar:
           href: feedback_2.html
         - text: "Regression models"
           href: assignment_3_regression.html
+        - text: "Repeated measures studies"
+          href: assignment_4_repeated.html
 
   right:
     - icon: fa-question fa-lg

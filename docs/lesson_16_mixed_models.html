@@ -13,6 +13,7 @@
 
 <title>Mixed models - Analyzing repeated measures designs</title>
 
+<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -475,6 +476,9 @@ div.tocify {
     <li>
       <a href="assignment_3_regression.html">Regression models</a>
     </li>
+    <li>
+      <a href="assignment_4_repeated.html">Repeated measures studies</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -584,24 +588,18 @@ confint(lmer1)</code></pre>
 <pre class="r"><code># Load packages
 library(lme4); library(tidyverse); library(readxl)</code></pre>
 <pre><code>## Loading required package: Matrix</code></pre>
-<pre><code>## -- Attaching packages ---------------------------------------------- tidyverse 1.3.0 --</code></pre>
-<pre><code>## v ggplot2 3.3.2     v purrr   0.3.4
-## v tibble  3.0.3     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------------- tidyverse_conflicts() --
-## x tidyr::expand() masks Matrix::expand()
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-## x tidyr::pack()   masks Matrix::pack()
-## x tidyr::unpack() masks Matrix::unpack()</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Matrix&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, pack, unpack</code></pre>
 <pre class="r"><code>isom.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
   filter(exercise == &quot;isom&quot;, 
          timepoint %in% c(&quot;pre&quot;, &quot;post&quot;)) %&gt;%
   # fix the order of timepoint factor
   mutate(timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;post&quot;)))</code></pre>
 <pre><code>## 
-## -- Column specification ---------------------------------------------------------------
+## -- Column specification -------------------------------
 ## cols(
 ##   subject = col_character(),
 ##   timepoint = col_character(),
