@@ -425,6 +425,9 @@ div.tocify {
     <li>
       <a href="lesson_16_mixed_models.html">Analyzing trials with mixed-model</a>
     </li>
+    <li>
+      <a href="lesson_17_mixed_models2.html">More on mixed models (visualizing models)</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -594,7 +597,7 @@ isom.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;%
   # fix the order of timepoint factor
   mutate(timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;post&quot;)))</code></pre>
 <pre><code>## 
-## -- Column specification -------------------------------
+## -- Column specification --------------------------------------------
 ## cols(
 ##   subject = col_character(),
 ##   timepoint = col_character(),

@@ -402,9 +402,9 @@ data.frame(Time = c("Pre", "Mid", "Post"),
 
 ## Inference from a repeated measures study
 
-In the scenario described above the most meaningful comparison between groups are the differences in change over time between groups. This is because our design let us do this comparison. A comparison that is much more uncertain in a study like this is the within-group changes over time. This is because we do not have a control condition for comparison. Imagine that our example above the two groups are both training, coparing the two groups means thta we are comparing two different training protocols. We might be tempted to say that the average increase in strength is due to the training, however, strictly speaking this problematic as we do not have a group of randomly assigned individuals who have performed all tests but not performed the training. The effect we see on strength on average could be an effect of learning the strength test. We can not isolate the training effect from other effects when we do not have a control group!
+In the scenario described above the most meaningful comparison between groups are the differences in change over time between groups. This is because our design lets us do this comparison. A comparison that is much more uncertain in a study like this is the within-group changes over time. This is because we do not have a control condition for comparison. Imagine that in our example above, the two groups are both training, comparing the two groups means that we are comparing two different training protocols. We might be tempted to say that the average increase in strength is due to the training, however, strictly speaking this problematic as we do not have a group of randomly assigned individuals who have performed all tests but not performed the training. The effect we see on strength on average could be an effect of learning the strength test. We can not isolate the training effect from other effects when we do not have a control group!
 
-In comparing the two training protocols we do have control as we are comparing the two groups to each other. 
+In comparing the two training protocols we do have a control as we are comparing the two groups to each other. 
 
 ### Evaluating regression coefficients
 
@@ -422,13 +422,340 @@ data.frame(Coefficient = c("TimeMid:Group10RM", "TimePost:Group10RM"),
 
 ```
 
-The interpretation could be that the 10RM group increases strength more than the 30RM group, the 95% CI at time-point mid 
+The interpretation could be that the 10RM group increases strength more than the 30RM group, the 95% CI at time-point Mid indicate that no difference between groups are within the probable values (95% CI) indicating true effect might here might be no difference. At time-point post, our 95% CI indicates that we do not have the zore-effect among our probable values.
+
+# Using real data
+
+We start by loading the data and packages. Notice that we are loading the `lme4` package that we will use to fit mixed models. We also load the `emmeans` package that we will use to get estimates from each model. For this example we will work with leg-press data. 
+
+```{r, echo = TRUE}
+library(tidyverse); library(readxl); library(lme4); library(emmeans)
+
+dat <- read_excel("./data/ten_vs_thirty.xlsx", na = "NA") %>%
+  filter(exercise == "legpress") %>%
+    # Fix the time factor in the right order for plotting 
+  # and fix the grouping so that the 30RM group comes first (comparing to 30RM)
+  mutate(timepoint = factor(timepoint, levels = c("pre", "mid", "post")), 
+         group = factor(group,  levels = c("RM30", "RM10")))
+```
+
+## Data exploration
+
+It is alway a good idea to plot the data to get a sense of what you will find in any subsequent models. Let's build a plot that shows changes in strength for each participant in each group.
+
+```{r, echo = TRUE}
+dat %>%
+  # build the plot, each participant (subject) will get a line, group = subject
+  # will take care of this. Each group will get it's own color, color = group
+  # will take care of that.
+  ggplot(aes(timepoint, load, group = subject, color = group)) + geom_line() +
+  theme_minimal()
+
+```
+
+We can see that most participants increase their strength, it is not clear if one group increases more than the other. We can add boxplots on top to get an idea.
+
+
+```{r, echo = TRUE}
+dat %>%
+  # build the plot, each participant (subject) will get a line, group = subject
+  # will take care of this. Each group will get it's own color, color = group
+  # will take care of that.
+  ggplot(aes(timepoint, load, group = subject, color = group)) + 
+  geom_line() +
+  # remove grouping from boxplots to plot group averages
+  geom_boxplot(aes(group = NULL), width = 0.5) +
+  theme_minimal()
+
+```
+
+The graphics suggests a small effect in favor of 10RM at post. Let's fit the model.
+
+## Fit a mixed model
+
+The model will be fairly simple. We want to compare the two groups an model any differences in change over time. This means that the model must contain the time and group variable as well as their interaction giving each group a chance to "vary on their own". The beauty of the mixed model is that we can account for repeated data just by using the subject indicator a random efect. The data in this example allows for the inclusion of a random intercept, meaning that each particiapnt will be compared from their own strating point (intercept).
+
+```{r, echo = TRUE}
+# The lmer function from the lme4 package.
+m1 <- lmer(load ~ timepoint * group + (1|subject), data = dat)
+```
+
+Before doing anything with this model we will have to check if our assumptions are met. Let's do a residuals plot. 
+
+```{r, echo = TRUE}
+plot(m1)
+```
+
+The residual plot indicates that there are not obvious patterns in the data, the residual variation is similar over the range of fitted values. The model is OK.
+
+We can now check if the model behaves similar to what we expect when looking at the raw data. We will use the `emmeans` package to get model estimates, estimated averages at each time-point within each group. The data may be plotted.
+
+```{r, echo = TRUE}
+
+# Using the model (m1) we can specify the emmeans function to get model estimates
+
+# The specs argument specifies what means to calculate from the model.
+# The code below takes care of the full model (including interactions).
+est <- emmeans(m1, specs = ~ timepoint|group)
+
+```
+
+To use an object created with `emmeans` in plotting we need to convert it to a data frame. It is then straight forward to plot.
+
+```{r, echo = TRUE}
+
+est %>%
+  data.frame() %>%
+  mutate(timepoint = factor(timepoint, levels = c("pre", "mid", "post"))) %>%
+
+  ggplot(aes(timepoint, emmean, group = group, color = group)) + geom_line() +
+  theme_minimal()
+
+```
+
+In the code creating the plot above I specified the `group` and `color` arguments in ggplot to equal group in our data set. This means that lines will be drawn with different colors connecting data from each group.
+
+We can see in the figure that the 10RM group on average seems to increase more from pre to post than the 30RM group.
+
+We could add error-bars to this plot that represents the 95% confidence interval of each estimate. I will tweak the plot further to avoid overplotting and add points to indicate where estimates have been made.
+
+```{r, echo = TRUE}
+
+est %>%
+  data.frame() %>%
+  mutate(timepoint = factor(timepoint, levels = c("pre", "mid", "post"))) %>%
+
+  ggplot(aes(timepoint, emmean, group = group, color = group)) + 
+  
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), 
+                position = position_dodge(width = 0.2), 
+                width = 0.1) +
+  geom_line(position = position_dodge(width = 0.2)) +
+  geom_point(position = position_dodge(width = 0.2)) +
+  
+  theme_minimal()
+
+```
+
+The `position = position_dodge(width = 0.2)` argument inside `geom_errorbar()`, `geom_point()` and `geom_line()` moves the points, lines and error-bars away from each other based on the grouping (`group = group` in `aes()`). The `width` argument in `geom_errobar` sets the width of the error-bars. There is nothing magical with these numbers, I just think it looks nice.
+
+The confidence bounds around each measurement does not really answer our question of differences between groups in change over time. These are just the 95% CI around the estimated means for each group at each time-point. Some would say that they are so non-informative that they should not be presented. I think it is good practice to plot what the model estimates, this gives you an opportunity to assess if the model actually captures the data! We get standard errors and 95% confidence intervals from model estimates and the 95% CI are preferred for plotting.
+
+## Do the model capture the data?
+
+Lets combine raw data and model estimates in the same plot! We can combine several data sources in ggplots like described in the code below. We will simply extend the last figure and include raw data. By including a separate data argument in a `geom_` we can overlay these data on the same plot. 
+
+
+```{r, echo = TRUE}
 
 
 
+est %>%
+  data.frame() %>%
+  mutate(timepoint = factor(timepoint, levels = c("pre", "mid", "post"))) %>%
+
+  ggplot(aes(timepoint, emmean, group = group, color = group) ) + 
+  
+  # Adds raw data
+  geom_line(data = dat, aes(timepoint, load, group = subject, color = group), 
+            # Add transparency to individual lines
+            alpha = 0.4) +
+  
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), 
+                position = position_dodge(width = 0.2), 
+                width = 0.1) +
+  geom_line(position = position_dodge(width = 0.2)) +
+  geom_point(position = position_dodge(width = 0.2)) +
+  theme_minimal()
+
+```
+
+Using `alpha = 0.4` we make the lines representing individual data a bit more transparent. Nice! We now have a plot showing the raw data and the model estimates. They seem to capture the data pretty well (we have also seen the residual plot indicating this).
+
+## Inference about the effect of interest
+
+We have still not answered our question regarding the effect of training with different intensity. To do this we will need to get the estimates of the interaction coefficients from the model. To keep up with our very visual way of looking at the data we could plot the confidence intervals from these effects. Using the `confint()` function we will get the 95% CI from each model coefficient.
+
+We need to build a data frame out of this information and the coefficients from the `summary()` output. 
+
+```{r, echo = TRUE, results="asis"}
+# Save the confidence intervals
+conf_intervals <- confint(m1)
+
+# Save the regression coefficients
+coefs <- summary(m1)$coef
+
+# Using cbind (column bind) to combine the two data frames
+coef_summary <- cbind(coefs, data.frame(conf_intervals)[3:8, ]) 
+
+# Print the table in a pretty format
+
+coef_summary %>%
+  kable()
+```
+
+`X2.5..` and `X97.5..` represents the lower and upper confidence interval for each estimate. The estimate that we are interested in are `timepoint:groupRM10`and `timepointpost:groupRM10`. We can now reduce the data frame and plot it to show estimated differences between groups at time-points "mid" and "post".
+
+We will make a plot mirroring the plot showing raw values and model estimates. We need all time-points to be represented but only "mid" and "post" to contain data. 
+
+```{r, echo = TRUE}
+coef_summary %>%
+  mutate(coef = rownames(.)) %>%
+  # Filter only the interaction variables
+  filter(coef %in% c("timepointmid:groupRM10", "timepointpost:groupRM10")) %>%
+  # Make a "timepoint" variable to represent the "dat" data set.
+  mutate(timepoint = gsub("timepoint", "", coef), 
+         timepoint = gsub(":groupRM10", "", timepoint)) %>%
+  # Adds a row so that timepoint = "pre" is represented
+  add_row(timepoint = "pre", coef = "pre") %>%
+  # Fix order of the time variable
+  mutate(timepoint = factor(timepoint, levels = c("pre", "mid", "post"))) %>%
+  
+  # Create the plot
+  ggplot(aes(timepoint, Estimate)) + 
+  
+  
+  # Add a line indicating zero geom_hline (horizontal line)
+  geom_hline(yintercept = 0, lty = 2) +
+  
+  geom_errorbar(aes(ymin = X2.5.., ymax = X97.5..), width = 0.1) +
+  geom_point(shape = 24, size = 3, fill = "white") +
+  theme_minimal()
+
+```
+
+The plot shows the differences between groups at time-points "mid" and "post" after accounting for baseline differences. This is the answer to our question regarding the differences between training intensity, 10RM seems to be superior!
+
+We can combine the two plots. The package `cowplot` has functions to plot several ggplots into one single plot. 
+
+First we save each plot and the combine them using `plot_grid`. I will do some modifications to make the plot a bit nicer.
+
+```{r, echo = TRUE}
+
+## Figure 1: Estimated means and raw data
+
+figA <- est %>%
+  data.frame() %>%
+  mutate(timepoint = factor(timepoint, levels = c("pre", "mid", "post"))) %>%
+
+  ggplot(aes(timepoint, emmean, group = group, color = group) ) + 
+  
+  # Adds raw data
+  geom_line(data = dat, aes(timepoint, load, group = subject, color = group), 
+            # Add transparency to individual lines
+            alpha = 0.4) +
+  
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), 
+                position = position_dodge(width = 0.2), 
+                width = 0.1) +
+  geom_line(position = position_dodge(width = 0.2)) +
+  geom_point(position = position_dodge(width = 0.2)) +
+  theme_minimal() +
+  
+  # Changing axis titles and title in the legend
+  labs(y = "Legpress 1RM load (kg)", 
+       color = "Intensity") + 
+  
+  # Removing text and indicators on the x-axis as these can be represented in the 
+  # other plot
+  theme(axis.text.x = element_blank(), 
+        axis.title.x = element_blank())
+  
+# Figure B: Differences between groups (interaction terms with 95% CI)
+
+figB <- coef_summary %>%
+  mutate(coef = rownames(.)) %>%
+  # Filter only the interaction variables
+  filter(coef %in% c("timepointmid:groupRM10", "timepointpost:groupRM10")) %>%
+  # Make a "timepoint" variable to represent the "dat" data set.
+  mutate(timepoint = gsub("timepoint", "", coef), 
+         timepoint = gsub(":groupRM10", "", timepoint)) %>%
+  # Adds a row so that timepoint = "pre" is represented
+  add_row(timepoint = "pre", coef = "pre") %>%
+  # Fix order of the time variable
+  mutate(timepoint = factor(timepoint, levels = c("pre", "mid", "post"))) %>%
+  
+  # Create the plot
+  ggplot(aes(timepoint, Estimate)) + 
+  
+  
+  # Add a line indicating zero geom_hline (horizontal line)
+  geom_hline(yintercept = 0, lty = 2) +
+  
+  geom_errorbar(aes(ymin = X2.5.., ymax = X97.5..), width = 0.1) +
+  geom_point(shape = 24, size = 3, fill = "white") +
+  theme_minimal() + 
+  
+    # Changing axis titles and title in the legend
+  labs(y = "Average group differences\n(kg, 95% CI)", 
+       color = "Intensity") 
+  
+# Using cowplot to plot both figures in 1
+library(cowplot)
+
+# Plot grid using figA and figB
+plot_grid(figA, figB, ncol = 1, 
+          # Align vertically so that the x axis matches
+          align = "v", 
+          # Set alignment so that axis align both on the left (l) and right (r)
+          # axis
+          axis = "lr")
+
+# Learn more about aligning:
+# https://wilkelab.org/cowplot/articles/aligning_plots.html
 
 
 
+```
+
+Success! We no have a two part figure showing model estimates and estimated mean differences between training conditions. 
+
+## More about the model summary
+
+Using `summary(m1)` we can get more information about the model we have fitted. 
+
+```{r, echo = TRUE}
+summary(m1)
+```
+
+Let's first examine the random effects. In this model they are represented by a random intercept meaning that each participant has their own intercept in the model. The `Std.Dev.` (or standard deviation) in the random effects table indicates the mean variation between participants intercept. They vary at average 68.85 kg from the mean of each group.
+
+The Residual indicates the variation that is not accounted for in the model by either random nor fixed effects.
+
+The fixed effects are the model estimates of group and time effects in the model. This what we use to draw conclusions about their effects. Notice that we do not get any p-values. These have been left out of the `lmer` function.
+
+Next table contains "approximate correlation of the estimator of the fixed
+effects"^[https://stat.ethz.ch/pipermail/r-sig-mixed-models/2009q1/001941.html] (??). They are subject to more advanced discussions. 
+
+We have already seen that `confint` function can be used to get confidence intervals.
+
+#### I neeeeed p-values
+
+There are several options (see `?lme4::pvalues`). A nice intuitive option is the removal of the term you are interested in and model comparison. 
+
+Let's say that we are interested in the interaction between group and time. If this interaction is important, adding this information to the model would increase it's ability to explain the data. We can actually test if this is true and in process get a p-value. Technically we will do a likelihood-ratio test. This tests compares two models and determines which one fits the data best.
+
+```{r, echo = TRUE}
+
+# Fit a model not containing the interaction
+m0 <- lmer(load ~ timepoint + group + (1|subject), data = dat)
+
+
+# Fit a model containing the interaction term
+m1 <- lmer(load ~ timepoint * group + (1|subject), data = dat)
+
+# Compare the models using the anova function
+
+anova(m0, m1)
+
+```
+
+The output gives you the model formulation of each model being compared. The AIC is a measure of goodness of fit a lower value is better. The logLik is the value tested in a Chi^2^ test and the p-value indicates if the models differ more than would be expected due to sampling error. Above, the comparison of models indicate that it is quite unlikely to see this difference if the models explained the data similarly. Thus, adding the interaction increases model `m1`s ability to explain the data, there is evidence for an interaction effect in the data.
+
+# Summary
+
+Mixed models are very useful for fitting data containing correlated data. This e.g. is data where multiple data points are gathered from the same individuals such as in repeated measures designs. Mixed models can be extended in many ways to capture even more complicated data sets. 
+Plotting the output of models are very useful to get a feeling about the model performace and what they actually tell you. Confidence intervals can be used for inference. If p-values are needed it is suggested that you use liklihood ratio tests to compare model.
 
   
   

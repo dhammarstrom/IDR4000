@@ -349,6 +349,9 @@ $(document).ready(function () {
     <li>
       <a href="lesson_16_mixed_models.html">Analyzing trials with mixed-model</a>
     </li>
+    <li>
+      <a href="lesson_17_mixed_models2.html">More on mixed models (visualizing models)</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -441,18 +444,18 @@ $(document).ready(function () {
 <p><img src="ex1_5_group_exercise_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>The problem is that the data set looks like this when we select the variables <code>SUB_ID</code>, <code>T3T1_PERCENT_CHANGE_FAST_CSA</code> and <code>T3T1_PERCENT_CHANGE_SLOW_CSA</code>:</p>
 <pre><code>## # A tibble: 30 x 3
-##    SUB_ID T3T1_PERCENT_CHANGE_F~ T3T1_PERCENT_CHANGE_S~
-##    &lt;chr&gt;                   &lt;dbl&gt;                  &lt;dbl&gt;
-##  1 MRV001                  14.7                  -12.3 
-##  2 MRV002                  16.2                   10.0 
-##  3 MRV003                  39.8                   14.8 
-##  4 MRV004                  -2.55                  12.0 
-##  5 MRV005                  59.7                   63.6 
-##  6 MRV006                  -6.87                 -18.2 
-##  7 MRV007                   7.7                  -12.5 
-##  8 MRV009                  25.7                    3.1 
-##  9 MRV010                  -0.63                  -3.38
-## 10 MRV011                  45.4                   26.6 
+##    SUB_ID T3T1_PERCENT_CHANGE_FAST_CSA T3T1_PERCENT_CHANGE_SLOW_CSA
+##    &lt;chr&gt;                         &lt;dbl&gt;                        &lt;dbl&gt;
+##  1 MRV001                        14.7                        -12.3 
+##  2 MRV002                        16.2                         10.0 
+##  3 MRV003                        39.8                         14.8 
+##  4 MRV004                        -2.55                        12.0 
+##  5 MRV005                        59.7                         63.6 
+##  6 MRV006                        -6.87                       -18.2 
+##  7 MRV007                         7.7                        -12.5 
+##  8 MRV009                        25.7                          3.1 
+##  9 MRV010                        -0.63                        -3.38
+## 10 MRV011                        45.4                         26.6 
 ## # ... with 20 more rows</code></pre>
 <p>And before plotting, we would like it to look like this:</p>
 <pre><code>## # A tibble: 60 x 3

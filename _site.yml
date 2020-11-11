@@ -46,6 +46,8 @@ navbar:
           href: lesson_15_analyzingTrials.html
         - text: "Analyzing trials with mixed-model"
           href: lesson_16_mixed_models.html
+        - text: "More on mixed models (visualizing models)"
+          href: lesson_17_mixed_models2.html
     - text: "Exercises"
       menu:
         - text: "Basic R"
