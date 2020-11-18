@@ -480,6 +480,9 @@ div.tocify {
       <a href="assignment_3_regression.html">Regression models</a>
     </li>
     <li>
+      <a href="feedback_3.html">Feedback assignment 3</a>
+    </li>
+    <li>
       <a href="assignment_4_repeated.html">Repeated measures studies</a>
     </li>
   </ul>
@@ -589,15 +592,20 @@ confint(lmer1)</code></pre>
 <a id="displayText" href="javascript:toggle(8);">Example code</a>
 <div id="toggleText8" style="display: none">
 <pre class="r"><code># Load packages
-library(lme4); library(tidyverse); library(readxl)
-
-isom.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
+library(lme4); library(tidyverse); library(readxl)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Matrix&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, pack, unpack</code></pre>
+<pre class="r"><code>isom.data &lt;- read_csv(&quot;./data/strengthTests.csv&quot;) %&gt;% 
   filter(exercise == &quot;isom&quot;, 
          timepoint %in% c(&quot;pre&quot;, &quot;post&quot;)) %&gt;%
   # fix the order of timepoint factor
   mutate(timepoint = factor(timepoint, levels = c(&quot;pre&quot;, &quot;post&quot;)))</code></pre>
 <pre><code>## 
-## -- Column specification --------------------------------------------
+## -- Column specification -----------------------------------------------------------
 ## cols(
 ##   subject = col_character(),
 ##   timepoint = col_character(),

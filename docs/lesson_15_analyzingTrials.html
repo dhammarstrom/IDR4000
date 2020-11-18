@@ -480,6 +480,9 @@ div.tocify {
       <a href="assignment_3_regression.html">Regression models</a>
     </li>
     <li>
+      <a href="feedback_3.html">Feedback assignment 3</a>
+    </li>
+    <li>
       <a href="assignment_4_repeated.html">Repeated measures studies</a>
     </li>
   </ul>
@@ -760,30 +763,62 @@ tidy(m1) %&gt;%
   kable(col.names = c(&quot;Parameter&quot;, &quot;Estimate&quot;, &quot;SE&quot;, &quot;t-statistic&quot;, &quot;P-value&quot;), 
         caption = &quot;The ordinary linear model&quot;, digits = c(NA, 2, 2, 2, 3)) </code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-28">Table 3.1: </span>The ordinary linear model</caption>
+<caption>
+<span id="tab:unnamed-chunk-28">Table 3.1: </span>The ordinary linear model
+</caption>
 <thead>
-<tr class="header">
-<th align="left">Parameter</th>
-<th align="right">Estimate</th>
-<th align="right">SE</th>
-<th align="right">t-statistic</th>
-<th align="right">P-value</th>
+<tr>
+<th style="text-align:left;">
+Parameter
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+t-statistic
+</th>
+<th style="text-align:right;">
+P-value
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">29.71</td>
-<td align="right">4.46</td>
-<td align="right">6.66</td>
-<td align="right">0.000</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+29.71
+</td>
+<td style="text-align:right;">
+4.46
+</td>
+<td style="text-align:right;">
+6.66
+</td>
+<td style="text-align:right;">
+0.000
+</td>
 </tr>
-<tr class="even">
-<td align="left">groupsingle</td>
-<td align="right">-11.51</td>
-<td align="right">6.22</td>
-<td align="right">-1.85</td>
-<td align="right">0.074</td>
+<tr>
+<td style="text-align:left;">
+groupsingle
+</td>
+<td style="text-align:right;">
+-11.51
+</td>
+<td style="text-align:right;">
+6.22
+</td>
+<td style="text-align:right;">
+-1.85
+</td>
+<td style="text-align:right;">
+0.074
+</td>
 </tr>
 </tbody>
 </table>
@@ -791,37 +826,79 @@ tidy(m1) %&gt;%
   kable(col.names = c(&quot;Parameter&quot;, &quot;Estimate&quot;, &quot;SE&quot;, &quot;t-statistic&quot;, &quot;P-value&quot;), 
         caption = &quot;The ANCOVA model&quot;, digits = c(NA, 2, 2, 2, 3))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-28">Table 3.1: </span>The ANCOVA model</caption>
+<caption>
+<span id="tab:unnamed-chunk-28">Table 3.1: </span>The ANCOVA model
+</caption>
 <thead>
-<tr class="header">
-<th align="left">Parameter</th>
-<th align="right">Estimate</th>
-<th align="right">SE</th>
-<th align="right">t-statistic</th>
-<th align="right">P-value</th>
+<tr>
+<th style="text-align:left;">
+Parameter
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+t-statistic
+</th>
+<th style="text-align:right;">
+P-value
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">40.39</td>
-<td align="right">4.91</td>
-<td align="right">8.23</td>
-<td align="right">0.000</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+40.39
+</td>
+<td style="text-align:right;">
+4.91
+</td>
+<td style="text-align:right;">
+8.23
+</td>
+<td style="text-align:right;">
+0.000
+</td>
 </tr>
-<tr class="even">
-<td align="left">pre</td>
-<td align="right">-0.19</td>
-<td align="right">0.06</td>
-<td align="right">-3.48</td>
-<td align="right">0.002</td>
+<tr>
+<td style="text-align:left;">
+pre
+</td>
+<td style="text-align:right;">
+-0.19
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+-3.48
+</td>
+<td style="text-align:right;">
+0.002
+</td>
 </tr>
-<tr class="odd">
-<td align="left">groupsingle</td>
-<td align="right">-10.95</td>
-<td align="right">5.34</td>
-<td align="right">-2.05</td>
-<td align="right">0.049</td>
+<tr>
+<td style="text-align:left;">
+groupsingle
+</td>
+<td style="text-align:right;">
+-10.95
+</td>
+<td style="text-align:right;">
+5.34
+</td>
+<td style="text-align:right;">
+-2.05
+</td>
+<td style="text-align:right;">
+0.049
+</td>
 </tr>
 </tbody>
 </table>
@@ -833,22 +910,40 @@ tidy(m1) %&gt;%
   kable(col.names = c(&quot;Model&quot;, &quot;Lower CI&quot;, &quot;Upper CI&quot;))</code></pre>
 <table>
 <thead>
-<tr class="header">
-<th align="left">Model</th>
-<th align="right">Lower CI</th>
-<th align="right">Upper CI</th>
+<tr>
+<th style="text-align:left;">
+Model
+</th>
+<th style="text-align:right;">
+Lower CI
+</th>
+<th style="text-align:right;">
+Upper CI
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">Linear-model</td>
-<td align="right">-24.19385</td>
-<td align="right">1.1663784</td>
+<tr>
+<td style="text-align:left;">
+Linear-model
+</td>
+<td style="text-align:right;">
+-24.19385
+</td>
+<td style="text-align:right;">
+1.1663784
+</td>
 </tr>
-<tr class="even">
-<td align="left">ANCOVA</td>
-<td align="right">-21.85448</td>
-<td align="right">-0.0548598</td>
+<tr>
+<td style="text-align:left;">
+ANCOVA
+</td>
+<td style="text-align:right;">
+-21.85448
+</td>
+<td style="text-align:right;">
+-0.0548598
+</td>
 </tr>
 </tbody>
 </table>

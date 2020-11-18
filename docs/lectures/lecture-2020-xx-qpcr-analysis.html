@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>qPCR data analysis</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Daniel Hammarström" />
+    <script src="libs/header-attrs-2.4/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# qPCR data analysis
+### Daniel Hammarström
+### IDR4000
+### updated: 2020-11-13
+
+---
+
+
+# Background
+
+- Reverse transcriptase followed by quantitative polymerase chain reaction (RT-qPCR or qPCR) can be used to quantify abundance of RNA from a biological sample.
+
+--
+
+- This is the technique most commonly used to determine **targeted gene expression** 
+
+---
+
+- Others techniques include northern blotting (old), micro arrays (specific probes, many target) and RNA-seq (many targets)
+
+# One-step vs. two-step qPCR
+
+&lt;img src="https://www.thermofisher.com/no/en/home/brands/thermo-scientific/molecular-biology/molecular-biology-learning-center/molecular-biology-resource-library/spotlight-articles/basic-principles-rt-qpcr/_jcr_content/MainParsys/image_fe06/backgroundimg.img.jpg/1543414495299.jpg"&gt;
+
+&lt;font size=2&gt;Image source: thermofischer.com&lt;/font&gt;
+---
+
+.left-column[
+cDNA synthesis: we used a mixture of random hexamer and Oligo dT primers
+]
+
+.right-column[
+&lt;img src="https://www.thermofisher.com/no/en/home/brands/thermo-scientific/molecular-biology/molecular-biology-learning-center/molecular-biology-resource-library/spotlight-articles/basic-principles-rt-qpcr/_jcr_content/MainParsys/image_ee1d/backgroundimg.img.jpg/1543414495323.jpg"&gt; 
+
+]
+
+&lt;font size=2&gt;Image source: thermofischer.com&lt;/font&gt;
+---
+
+
+
+# The qPCR reaction leads to exponential amplification of target cDNA
+
+- mRNA sequences are known from mapping of the human genome.
+- Specific primers are designed to capture a specific gene.
+
+&lt;img src="./img/Human_MYH7.png"&gt;
+
+---
+
+
+.left-column[
+Amplification of genomic DNA is avoided in primer design.
+]
+
+.right-column[
+&lt;img src="https://www.thermofisher.com/no/en/home/brands/thermo-scientific/molecular-biology/molecular-biology-learning-center/molecular-biology-resource-library/spotlight-articles/basic-principles-rt-qpcr/_jcr_content/MainParsys/image_f01a/backgroundimg.img.jpg/1543414495457.jpg"&gt; 
+
+]
+
+&lt;font size=2&gt;Image source: thermofischer.com&lt;/font&gt;
+---
+
+# A simulation
+
+Products doubles with each cycle.
+
+&lt;img src="lecture-2020-xx-qpcr-analysis_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# The quantification cycle is the primary outcome of a qPCR experiment
+
+- The cycle where fluorescence reaches above the background noise.
+- May be set as an arbitrary threshold based on baseline noise
+- Can also be calculated from modeling the relationship between cycles and fluorescence
+
+---
+# Installing `qpcrpal`
+
+
+```r
+install.package(qpcR) # qpcR package
+
+library(remotes)
+remotes::install_github("dhammarstrom/qpcrpal", build_vignettes = TRUE)
+```
+
+---
+
+# Using `qpcrpal`
+
+- `qpcrpal` can be used to analyze "multi-plate" experiments
+
+
+
+
+
+```r
+library(qpcR)
+library(qpcrpal)
+library(parallel)
+
+qpcr.dat &lt;- read_quant5("./data/qpcr_data/Group2.xls", 
+                        skip = 47) 
+
+models &lt;- model_qpcr(qpcr.dat)
+
+analyzed.models &lt;- analyze_models(models)
+```
+
+
+---
+
+# Normalize data
+
+- If we have loaded different amount of RNA in the cDNA synthesis we are comparing apples and oranges when comparing different samples
+
+--
+
+- To overcome this we use *reference genes* to normalize the data
+
+--
+
+- Normalization is important as a bad *reference gene* will reduce an experiments ability to detect changes in gene expression.
+
+
+---
+
+# Normalized data
+
+`$$Normalized~Expression = \frac{Target~gene}{Reference~gene}$$`
+--
+
+Target gene and reference gene expression has to be *linearized* in calculations. Relative abundance:
+
+`$$Target~gene~expression = Efficiency^{-Cq}$$`
+--
+`$$Target~gene~expression = 2^{-Cq}$$`
+--
+`$$Target~gene~expression = 2^{-25}=0.0000000298$$`
+`$$Normalized~Expression = \frac{2^{-25}}{2^{-20}}$$`
+---
+
+# Between sample changes
+
+We often calculate the fold-change between samples as the outcome of studies. For example between trained and un-trained biopsies.
+
+--
+
+`$$Relative~expression = \frac{Trained}{Untrained}$$`
+--
+
+In practice this is done with log-transformed data
+
+`$$Relative~expression=log(\frac{Trained}{untrained})$$`
+giving the log-differences between groups. Transforming to the linear scale will give the fold-change.
+
+---
+# In R
+
+
+```r
+analyzed.models %&gt;%
+  dplyr::select(ID, cpD2) %&gt;%
+  filter(cpD2 &gt; 10) %&gt;%
+  separate(ID, into = c("sample", "cDNA", "condition", "target"), sep = "_") %&gt;%
+  filter(sample %in% c("C1", "C2"), 
+         target %in% c("MyHC2X F5R5", 
+                       "B2m F5R5")) %&gt;%
+  mutate(target = gsub(" F5R5", "", target)) %&gt;%
+  pivot_wider(names_from = target, values_from = cpD2) %&gt;%
+  
+  mutate(norm = (2^-MyHC2X) / (2^-B2m)) %&gt;%
+  
+  dplyr::select(sample, norm) %&gt;%
+  pivot_wider(names_from = sample, values_from = norm) %&gt;%
+  mutate(relative.expression = C2/C1) %&gt;%
+  print()
+```
+
+```
+## # A tibble: 1 x 3
+##      C1    C2 relative.expression
+##   &lt;dbl&gt; &lt;dbl&gt;               &lt;dbl&gt;
+## 1  32.7  11.7               0.358
+```
+
+---
+# Alternatives to reference gene normalization
+
+- Gene family normalization can be used to remove differences in sample preparations
+- Genes from a functional family of genes (e.g. myosin heavy chains) can be expressed as a percentage of their total expression (Ellefsen &amp; Stensløkken 2010).
+
+
+```r
+analyzed.models %&gt;%
+  dplyr::select(ID, cpD2) %&gt;%
+  filter(cpD2 &gt; 10) %&gt;%
+  separate(ID, into = c("sample", "cDNA", "condition", "target"), sep = "_") %&gt;%
+  
+  dplyr::select(sample, target, cpD2) %&gt;%
+  
+  filter(sample %in% c("C1", "C2"), 
+         target %in% c("MyHC2X F5R5", 
+                       "MyHC2A F5R5", 
+                       "MyHC1 F1R1")) %&gt;%
+  group_by(sample) %&gt;%
+  mutate(linear = 2^-cpD2, 
+         rel.expression = linear / sum(linear)) %&gt;%
+  print()
+```
+
+---
+
+
+```
+## # A tibble: 6 x 5
+## # Groups:   sample [2]
+##   sample target       cpD2   linear rel.expression
+##   &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;
+## 1 C1     MyHC1 F1R1   28.9 1.94e- 9         0.173 
+## 2 C1     MyHC2A F5R5  26.8 8.27e- 9         0.734 
+## 3 C1     MyHC2X F5R5  29.8 1.05e- 9         0.0931
+## 4 C2     MyHC1 F1R1   31.2 4.11e-10         0.236 
+## 5 C2     MyHC2A F5R5  29.8 1.08e- 9         0.619 
+## 6 C2     MyHC2X F5R5  31.9 2.53e-10         0.145
+```
+
+---
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

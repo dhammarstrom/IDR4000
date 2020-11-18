@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Feedback 3: Regression models</title>
+
+<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">IDR4000 Course notes</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lessons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_1_installation.html">Installing and starting up R and RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_2_markdown.html">Creating a report using rmarkdown</a>
+    </li>
+    <li>
+      <a href="lesson_3_structure.html">Structuring an analysis</a>
+    </li>
+    <li>
+      <a href="lesson_4_scripts.html">R scripts and R markdown files</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_5_import_data.html">Import data</a>
+    </li>
+    <li>
+      <a href="lesson_6_make_summaries.html">Make summaries of data</a>
+    </li>
+    <li>
+      <a href="lesson_7_ggplot2.html">Making figures</a>
+    </li>
+    <li>
+      <a href="lesson_8_making_tables.html">Making tables</a>
+    </li>
+    <li>
+      <a href="lesson_9_git.html">Version control and GitHub</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_10_inference.html">Introduction to statistical inference</a>
+    </li>
+    <li>
+      <a href="lesson_11_inference2.html">Statistical inference, p-values and confidence intervals</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_12_regressionModels.html">Regression models part 1</a>
+    </li>
+    <li>
+      <a href="lesson_13_regressionModels2.html">Regression models part 2: Lactate threshold analysis</a>
+    </li>
+    <li>
+      <a href="lesson_14_correlation.html">Regression models and correlations</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lesson_15_analyzingTrials.html">Analyzing pre- to post-experiments</a>
+    </li>
+    <li>
+      <a href="lesson_16_mixed_models.html">Analyzing trials with mixed-model</a>
+    </li>
+    <li>
+      <a href="lesson_17_mixed_models2.html">More on mixed models (visualizing models)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ex1_1_intro.html">Basic R</a>
+    </li>
+    <li>
+      <a href="ex1_2_import.html">Importing data</a>
+    </li>
+    <li>
+      <a href="ex1_3_summarise.html">Summarise data</a>
+    </li>
+    <li>
+      <a href="ex1_4_figures.html">Making figures</a>
+    </li>
+    <li>
+      <a href="ex1_5_group_exercise.html">Group exercises</a>
+    </li>
+    <li>
+      <a href="ex2_1_inference.html">Inference</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Assignments
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="assignment_1_descriptives.html">Descriptive data</a>
+    </li>
+    <li>
+      <a href="feedback_1.html">Feedback assignment 1</a>
+    </li>
+    <li>
+      <a href="assignment_2_inference.html">Inference</a>
+    </li>
+    <li>
+      <a href="feedback_2.html">Feedback assignment 2</a>
+    </li>
+    <li>
+      <a href="assignment_3_regression.html">Regression models</a>
+    </li>
+    <li>
+      <a href="feedback_3.html">Feedback assignment 3</a>
+    </li>
+    <li>
+      <a href="assignment_4_repeated.html">Repeated measures studies</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="faq.html">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Feedback 3: Regression models</h1>
+
+</div>
+
+
+<div id="comparing-regression-to-an-ordinary-t-test" class="section level2">
+<h2>Comparing regression to an ordinary t-test</h2>
+<p>Remember that the <a href="lesson_11_inference2.html">t-test</a> compares two means (or a single mean against a hypothetical or known average). Comparisons can be made within the same participants or between unrelated participants. The t-test is limited to comparing two averages. The regression model is more flexible, we may compare unrelated observations (two groups) against each other using a <a href="lesson_12_regressionModels.html#Categorical_predictors_and_multiple_regression">dummy variable</a> and this would be equivalent to a t-test.</p>
+<p>The main aim of this first assignment was for you to see this connection.</p>
+<p>Using the Haun data set we can see that the t-test is performed also in the regression model.</p>
+<pre class="r"><code>library(tidyverse)
+
+haun &lt;- read_csv(&quot;./data/hypertrophy.csv&quot;) %&gt;%
+  select(SUB_ID, CLUSTER, AVG_CSA_T1) %&gt;%
+  drop_na(CLUSTER) 
+
+t_results &lt;- t.test(AVG_CSA_T1 ~ CLUSTER, data = haun, var.equal = TRUE)
+
+reg_model &lt;- lm(AVG_CSA_T1 ~  CLUSTER, data = haun)</code></pre>
+<table>
+<caption>
+Table 1. Results from <em>t</em>-test of differences in average cross sectional area at time-point 1 between cluster (Low and High).
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Mean difference
+</th>
+<th style="text-align:right;">
+Mean of group 1
+</th>
+<th style="text-align:right;">
+Mean of group 2
+</th>
+<th style="text-align:right;">
+<em>t</em>-value
+</th>
+<th style="text-align:right;">
+<em>p</em>-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+-950
+</td>
+<td style="text-align:right;">
+3588
+</td>
+<td style="text-align:right;">
+4539
+</td>
+<td style="text-align:right;">
+-2.749
+</td>
+<td style="text-align:right;">
+0.013
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 2. Results from a regression model with average cross sectional area at time-point 1 as the dependent variable and clusters (Low and High) as the independent variable.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Term
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+<em>t</em>-value
+</th>
+<th style="text-align:right;">
+<em>p</em>-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+3588
+</td>
+<td style="text-align:right;">
+244
+</td>
+<td style="text-align:right;">
+14.683
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: black !important;background-color: lightblue !important;">
+CLUSTERLOW
+</td>
+<td style="text-align:right;color: black !important;background-color: lightblue !important;">
+950
+</td>
+<td style="text-align:right;color: black !important;background-color: lightblue !important;">
+346
+</td>
+<td style="text-align:right;color: black !important;background-color: lightblue !important;">
+2.749
+</td>
+<td style="text-align:right;color: black !important;background-color: lightblue !important;">
+0.013
+</td>
+</tr>
+</tbody>
+</table>
+<p>In Table 1 and 2 we can see that the <em>t</em>- and <em>p</em>- values are identical for the test of differences between groups. The Regression model (Table 2) does the exact same test as the <em>t</em>-test (a <em>t</em>-test). The minus sign in the estimate and <em>t</em>-value of the <em>t</em>-test is due to different orders of the cluster variable in the different tests.</p>
+<p>The highlighted row in Table 2 shows the coefficients associated with the LOW cluster. We can read this as the difference between the intercept in the model (which is the mean of the HIGH group) and the LOW group. This is the same comparison that is performed in the <em>t</em>-test.</p>
+</div>
+<div id="associations-between-variables" class="section level2">
+<h2>Associations between variables</h2>
+<p>Many of you used a correlation to determine the relationship between variables in the data set. A correlation analysis contains the same information as is contained within a regression model with the same two variables. Similar to the difference between regression and t-tests, the correlation is limited to to variables whereas the regression is flexible and may be extended.</p>
+<p>There are several variables in the data set that could be interpreted as surrogate measures of muscle mass. In the code below, these variables are selected.</p>
+<pre class="r"><code>haun &lt;- read_csv(&quot;./data/hypertrophy.csv&quot;) %&gt;%
+  select(SUB_ID, 
+         Squat_3RM_kg, # The 3RM squat variable (strength)
+         DXA_LBM_1,  # Lean body mass at time 1 (kg), not all muscle but most of it!
+         AVG_CSA_T1, # Average cross sectional area irrespective of fiber type
+         FAST_CSA_T1, # Average CSA of fast
+         SLOW_CSA_T1) # and slow fibers</code></pre>
+<p>All variables can be plotted together using the plot function.</p>
+<pre class="r"><code>plot(haun[, -1]) # -1 for removing the SUB_ID variable</code></pre>
+<div class="figure" style="text-align: center">
+<img src="feedback_3_files/figure-html/unnamed-chunk-5-1.png" alt="Figure 1. Interrelation between variables in selected strength and muscle-mass variables." width="3000" />
+<p class="caption">
+Figure 1. Interrelation between variables in selected strength and muscle-mass variables.
+</p>
+</div>
+<p>The plot (Figure 1) can be read as pairwise associations between variables. There seems to be a stronger association between <code>Squat_3RM_kg</code> and <code>DXA_LBM_1</code> than between <code>Squat_3RM_kg</code> and <code>AVG_CSA_T1</code>. To assess this we can choose to do regression or correlation analysis.</p>
+<p>A correlation analysis will give us a unit less number between -1 and 1 where number close to 0 indicates no or low association and numbers close to -1 or 1 indicates association. To assess the association between these variables using a correlation analysis</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 3. Correlation analysis between 3RM Squat and meassures of muscle mass.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variables
+</th>
+<th style="text-align:right;">
+Estimates (r)
+</th>
+<th style="text-align:right;">
+Statistic (<em>t</em>)
+</th>
+<th style="text-align:right;">
+<em>p</em>-value
+</th>
+<th style="text-align:right;">
+Lower CI
+</th>
+<th style="text-align:right;">
+Upper CI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Squat 3RM and DXA
+</td>
+<td style="text-align:right;">
+0.674
+</td>
+<td style="text-align:right;">
+4.829
+</td>
+<td style="text-align:right;">
+0.000044
+</td>
+<td style="text-align:right;">
+0.415
+</td>
+<td style="text-align:right;">
+0.832
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Squat 3RM and average CSA
+</td>
+<td style="text-align:right;">
+0.021
+</td>
+<td style="text-align:right;">
+0.109
+</td>
+<td style="text-align:right;">
+0.913598
+</td>
+<td style="text-align:right;">
+-0.342
+</td>
+<td style="text-align:right;">
+0.378
+</td>
+</tr>
+</tbody>
+</table>
+<p>As evident from Table 3, the association between 3RM Squat and lean body mass is <strong>stronger</strong> than the association between 3RM and average CSA. We see that there is a significant association between lean body mass and 3RM squat.</p>
+<p>A regression analysis contains the same information as the correlation when we use the same variables.</p>
+<pre class="r"><code># Fitting the regression model
+model &lt;- lm(Squat_3RM_kg ~  DXA_LBM_1, data = haun)
+# Setting up the correlation analysis
+cor &lt;- cor.test(haun$Squat_3RM_kg,  haun$DXA_LBM_1)</code></pre>
+<p>In Table 4 results from the regression model are displayed. In addition to the coefficients from the regression model, I have added the R-squared (R<sup>2</sup>) value. This is actually the same as the correlation coefficient squared from the correlation analysis (In table 3). Comparing Table 3 and 4 we see that the <em>p</em>-values are the same when looking at the <code>DXA_LBM_1</code> coefficient.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 4. Regression analysis with 3RM squat as the dependent varaible.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Term
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+<em>t</em>-value
+</th>
+<th style="text-align:right;">
+<em>p</em>-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+37.05
+</td>
+<td style="text-align:right;">
+19.705
+</td>
+<td style="text-align:right;">
+1.88
+</td>
+<td style="text-align:right;">
+0.070534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;border-bottom: 1px solid">
+DXA_LBM_1
+</td>
+<td style="text-align:right;border-bottom: 1px solid">
+1.46
+</td>
+<td style="text-align:right;border-bottom: 1px solid">
+0.302
+</td>
+<td style="text-align:right;border-bottom: 1px solid">
+4.83
+</td>
+<td style="text-align:right;border-bottom: 1px solid">
+0.000044
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R<sup>2</sup>
+</td>
+<td style="text-align:right;">
+0.45
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<p>The interpretation of the regression table is that the average 3RM squat (kg) is 37 when we set <code>DXA_LBM_1</code> to zero. Remember that the interpretation of the intercept is the value of the dependent variable (y) when all x-values are set to 0. For each unit increase in lean body mass (<code>DXA_LBM_1</code>) 3RM squat is predicted to increase with 1.46 kg. This effect is significant (evident from the p-value, the null hypothesis has little support).</p>
+<p>The nice thing about the regression is that we can extend it by adding more variables to the model. Let’s say that we want to see if muscle fiber cross sectional area is more strongly associated with squat 3RM when we control for lean body mass.</p>
+<pre class="r"><code># Fit the model
+model &lt;- lm(Squat_3RM_kg ~  DXA_LBM_1 + AVG_CSA_T1, data = haun)
+# Check the model
+summary(model)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 5. Regression analysis with 3RM squat as the dependent varaible.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Term
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+<em>t</em>-value
+</th>
+<th style="text-align:right;">
+<em>p</em>-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+27.52
+</td>
+<td style="text-align:right;">
+25.022
+</td>
+<td style="text-align:right;">
+1.10
+</td>
+<td style="text-align:right;">
+0.281060
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DXA_LBM_1
+</td>
+<td style="text-align:right;">
+1.48
+</td>
+<td style="text-align:right;">
+0.307
+</td>
+<td style="text-align:right;">
+4.82
+</td>
+<td style="text-align:right;">
+0.000050
+</td>
+</tr>
+<tr>
+<td style="text-align:left;border-bottom: 1px solid">
+AVG_CSA_T1
+</td>
+<td style="text-align:right;border-bottom: 1px solid">
+0.00
+</td>
+<td style="text-align:right;border-bottom: 1px solid">
+0.003
+</td>
+<td style="text-align:right;border-bottom: 1px solid">
+0.63
+</td>
+<td style="text-align:right;border-bottom: 1px solid">
+0.534587
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R<sup>2</sup>
+</td>
+<td style="text-align:right;">
+0.46
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<p>The amount of variation that the model explained did not increase compared to the model in Table 4 as the R<sup>2</sup> value did not increase. We can say that the about 46% of the variation in 3RM squat is explained by the two variables. As we did not see an increase in R<sup>2</sup> we will not see a strong association between <code>AVG_CSA_T1</code> and 3RM squat either. And indeed, the effect is negligible, for each unit of increase in <code>AVG_CSA_T1</code> 3RM does not change. The p-value indicates that the null hypothesis cannot be rejected with any confidence.</p>
+<div id="intepretation" class="section level3">
+<h3>Intepretation</h3>
+<p>Many of you have interpreted the model but not the meaning of it. Based on the models in Table 4 and 5 we may say that lean body mass is positively related to strength. If we measure more lean body mass, we will likely have a stronger individual compared to an individual with lower lean body mass. The average cross sectional area does not however predict strength.</p>
+</div>
+</div>
+<div id="lactate-thresholds-and-regression-analysis" class="section level2">
+<h2>Lactate thresholds and regression analysis</h2>
+<p>The last part of the assignment was an example of regression analysis and prediction. In the physiology lab you collected lactate values. A simple regression model can be used to accurately predict workload at a fixed lactate value. Some of you will most likely use models like these in your master thesis.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

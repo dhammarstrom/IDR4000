@@ -480,6 +480,9 @@ div.tocify {
       <a href="assignment_3_regression.html">Regression models</a>
     </li>
     <li>
+      <a href="feedback_3.html">Feedback assignment 3</a>
+    </li>
+    <li>
       <a href="assignment_4_repeated.html">Repeated measures studies</a>
     </li>
   </ul>
@@ -570,37 +573,67 @@ Figure 3. Hypothetical model of a study strength development in two groups. The 
 <pre class="r"><code>strength ~ group * time </code></pre>
 <p>The output from this model given our hypothetical data could look like in table 1.</p>
 <table>
-<caption>Table 1. Regression coefficients from an hypothetical data set.</caption>
+<caption>
+Table 1. Regression coefficients from an hypothetical data set.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">Coefficient</th>
-<th align="right">Estimate</th>
+<tr>
+<th style="text-align:left;">
+Coefficient
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">Intercept</td>
-<td align="right">0.45</td>
+<tr>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:right;">
+0.45
+</td>
 </tr>
-<tr class="even">
-<td align="left">TimeMid</td>
-<td align="right">0.15</td>
+<tr>
+<td style="text-align:left;">
+TimeMid
+</td>
+<td style="text-align:right;">
+0.15
+</td>
 </tr>
-<tr class="odd">
-<td align="left">TimePost</td>
-<td align="right">0.20</td>
+<tr>
+<td style="text-align:left;">
+TimePost
+</td>
+<td style="text-align:right;">
+0.20
+</td>
 </tr>
-<tr class="even">
-<td align="left">Group10RM</td>
-<td align="right">0.05</td>
+<tr>
+<td style="text-align:left;">
+Group10RM
+</td>
+<td style="text-align:right;">
+0.05
+</td>
 </tr>
-<tr class="odd">
-<td align="left">TimeMid:Group10RM</td>
-<td align="right">0.15</td>
+<tr>
+<td style="text-align:left;">
+TimeMid:Group10RM
+</td>
+<td style="text-align:right;">
+0.15
+</td>
 </tr>
-<tr class="even">
-<td align="left">TimePost:Group10RM</td>
-<td align="right">0.20</td>
+<tr>
+<td style="text-align:left;">
+TimePost:Group10RM
+</td>
+<td style="text-align:right;">
+0.20
+</td>
 </tr>
 </tbody>
 </table>
@@ -625,24 +658,44 @@ Figure 4. Hypothetical model of a study on strength development in two groups. T
 <h3>Evaluating regression coefficients</h3>
 <p>In the hypothetical example above the two coefficients that are of interest are the two interaction estimates. Let’s evaluate their confidence intervals. Table 2 gives hypothetical 95% confidence intervals on the interaction terms.</p>
 <table>
-<caption>Table 2. Interaction coefficients from an hypothetical data set.</caption>
+<caption>
+Table 2. Interaction coefficients from an hypothetical data set.
+</caption>
 <thead>
-<tr class="header">
-<th align="left">Coefficient</th>
-<th align="right">Estimate</th>
-<th align="left">95% CI</th>
+<tr>
+<th style="text-align:left;">
+Coefficient
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:left;">
+95% CI
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">TimeMid:Group10RM</td>
-<td align="right">0.15</td>
-<td align="left">-0.05, 0.35</td>
+<tr>
+<td style="text-align:left;">
+TimeMid:Group10RM
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:left;">
+-0.05, 0.35
+</td>
 </tr>
-<tr class="even">
-<td align="left">TimePost:Group10RM</td>
-<td align="right">0.20</td>
-<td align="left">0.05, 0.35</td>
+<tr>
+<td style="text-align:left;">
+TimePost:Group10RM
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:left;">
+0.05, 0.35
+</td>
 </tr>
 </tbody>
 </table>
@@ -773,63 +826,146 @@ coef_summary %&gt;%
   kable()</code></pre>
 <table>
 <thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">Estimate</th>
-<th align="right">Std. Error</th>
-<th align="right">t value</th>
-<th align="right">X2.5..</th>
-<th align="right">X97.5..</th>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+Std. Error
+</th>
+<th style="text-align:right;">
+t value
+</th>
+<th style="text-align:right;">
+X2.5..
+</th>
+<th style="text-align:right;">
+X97.5..
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="right">281.53846</td>
-<td align="right">20.120706</td>
-<td align="right">13.9924743</td>
-<td align="right">242.37410</td>
-<td align="right">320.70282</td>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+281.53846
+</td>
+<td style="text-align:right;">
+20.120706
+</td>
+<td style="text-align:right;">
+13.9924743
+</td>
+<td style="text-align:right;">
+242.37410
+</td>
+<td style="text-align:right;">
+320.70282
+</td>
 </tr>
-<tr class="even">
-<td align="left">timepointmid</td>
-<td align="right">35.00000</td>
-<td align="right">8.968506</td>
-<td align="right">3.9025454</td>
-<td align="right">17.80241</td>
-<td align="right">52.19759</td>
+<tr>
+<td style="text-align:left;">
+timepointmid
+</td>
+<td style="text-align:right;">
+35.00000
+</td>
+<td style="text-align:right;">
+8.968506
+</td>
+<td style="text-align:right;">
+3.9025454
+</td>
+<td style="text-align:right;">
+17.80241
+</td>
+<td style="text-align:right;">
+52.19759
+</td>
 </tr>
-<tr class="odd">
-<td align="left">timepointpost</td>
-<td align="right">38.86796</td>
-<td align="right">9.550460</td>
-<td align="right">4.0697470</td>
-<td align="right">20.53927</td>
-<td align="right">57.16481</td>
+<tr>
+<td style="text-align:left;">
+timepointpost
+</td>
+<td style="text-align:right;">
+38.86796
+</td>
+<td style="text-align:right;">
+9.550460
+</td>
+<td style="text-align:right;">
+4.0697470
+</td>
+<td style="text-align:right;">
+20.53927
+</td>
+<td style="text-align:right;">
+57.16481
+</td>
 </tr>
-<tr class="even">
-<td align="left">groupRM10</td>
-<td align="right">-7.60989</td>
-<td align="right">27.942231</td>
-<td align="right">-0.2723437</td>
-<td align="right">-61.99862</td>
-<td align="right">46.77884</td>
+<tr>
+<td style="text-align:left;">
+groupRM10
+</td>
+<td style="text-align:right;">
+-7.60989
+</td>
+<td style="text-align:right;">
+27.942231
+</td>
+<td style="text-align:right;">
+-0.2723437
+</td>
+<td style="text-align:right;">
+-61.99862
+</td>
+<td style="text-align:right;">
+46.77884
+</td>
 </tr>
-<tr class="odd">
-<td align="left">timepointmid:groupRM10</td>
-<td align="right">11.07143</td>
-<td align="right">12.454834</td>
-<td align="right">0.8889262</td>
-<td align="right">-12.81138</td>
-<td align="right">34.95423</td>
+<tr>
+<td style="text-align:left;">
+timepointmid:groupRM10
+</td>
+<td style="text-align:right;">
+11.07143
+</td>
+<td style="text-align:right;">
+12.454834
+</td>
+<td style="text-align:right;">
+0.8889262
+</td>
+<td style="text-align:right;">
+-12.81138
+</td>
+<td style="text-align:right;">
+34.95423
+</td>
 </tr>
-<tr class="even">
-<td align="left">timepointpost:groupRM10</td>
-<td align="right">38.57427</td>
-<td align="right">13.043542</td>
-<td align="right">2.9573464</td>
-<td align="right">13.57176</td>
-<td align="right">63.59255</td>
+<tr>
+<td style="text-align:left;">
+timepointpost:groupRM10
+</td>
+<td style="text-align:right;">
+38.57427
+</td>
+<td style="text-align:right;">
+13.043542
+</td>
+<td style="text-align:right;">
+2.9573464
+</td>
+<td style="text-align:right;">
+13.57176
+</td>
+<td style="text-align:right;">
+63.59255
+</td>
 </tr>
 </tbody>
 </table>
