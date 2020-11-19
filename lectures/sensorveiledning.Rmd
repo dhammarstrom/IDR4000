@@ -1,0 +1,111 @@
+---
+title: "Sensorveiledning: Kvantitativ metode og statistikk, IDR4000, 20H"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+header-includes:
+  - \usepackage{titling}
+  - \usepackage{graphicx} 
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \pretitle{\begin{flushleft}\LARGE\includegraphics[width=8cm]{img/INN_logo.png}\\[\bigskipamount]}
+  - \posttitle{\end{flushleft}}
+---
+
+# Læringsutbytte for emnet
+
+Ved bestått emne har studenten oppnådd følgende læringsutbytte:
+
+## Kunnskap
+
+
+- Kandidaten kan vurdere ulike forskningsdesign som er aktuelle innen fagområdet
+- Kandidaten kan vurdere den metodiske kvaliteten i ulike studiedesign
+- Kandidaten kan vurdere kvantitative metoder som benyttes for å innhente data om fysisk prestasjonsevne og helse, med særlig fokus på fysiologiske, cellebiologiske og molekylærbiologiske egenskaper
+- Kandidaten har kjennskap til sentrale aspekter ved helse, miljø og sikkerhet i forbindelse med laboratoriearbeid
+- Kandidaten har inngående kunnskap om naturvitenskapelige tenkemåte og forskningstradisjoner med vekt på humanbiologiske metoder og problemstillinger
+- Kandidaten kan vurdere de statistiske metodene som er mest aktuelle innen fagområdet.
+
+
+## Ferdigheter
+
+- Kandidaten kan identifisere og gjøre kritiske vurderinger rundt sentrale vitenskapsteoretiske problemstillinger, og sette dette i sammenheng med statistikk og metode
+- Kandidaten kan lete fram vitenskapelige kunnskapskilder og bruke disse på hensiktsmessig måte innen oppgaveskriving og faglige diskusjoner
+- Kandidaten kan planlegge og gjennomføre innsamling av kvantitative vitenskapelige data og presentere skriftlig analyse av dataene på en selvstendig måte
+- Kandidaten kan utføre arbeidsfysiologisk testing
+- Kandidaten kan utføre cellebiologiske og molekylærbiologiske analyser under veiledning
+- Kandidaten kan behandle innsamlede data på en ryddig og etterprøvbar måte
+- Kandidaten kan gjennomføre de statistiske analysene som er mest aktuelle innen fagområdet i et dataprogram
+
+## Generell kompetanse
+
+- Kandidaten kan vurdere utvalgte vitenskapelige metoder og forskningsdesign, anvende disse, stå for praktisk datainnsamling i nye prosjekt og gjennomføre statistiske analyser på resultatene.
+- Kandidaten kan planlegge og gjennomføre dataanalyse på en slik måte at det blir reproduserbart og fremstilling av forskningsresultater skal være etterprøvbare.
+- Kandidaten kan uttrykke seg skriftlig i henhold til fagområdets egenart og utforme vitenskapelige rapporter under veiledning
+
+# Eksamensoppgaver
+
+Det benyttes mappeevaluering som eksamensform. Mappeinnleveringen består av oppgaver og rapporter knyttet til de ulike temaene underveis i emnet. Disse er beskrevet i detalj under
+
+
+## Deloppgave 1: Presentasjon av reliabilitetsstudie
+
+Rapporten beskriver gjennomføring og analyse av en fysiologisk test. Beskrivelsen inkluderer den fysiologiske bakgrunnen til testen og prinsipper for hvordan data innsamles samt en beskrivelse av hvordan dataene ble innsamlet. Analysen av dataene fokuserer på relabilitet (technical error) og estimat av den minste betydningsfulle forandringen i testen (smallest worthwhile change).
+
+Det forventes at følgende litteratur blir brukt i rapporten i tillegg til eventuell litteratur som er spesifikk for den enkelte testen. Denne litteratur søkes av studenten.   
+
+- Halperin, I., et al. (2015). "Threats to internal validity in exercise science: a review of overlooked confounding variables." Int J Sports Physiol Perform 10(7): 823-829.
+- Tanner, R., & Gore, C. (2018). Physiological tests for elite athletes
+- Hopkins, W. G. (2000). "Measures of reliability in sports medicine and science." Sports Med 30(1): 1-15.
+
+## Deloppgave 2: Deskriptiv statistikk og inferens
+
+Denne oppgave bygger på arbeidskrav i statistikk 1 og 2. Bruk datasettet fra Haun et al. (2019) og presenter en egen problemstilling hvor du undersøker forskjeller mellom gruppene HIGH og LOW (definert i variabelen CLUSTER). Strukturere rapporten med en kort bakgrunn, en metode hvor du beskriver deltagerne (bruk tabellen fra arbeidskrav 1), resultater hvor du bruker tekst og figurer for å formidle resultater og avslutningsvis en kort diskusjon. 
+
+
+- Haun, Cody T et al. “Pre-training Skeletal Muscle Fiber Size and Predominant Fiber Type Best Predict Hypertrophic Responses to 6 Weeks of Resistance Training in Previously Trained Young Men.” Frontiers in physiology vol. 10 297. 26 Mar. 2019, doi:10.3389/fphys.2019.00297
+
+## Deloppgave 3: Regresjonsanalyse
+
+Finnes det en sammenheng mellom muskelmasse og styrke? Bruk datasettet fra Haun et al. (2019) og velg ut variabler som beskriver muskelmasse og relatere en eller flere av disse til variabelen Squat_3RM_kg. Bruk regresjonsanalyse for å tolke sammenhengen mellom variablene du valgt, her forventes at du tolker både regresjonsmodellen og betydelsen av den.
+Strukturere rapporten med en kort bakgrunn, en metode hvor du beskriver deltagerne (forandre på tabellen fra arbeidskrav 1 så at alle deltagerne er med i analysen uten grupperinger), resultater hvor du bruker tekst og figurer for å formidle resultater og avslutningsvis en kort diskusjon. Bruk gjerne andre referanser for å diskutere forhold mellom muskelmasse og styrke.
+
+
+- Haun, Cody T et al. “Pre-training Skeletal Muscle Fiber Size and Predominant Fiber Type Best Predict Hypertrophic Responses to 6 Weeks of Resistance Training in Previously Trained Young Men.” Frontiers in physiology vol. 10 297. 26 Mar. 2019, doi:10.3389/fphys.2019.00297
+
+
+## Deloppgave 4: Repeterte målinger
+
+Denne deloppgave skal bestå av to rapporter, en hvor du bruker datasettet ten_vs_thirty.xlsx for å besvare spørsmålet hvilken intensitet som er best for å utvikle styrke og datasettet strengthTests.csv hvor du besvarer spørsmålet om hvilket volum som er best egnet for å utvikle styrke.
+
+Som er beskrevet i arbeidskravet må du ta stilling til flere valg i prosessen og de bør fremgå i din problemstilling hvilke valg du ønsker å ta når du analyserer dataene.
+Bruk oppsettet bakgrunn, metode, resultater og diskusjon for rapportene. Resultater skal presenteres ved hjelp av figurer og resultater i tekst. Du kan også bruke tabeller. Legg ekstra vekt på å beskrive i metoden hvordan du analyserer dataene (under overskriften statistisk analyse). 
+
+Det forventes at du inkluderer 2-3 referanser per studie i bakgrunn og diskusjon.
+
+
+## Deloppgave 5: Studiedesigner 
+
+I denne deloppgave skal du gjennomføre en oversiktsanalyse av forskjellige studiedesigner innad et spesifikt problemområde. Du forventes å besvare spørsmålet «hvordan designes studier for å studere X», hvor X er et spesifikt problemområde innen idrettsvitenskapen. X kan f.eks. «effekten av proteintilskudd på muskelvekst» eller «effekten av høyintensiv trening på VO2max».
+
+Rapporten forventes beskrive:
+
+-	Hvilke studiedesigner er vanlige for å undersøke X (eks. cross-over, parallelle grupper, «whithin-participant»)?
+-	Hvordan analyseres dataene, hvordan trekkes inferens?  (f.eks. Frekventistisk statistikk, Bayesiansk statistikk, blir det brukt power-beregninger, hva er grensen for signifikans?)
+
+Det forventes at rapporten avsluttes med en diskusjon om hvordan X bør studeres for å nå dypere kunnskap.
+
+For å få et tilstrekkelig datautvalg forventes at rapporten inneholder 5-10 referanser. 
+
+## Deloppgave 6: Rapport fra laborasjon
+Velg ut et tema fra molekylærlabben og rapportere hensikten med og bakgrunnen til laborasjonen, metode og resultater. Rapporten bør inneholde en tolkning av resultatene.
+
+# Generelt angående delrapporter
+
+Hvis du bruker R-markdown spesifisere «echo = FALSE» i rapporten for å unngå at kode finnes med i rapporten. Du kan vise at du har en reproduserbar rapport ved å kopiere kommenterte code-chunks og legge disse i sluttet av dokumentet og sette «echo=TRUE, eval = FALSE» på disse. Koden kommer då å vises men ikke evalueres.
+
+Mappeeksamen er din sjanse til å vise at du klaret av målene i kursen, se læringsutbytte for emnet (over) og se hvordan du kan bruke deloppgavene for å vise at du mestrer læringsmålene.
+
+Karakter Bestått oppnås ved å levere rapporter som på en tilstrekkelig måte besvarer hver beskrivelse av deloppgavene.  
+
+
