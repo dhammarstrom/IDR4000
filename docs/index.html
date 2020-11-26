@@ -13,7 +13,7 @@
 
 <title>Course notes: Quantitative methods and Statistics</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -23,6 +23,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -33,7 +35,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -435,7 +437,7 @@ $(document).ready(function () {
 
 <p>Welcome to the course <strong>Quantitative methods and Statistics (IDR4000)</strong>. The course aims to give students an overview of methodological aspects within the field of sport and exercise-physiology. Specifically, planning, conducting and analyzing research projects with human participants will be covered. These pages covers aspects of data analysis and statistics.</p>
 <p>During the course we will be using <a href="https://www.r-project.org/">R</a>. R is a programming language used for statistics and scientific graphics. It is extremely powerful (it can do many things), and it is free! During the course you will be instructed on how to use <a href="https://www.r-project.org/">R</a> with the help of <a href="https://www.rstudio.com/">RStudio</a> which is a software designed to make using R more convenient. You will learn how to write code, integrate code within your report, how to make figures and statistical analyses and how to do so in a reproducible way. Reproducible reports means that you can show your report, and show the code that creates the report.</p>
-<p>Learning R can be difficult.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> If you have never written computer code before, you might think learning to code is overwhelming. When you first try it out, you might get frustrated and think “this is not for me”. But it is! Everybody can do it! Take your time, ask questions, discuss with classmates and Google! A great thing about R is that there is a lot of information online on problems that you might encounter when writing code in R.</p>
+<p>Learning R can be difficult.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> If you have never written computer code before, you might think learning to code is overwhelming. When you first try it out, you might get frustrated and think “this is not for me.” But it is! Everybody can do it! Take your time, ask questions, discuss with classmates and Google! A great thing about R is that there is a lot of information online on problems that you might encounter when writing code in R.</p>
 <p>It is not a prerequisite to know how to code and you can pass the course without using R, but it might actually be a lot harder. The tools that we will be using are designed to make your statistical analyses reproducible. You will therefore cover one goal in the syllabus just by using the proposed software.</p>
 <div id="before-the-course-do-this" class="section level2">
 <h2>Before the course, do this!</h2>
@@ -449,15 +451,15 @@ $(document).ready(function () {
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="unnumbered">References</h2>
-<div id="refs" class="references hanging-indent">
-<div id="ref-diez2015openintro">
-<p>Diez, D. M., C. D. Barr, and M. Çetinkaya-Rundel. 2015. <em>OpenIntro Statistics</em>. OpenIntro, Incorporated. <a href="https://leanpub.com/openintro-statistics">https://leanpub.com/openintro-statistics</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-diez2015openintro" class="csl-entry">
+Diez, D. M., C. D. Barr, and M. Çetinkaya-Rundel. 2015. <em>OpenIntro Statistics</em>. OpenIntro, Incorporated. <a href="https://leanpub.com/openintro-statistics">https://leanpub.com/openintro-statistics</a>.
 </div>
-<div id="ref-Navarro">
-<p>Navarro, Daniel. 2019. <em>Learning Statistics with R: A Tutorial for Psychology Students and Other Beginners (Version 0.6.1)</em>. <a href="https://learningstatisticswithr.com/book/">https://learningstatisticswithr.com/book/</a>.</p>
+<div id="ref-Navarro" class="csl-entry">
+Navarro, Daniel. 2019. <em>Learning Statistics with r: A Tutorial for Psychology Students and Other Beginners (Version 0.6.1)</em>. <a href="https://learningstatisticswithr.com/book/">https://learningstatisticswithr.com/book/</a>.
 </div>
-<div id="ref-Wickham2017R">
-<p>Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. Paperback; O’Reilly Media. <a href="http://r4ds.had.co.nz/">http://r4ds.had.co.nz/</a>.</p>
+<div id="ref-Wickham2017R" class="csl-entry">
+Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. Paperback; O’Reilly Media. <a href="http://r4ds.had.co.nz/">http://r4ds.had.co.nz/</a>.
 </div>
 </div>
 </div>
@@ -477,7 +479,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

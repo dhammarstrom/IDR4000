@@ -13,7 +13,7 @@
 
 <title>Pre- to post-treatment analysis</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -36,7 +38,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -535,7 +537,7 @@ pre.r::before {
 <div id="background" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Background</h1>
 <p>In sport science (and e.g. medical-, nutritional-, psychological-sciences), intervention-studies are common. We are interested in the effect of e.g. a training method, nutritional supplement or drug. The outcome in these studies could be physical performance, degree of symptoms, muscle size or some other measure that we are interested in studying. These studies are often called <em>Randomized Controlled Trials</em> (RCT)</p>
-<p>The choice of study design relates to the research-question and dictates what statistical methods can be applied. The study design affects the ability of the study to detect an effect (the power). A common case of a RCT is the parallel-groups design. In a parallel-group design participants are <strong>allocated</strong> to two or more “treatment groups”, <strong>at random</strong>, one group gets a treatment, the other group acts as the control. Usually, a measurement is made prior to the intervention (Baseline) and after the intervention. This is a common design <strong>when wash-out period</strong> is not possible and thus, the two treatment can not be compared within the same individual.</p>
+<p>The choice of study design relates to the research-question and dictates what statistical methods can be applied. The study design affects the ability of the study to detect an effect (the power). A common case of a RCT is the parallel-groups design. In a parallel-group design participants are <strong>allocated</strong> to two or more “treatment groups,” <strong>at random</strong>, one group gets a treatment, the other group acts as the control. Usually, a measurement is made prior to the intervention (Baseline) and after the intervention. This is a common design <strong>when wash-out period</strong> is not possible and thus, the two treatment can not be compared within the same individual.</p>
 <p>In a design where we have a Treatment group and a control group for comparison hypothesized outcomes can look something like in Figure 1.1.</p>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-3"></span>
 <img src="lesson_15_analyzingTrials_files/figure-html/unnamed-chunk-3-1.png" alt="Hypothesized values from a simple pre-post parallel-groups design" width="1200" />
@@ -985,22 +987,20 @@ summary(m1)
 <p></br></p>
 </div>
 </div>
-<div id="references" class="section level1 unnumbered" number="">
+<div id="references" class="section level1 unnumbered">
 <h1>References</h1>
-<div id="refs" class="references hanging-indent">
-<div id="ref-RN2116">
-<p>Senn, S. 2006a. “Change from Baseline and Analysis of Covariance Revisited.” Journal Article. <em>Stat Med</em> 25 (24): 4334–44. <a href="https://doi.org/10.1002/sim.2682">https://doi.org/10.1002/sim.2682</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-RN2116" class="csl-entry">
+Senn, S. 2006a. <span>“Change from Baseline and Analysis of Covariance Revisited.”</span> Journal Article. <em>Stat Med</em> 25 (24): 4334–44. <a href="https://doi.org/10.1002/sim.2682">https://doi.org/10.1002/sim.2682</a>.
 </div>
-<div id="ref-senn2006">
-<p>———. 2006b. “Change from Baseline and Analysis of Covariance Revisited.” Journal Article. <em>Stat Med</em> 25 (24): 4334–44. <a href="https://doi.org/10.1002/sim.2682">https://doi.org/10.1002/sim.2682</a>.</p>
+<div id="ref-senn2006" class="csl-entry">
+———. 2006b. <span>“Change from Baseline and Analysis of Covariance Revisited.”</span> Journal Article. <em>Stat Med</em> 25 (24): 4334–44. <a href="https://doi.org/10.1002/sim.2682">https://doi.org/10.1002/sim.2682</a>.
 </div>
-<div id="ref-RN2118">
-<p>Vickers, Andrew J., and Douglas G. Altman. 2001a. “Analysing Controlled Trials with Baseline and Follow up Measurements.” Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–4. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/%0D%0Ahttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.</p>
+<div id="ref-RN2118" class="csl-entry">
+Vickers, Andrew J., and Douglas G. Altman. 2001a. <span>“Analysing Controlled Trials with Baseline and Follow up Measurements.”</span> Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–24. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.
 </div>
-<div id="ref-vickers2001">
-<p>———. 2001b. “Analysing Controlled Trials with Baseline and Follow up Measurements.” Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–4. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/%0D%0Ahttps://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.</p>
+<div id="ref-vickers2001" class="csl-entry">
+———. 2001b. <span>“Analysing Controlled Trials with Baseline and Follow up Measurements.”</span> Journal Article. <em>BMJ : British Medical Journal</em> 323 (7321): 1123–24. <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.
 </div>
 </div>
 </div>
@@ -1016,7 +1016,7 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1121605/pdf/1123.pdf</a>.</p>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

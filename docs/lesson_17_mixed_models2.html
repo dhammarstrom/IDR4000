@@ -13,7 +13,7 @@
 
 <title>Mixed models - Interpretation and visualization</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -36,7 +38,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -538,7 +540,7 @@ p.caption {
 <p><img src="lesson_17_mixed_models2_files/figure-html/unnamed-chunk-1-1.png" width="1800" style="display: block; margin: auto;" /></p>
 <p>The 30RM group starts off at approximately the same level as the 10RM group. After the first period (from Pre to Mid) the 10RM group potentially increases strength more than the 30RM group, the difference could be maintained to the Post time-point.</p>
 <p>Instead of modeling the effect of the baseline on the outcome we could control for it by adjusting the average levels at Mid and Post by removing the differences seen at baseline. This is the basic approach when analyzing repeated measures deigns with mixed models. Before we get to this step we will build the model from the bottom up.</p>
-<p>In a first model we do not include any “fixed effects”. We only estimate the mean of the whole data set, the very basic model formulation could look some thing like:</p>
+<p>In a first model we do not include any “fixed effects.” We only estimate the mean of the whole data set, the very basic model formulation could look some thing like:</p>
 <p><span class="math display">\[y = \beta_0\]</span> In R, we would write this model formula as</p>
 <pre class="r"><code>strength ~ 1</code></pre>
 <p>given that the dependent variable (y) is a variable we call strength. The number 1 indicates that we only include an intercept in the model. Thus, the data are explained with an intercept only. In the figure below, this model is represented by the black cross.</p>
@@ -564,7 +566,7 @@ Figure 2. Hypothetical model of a study strength development in two groups. The 
 Figure 3. Hypothetical model of a study strength development in two groups. The black cross represents a model of the data only modelling the mean, the solid black line represents a model modelling the average change over time in the two groups. The dashed black lines represents the average change over time with baseline difference between groups at baseline accounted for. Hypothetical values per group and time are represented in colored lines
 </p>
 </div>
-<p>Notice that the addition of the group term creates two parallel lines representing each group. To fully capture the average changes per group we need to let the model account for different changes per time in each group. We do this by adding an “interaction term”. The interaction term allows for each group to have different values at “Mid” and “Post”.</p>
+<p>Notice that the addition of the group term creates two parallel lines representing each group. To fully capture the average changes per group we need to let the model account for different changes per time in each group. We do this by adding an “interaction term.” The interaction term allows for each group to have different values at “Mid” and “Post.”</p>
 <p>A simplified model formulation could look like this:</p>
 <p><span class="math display">\[y = \beta_0 + \beta_{Group} + \beta_{Mid} + \beta_{Post} + \beta_{Mid:Group} + \beta_{Post:Group}\]</span></p>
 <p>In R, we would write this model formula as</p>
@@ -742,7 +744,7 @@ dat &lt;- read_excel(&quot;./data/ten_vs_thirty.xlsx&quot;, na = &quot;NA&quot;)
 </div>
 <div id="fit-a-mixed-model" class="section level2">
 <h2>Fit a mixed model</h2>
-<p>The model will be fairly simple. We want to compare the two groups an model any differences in change over time. This means that the model must contain the time and group variable as well as their interaction giving each group a chance to “vary on their own”. The beauty of the mixed model is that we can account for repeated data just by using the subject indicator a random efect. The data in this example allows for the inclusion of a random intercept, meaning that each particiapnt will be compared from their own strating point (intercept).</p>
+<p>The model will be fairly simple. We want to compare the two groups an model any differences in change over time. This means that the model must contain the time and group variable as well as their interaction giving each group a chance to “vary on their own.” The beauty of the mixed model is that we can account for repeated data just by using the subject indicator a random efect. The data in this example allows for the inclusion of a random intercept, meaning that each particiapnt will be compared from their own strating point (intercept).</p>
 <pre class="r"><code># The lmer function from the lme4 package.
 m1 &lt;- lmer(load ~ timepoint * group + (1|subject), data = dat)</code></pre>
 <p>Before doing anything with this model we will have to check if our assumptions are met. Let’s do a residuals plot.</p>
@@ -969,7 +971,7 @@ timepointpost:groupRM10
 </tr>
 </tbody>
 </table>
-<p><code>X2.5..</code> and <code>X97.5..</code> represents the lower and upper confidence interval for each estimate. The estimate that we are interested in are <code>timepoint:groupRM10</code>and <code>timepointpost:groupRM10</code>. We can now reduce the data frame and plot it to show estimated differences between groups at time-points “mid” and “post”.</p>
+<p><code>X2.5..</code> and <code>X97.5..</code> represents the lower and upper confidence interval for each estimate. The estimate that we are interested in are <code>timepoint:groupRM10</code>and <code>timepointpost:groupRM10</code>. We can now reduce the data frame and plot it to show estimated differences between groups at time-points “mid” and “post.”</p>
 <p>We will make a plot mirroring the plot showing raw values and model estimates. We need all time-points to be represented but only “mid” and “post” to contain data.</p>
 <pre class="r"><code>coef_summary %&gt;%
   mutate(coef = rownames(.)) %&gt;%
@@ -1164,7 +1166,7 @@ anova(m0, m1)</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

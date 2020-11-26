@@ -13,7 +13,7 @@
 
 <title>Creating reports using R, R Markdown and knitr</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -36,7 +38,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -544,8 +546,8 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 <pre><code>```{r, eval=TRUE}
 1 + 1
 ```</code></pre>
-<p>This code chunk calculates <code>1+1</code>, when you compile the document, the result of this calculation will be shown below the code chunk. The same computation can be made “inline”. An inline code chunk is created using <code>`r 1+1`</code>, here only the result of this computation will be shown in your text.</p>
-<p>When you compile the doucument it is called “knitting”, R uses a package called <a href="https://yihui.name/knitr/"><code>knitr</code></a> made to compile R Markdown files. In the upper part of the source window, there is a button kalled Knit. When you press it, RStudio will aske you to save the Rmd file and an output file will be created.</p>
+<p>This code chunk calculates <code>1+1</code>, when you compile the document, the result of this calculation will be shown below the code chunk. The same computation can be made “inline.” An inline code chunk is created using <code>`r 1+1`</code>, here only the result of this computation will be shown in your text.</p>
+<p>When you compile the doucument it is called “knitting,” R uses a package called <a href="https://yihui.name/knitr/"><code>knitr</code></a> made to compile R Markdown files. In the upper part of the source window, there is a button kalled Knit. When you press it, RStudio will aske you to save the Rmd file and an output file will be created.</p>
 </div>
 <div id="microsoft-word-intergration" class="section level3">
 <h3>Microsoft Word intergration</h3>
@@ -622,15 +624,15 @@ bibliography: bibliography.bib
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="unnumbered">References</h2>
-<div id="refs" class="references hanging-indent">
-<div id="ref-refID1">
-<p>Ellefsen, S., D. Hammarstrom, T. A. Strand, E. Zacharoff, J. E. Whist, I. Rauk, H. Nygaard, et al. 2015. “Blood flow-restricted strength training displays high functional and biological efficacy in women: a within-subject comparison with high-load strength training.” <em>Am. J. Physiol. Regul. Integr. Comp. Physiol.</em> 309 (7): R767–779.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-refID1" class="csl-entry">
+Ellefsen, S., D. Hammarstrom, T. A. Strand, E. Zacharoff, J. E. Whist, I. Rauk, H. Nygaard, et al. 2015. <span>“<span class="nocase"><span>B</span>lood flow-restricted strength training displays high functional and biological efficacy in women: a within-subject comparison with high-load strength training</span>.”</span> <em>Am. J. Physiol. Regul. Integr. Comp. Physiol.</em> 309 (7): R767–779.
 </div>
-<div id="ref-RN1600">
-<p>Peng, R. D. 2011. “Reproducible Research in Computational Science.” Journal Article. <em>Science</em> 334 (6060): 1226–7. <a href="https://doi.org/10.1126/science.1213847">https://doi.org/10.1126/science.1213847</a>.</p>
+<div id="ref-RN1600" class="csl-entry">
+Peng, R. D. 2011. <span>“Reproducible Research in Computational Science.”</span> Journal Article. <em>Science</em> 334 (6060): 1226–27. <a href="https://doi.org/10.1126/science.1213847">https://doi.org/10.1126/science.1213847</a>.
 </div>
-<div id="ref-RN1492">
-<p>Peng, R. D., F. Dominici, and S. L. Zeger. 2006. “Reproducible Epidemiologic Research.” Journal Article. <em>Am J Epidemiol</em> 163 (9): 783–9. <a href="https://doi.org/10.1093/aje/kwj093">https://doi.org/10.1093/aje/kwj093</a>.</p>
+<div id="ref-RN1492" class="csl-entry">
+Peng, R. D., F. Dominici, and S. L. Zeger. 2006. <span>“Reproducible Epidemiologic Research.”</span> Journal Article. <em>Am J Epidemiol</em> 163 (9): 783–89. <a href="https://doi.org/10.1093/aje/kwj093">https://doi.org/10.1093/aje/kwj093</a>.
 </div>
 </div>
 </div>
@@ -653,7 +655,7 @@ bibliography: bibliography.bib
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

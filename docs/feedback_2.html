@@ -13,7 +13,7 @@
 
 <title>Feedback 2: Inference</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -36,7 +38,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -511,7 +513,7 @@ div.tocify {
 
 <div id="the-assignment" class="section level1">
 <h1>The assignment</h1>
-<p>Using the data set from Haun et al. <span class="citation">(2019)</span>, you were expected to:</p>
+<p>Using the data set from Haun et al. <span class="citation">(2019)</span>, you were expected to:</p>
 <ol style="list-style-type: decimal">
 <li>select one variable and estimate the difference between HIGH and LOW responders (the CLUSTER variable).</li>
 <li>Based on your estimate and its uncertainty you were asked to draw inference regarding the effect.</li>
@@ -560,12 +562,12 @@ div.tocify {
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
-<div id="refs" class="references hanging-indent">
-<div id="ref-RN2225">
-<p>Haun, Cody T., Christopher G. Vann, C. Brooks Mobley, Shelby C. Osburn, Petey W. Mumford, Paul A. Roberson, Matthew A. Romero, et al. 2019. “Pre-Training Skeletal Muscle Fiber Size and Predominant Fiber Type Best Predict Hypertrophic Responses to 6 Weeks of Resistance Training in Previously Trained Young Men.” Journal Article. <em>Frontiers in Physiology</em> 10 (297). <a href="https://doi.org/10.3389/fphys.2019.00297">https://doi.org/10.3389/fphys.2019.00297</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-RN2225" class="csl-entry">
+Haun, Cody T., Christopher G. Vann, C. Brooks Mobley, Shelby C. Osburn, Petey W. Mumford, Paul A. Roberson, Matthew A. Romero, et al. 2019. <span>“Pre-Training Skeletal Muscle Fiber Size and Predominant Fiber Type Best Predict Hypertrophic Responses to 6 Weeks of Resistance Training in Previously Trained Young Men.”</span> Journal Article. <em>Frontiers in Physiology</em> 10 (297). <a href="https://doi.org/10.3389/fphys.2019.00297">https://doi.org/10.3389/fphys.2019.00297</a>.
 </div>
-<div id="ref-lsr">
-<p>Navarro, D. 2020. <em>Learning Statistics with R</em>.</p>
+<div id="ref-lsr" class="csl-entry">
+Navarro, D. 2020. <em>Learning Statistics with r</em>.
 </div>
 </div>
 </div>
@@ -581,7 +583,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

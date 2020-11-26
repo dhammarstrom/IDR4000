@@ -11,7 +11,7 @@
 
 
 
-<title>Assignment 4: Repeated measures studies</title>
+<title>Feedback repeated measures designs</title>
 
 <script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -430,31 +430,40 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Assignment 4: Repeated measures studies</h1>
+<h1 class="title toc-ignore">Feedback repeated measures designs</h1>
 
 </div>
 
 
-<div id="overview" class="section level2">
-<h2>Overview</h2>
-<p>This report has two parts. In part 1, use the ten_vs_thirty.xlsx data set and answer the question “what should be the recommended intensity for strength development?”. In the second part, use <code>strengthTests.csv</code> and answer the question “what should be the recommended volume (one or three sets) for strength development?”.</p>
-<p>You have to make several choices in your data analysis:</p>
+<div id="writing-reports" class="section level2">
+<h2>Writing reports</h2>
+<p>The structure of a report is usually some variation of the basic structure: background, methods, results and discussion. Using this structure makes it easier to communicate scientific results. The background is used to put information in context, the methods is used to detail how things were done, results communicates results of experiments and findings, and the discussion puts the results in context, which was detailed in the background. It is important that you do not deviate from this structure too much, if you do, you will risk confusion and loosing your readers. So, in your final report: Be strict about what information is reported in the different sections.</p>
+<p>I see that many have not used the reference tools available in RMarkdown. This has led to badly formatted references. Take advantage of the possibilities available! See this <a href="https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html">link for an introduction</a>.</p>
+<p>Do not start a sentence by referring to a table or a figure (example of bad practice: In table 1 we can see…). Instead tell the reader about the results and then refer to the table or figure (example of better practice: The 30RM group increased strength to a larger extent than the 10RM group (Table 1, Figure 1)).</p>
+</div>
+<div id="writing-a-background" class="section level2">
+<h2>Writing a background</h2>
+<p>In this part of the report you will have to convince the reader that what your are studying is interesting and important. I don’t think it is interesting to read a report written for the purpose to answer some assignment you have been given by your teacher. Try to formulate a better purpose! Introduce the reader to the field by explaining why for example strength is important. Then highlight the link to different training protocols, i.e. different intensity could potentially lead to different adaptations. Use previous studies to show that results are pointing in different directions or all in one direction. End the background with the purpose of your study.</p>
+</div>
+<div id="making-inference-and-describing-statistical-analysis" class="section level2">
+<h2>Making inference and describing statistical analysis</h2>
+<p>The goal of your report is to make statements about the “real world” based on your experiment. In this respect it is important to outline a rule by which you make decisions about the real world. We have talked about using <em>p</em>-values or confidence intervals and you know that there are other philosophies when interpreting your results (e.g. Bayesian). If you decide to use <em>p</em>-values, specify in the methods at what level you will interpret evidence against the null hypothesis as significant. Be aware that this technique can be critiqued if you do not have a power calculation to back it up. Meaning that you would like to have enough participants to uncover a pre-specified effect if it is there (the alternative hypothesis). This critique can be partially avoided by using the confidence interval as more information may be obtained from it. We could intepret it as a range of plausible values of the unknown value we are interested in (e.g. a difference between groups). The width of the intervals tells us about the precision of the estimate. It will be less precise when we have fewer participants.</p>
+<p>To sum up the above: <strong>Clearly state what rule you are using to draw conclusions about the true effect in your methods section</strong>.</p>
+</div>
+<div id="presenting-data" class="section level2">
+<h2>Presenting data</h2>
+<p>When you are displaying figures make sure that:</p>
 <ul>
-<li>Are you interested in all strength variables, a single one or an weighted average?</li>
-<li>Are you interested in all time-points or only pre-post/pre-mid?</li>
-<li>Do you want to use a simple comparison of change scores, an ANCOVA or a mixed model?</li>
-<li>Do you test an hypothesis or estimate differences (do you think there is a difference in these two approaches?)</li>
+<li>The figure legend explains the figure in full. The figure together with the figure legend should tell the full story about the figure. This include a description of all the data in the figure.</li>
+<li>Make sure that all axis titles are informative</li>
+<li>If you are trying to show differences between groups, make sure that they are differentiated with color or shape.</li>
+<li>Figure legends (or captions) can be added to the figure using <code>fig.cap=</code> in the code chunk.</li>
 </ul>
-<p>Report your results with at least one figure and if needed tables and of course results in the text. A simple way to structure the report is background, methods (including “Statistical analysis”), results and discussion. I expect that you make a little review of the literature for each study, what are the evidence for increased intensity and volume? Include 2-3 references per study.</p>
-<p>Try hard to describe what you do in your statistical analysis in the methods section.</p>
-<p>Set all code chunks to <code>echo = FALSE</code> and upload both the report and an Rmd-file with your code.</p>
-</div>
-<div id="tips" class="section level2">
-<h2>Tips</h2>
+<p>Tables, similarly to figures, should be possible to read using the table caption. When using <code>kable()</code> you can add a caption to the table describing the full table. Also try to:</p>
 <ul>
-<li>Use the built in reference system in R-markdown to format your references.</li>
-<li>Use the emmeans package to get model estimates (see lesson on mixed models) for figures</li>
-<li>Take some time to format your figures and write figure captions using <code>fig.cap =</code> in each code chunk. This makes the report look nice!</li>
+<li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4483789/">Limit the number of digits</a>, use <code>digits = c(NA, 1,2,2,4)</code> (meaning no digits, NA for character data and 1, 2, 2 and 4 digits in column 2-5) in kable to specify how many digits to display in each column of the table.</li>
+<li>Rename names of coefficients to make the more readable. <code>timepointpost:group10RM</code> is difficult to understand, what would be a better name?</li>
+<li>Try <code>kable_styling()</code> from the kableExtra package to make the table more attractive looking.</li>
 </ul>
 </div>
 

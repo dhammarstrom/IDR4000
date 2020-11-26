@@ -1,0 +1,46 @@
+---
+title: "Feedback repeated measures designs"
+output: html_document
+---
+
+
+
+## Writing reports
+
+The structure of a report is usually some variation of the basic structure: background, methods, results and discussion. Using this structure makes it easier to communicate scientific results. The background is used to put information in context, the methods is used to detail how things were done, results communicates results of experiments and findings, and the discussion puts the results in context, which was detailed in the background. It is important that you do not deviate from this structure too much, if you do, you will risk confusion and loosing your readers. So, in your final report: Be strict about what information is reported in the different sections.
+
+I see that many have not used the reference tools available in RMarkdown. This has led to badly formatted references. Take advantage of the possibilities available! See this [link for an introduction](https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html). 
+
+Do not start a sentence by referring to a table or a figure (example of bad practice: In table 1 we can see...). Instead tell the reader about the results and then refer to the table or figure (example of better practice: The 30RM group increased strength to a larger extent than the 10RM group (Table 1, Figure 1)).
+
+## Writing a background
+
+In this part of the report you will have to convince the reader that what your are studying is interesting and important. I don't think it is interesting to read a report written for the purpose to answer some assignment you have been given by your teacher. Try to formulate a better purpose! Introduce the reader to the field by explaining why for example strength is important. Then highlight the link to different training protocols, i.e. different intensity could potentially lead to different adaptations. Use previous studies to show that results are pointing in different directions or all in one direction. End the background with the purpose of your study.
+
+
+## Making inference and describing statistical analysis
+
+The goal of your report is to make statements about the "real world" based on your experiment. In this respect it is important to outline a rule by which you make decisions about the real world. We have talked about using *p*-values or confidence intervals and you know that there are other philosophies when interpreting your results (e.g. Bayesian). If you decide to use *p*-values, specify in the methods at what level you will interpret evidence against the null hypothesis as significant. Be aware that this technique can be critiqued if you do not have a power calculation to back it up. Meaning that you would like to have enough participants to uncover a pre-specified effect if it is there (the alternative hypothesis). This critique can be partially avoided by using the confidence interval as more information may be obtained from it. We could intepret it as a range of plausible values of the unknown value we are interested in (e.g. a difference between groups). The width of the intervals tells us about the precision of the estimate. It will be less precise when we have fewer participants. 
+
+To sum up the above: **Clearly state what rule you are using to draw conclusions about the true effect in your methods section**.
+
+## Presenting data 
+
+When you are displaying figures make sure that:
+
+- The figure legend explains the figure in full. The figure together with the figure legend should tell the full story about the figure. This include a description of all the data in the figure. 
+- Make sure that all axis titles are informative
+- If you are trying to show differences between groups, make sure that they are differentiated with color or shape.
+- Figure legends (or captions) can be added to the figure using `fig.cap=` in the code chunk.
+
+Tables, similarly to figures, should be possible to read using the table caption. When using `kable()` you can add a caption to the table describing the full table. Also try to:
+
+- [Limit the number of digits](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4483789/), use `digits = c(NA, 1,2,2,4)` (meaning no digits, NA for character data and 1, 2, 2 and 4 digits in column 2-5) in kable to specify how many digits to display in each column of the table.
+- Rename names of coefficients to make the more readable. `timepointpost:group10RM` is difficult to understand, what would be a better name?
+- Try `kable_styling()` from the kableExtra package to make the table more attractive looking.
+
+
+
+
+
+

@@ -13,7 +13,7 @@
 
 <title>Importing data</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -36,7 +38,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -634,9 +636,9 @@ hypertrophy1 &lt;- read_csv(&quot;https://ndownloader.figstatic.com/files/147024
 <div id="importing-other-file-formats" class="section level1">
 <h1>Importing other file formats</h1>
 <p>There are many different file formats that are fairly simple to import into R. R itself contains function to import e.g. text files (similar to csv files). File formats from other statistical software can be imported with <a href="%22https://haven.tidyverse.org/%22">haven</a>.</p>
-<div id="refs" class="references hanging-indent">
-<div id="ref-RN1954">
-<p>Broman, Karl W., and Kara H. Woo. 2017. “Data Organization in Spreadsheets.” Journal Article. <em>The American Statistician</em>, 0–0. <a href="https://doi.org/10.1080/00031305.2017.1375989">https://doi.org/10.1080/00031305.2017.1375989</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-RN1954" class="csl-entry">
+Broman, Karl W., and Kara H. Woo. 2017. <span>“Data Organization in Spreadsheets.”</span> Journal Article. <em>The American Statistician</em>, 0–0. <a href="https://doi.org/10.1080/00031305.2017.1375989">https://doi.org/10.1080/00031305.2017.1375989</a>.
 </div>
 </div>
 </div>
@@ -652,7 +654,7 @@ hypertrophy1 &lt;- read_csv(&quot;https://ndownloader.figstatic.com/files/147024
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

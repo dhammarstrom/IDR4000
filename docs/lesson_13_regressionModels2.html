@@ -13,7 +13,7 @@
 
 <title>Regression models: Curve-linear relationships</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -36,7 +38,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -711,7 +713,7 @@ Third degree polynomial
 <pre class="r"><code>new_data &lt;- data.frame(intensity = seq(from = 125, to = 300, by = 0.01))</code></pre>
 <p>We then use the predict function together with our model (<code>m3</code>) to predict lactate values</p>
 <pre class="r"><code>preds &lt;- predict(m3, newdata = new_data)</code></pre>
-<p>To find what value of intensity best correspond to a lactate value of 4 we need to device a function where we locate the predicted value closest to 4. I name the function “closest”. It returns the index of the value closest to four.</p>
+<p>To find what value of intensity best correspond to a lactate value of 4 we need to device a function where we locate the predicted value closest to 4. I name the function “closest.” It returns the index of the value closest to four.</p>
 <pre class="r"><code>closest &lt;- function(xv, sv) {
                   which(abs(xv-sv) == min(abs(xv-sv)))}</code></pre>
 <p>We finnaly combine the closest function and the <code>new_data</code> data frame created above to predict new values. The code below returns the row corresponding to the intensity value closest to where lactate is 4 mmol.</p>
@@ -746,12 +748,12 @@ Third degree polynomial
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
-<div id="refs" class="references hanging-indent">
-<div id="ref-RN2614">
-<p>Heuberger, Jules A. A. C., Pim Gal, Frederik E. Stuurman, Wouter A. S. de Muinck Keizer, Yuri Mejia Miranda, and Adam F. Cohen. 2018. “Repeatability and Predictive Value of Lactate Threshold Concepts in Endurance Sports.” Journal Article. <em>PLOS ONE</em> 13 (11): e0206846. <a href="https://doi.org/10.1371/journal.pone.0206846">https://doi.org/10.1371/journal.pone.0206846</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-RN2614" class="csl-entry">
+Heuberger, Jules A. A. C., Pim Gal, Frederik E. Stuurman, Wouter A. S. de Muinck Keizer, Yuri Mejia Miranda, and Adam F. Cohen. 2018. <span>“Repeatability and Predictive Value of Lactate Threshold Concepts in Endurance Sports.”</span> Journal Article. <em>PLOS ONE</em> 13 (11): e0206846. <a href="https://doi.org/10.1371/journal.pone.0206846">https://doi.org/10.1371/journal.pone.0206846</a>.
 </div>
-<div id="ref-lsr">
-<p>Navarro, D. 2020. <em>Learning Statistics with R</em>.</p>
+<div id="ref-lsr" class="csl-entry">
+Navarro, D. 2020. <em>Learning Statistics with r</em>.
 </div>
 </div>
 </div>
@@ -767,7 +769,7 @@ Third degree polynomial
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

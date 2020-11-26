@@ -13,7 +13,7 @@
 
 <title>Data wrangling and creating summaries</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -36,7 +38,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -513,7 +515,7 @@ div.tocify {
 <h2>Introduction</h2>
 <p>This course is about getting to know <em>how to</em> communicate data. Data are everywhere, sometimes we collect them in the lab, sometimes they are sitting in our computer or gets teased out from other peoples research projects. Before the data can tell us anything we must often do a lot of operations on them, test them in different statistical models, and visualize them. The aim of the course increase your data analysis proficiency.</p>
 <p>Skills in data analysis is seldom taught in programs outside data science or statistics. There are courses in statistics and report writing but students often struggle getting the data in to the computer and/or in the right form to do statistical tests before they can write the report. Here we address the parts between the raw data and the report.</p>
-<p>R has excellent capabilities for “data wrangling”. This means that we can perform operations to import, clean and transform data to suit downstream analyses.</p>
+<p>R has excellent capabilities for “data wrangling.” This means that we can perform operations to import, clean and transform data to suit downstream analyses.</p>
 </div>
 <div id="resources" class="section level2">
 <h2>Resources</h2>
@@ -585,7 +587,7 @@ library(readxl)</code></pre>
     print()</code></pre>
 <p>Looking at the output will reveal that the tibble contains 20 rows and 101 columns. This is what we want, we have filtered based on <code>timepoint == "pre"</code>. Notice that we are using double equal signs here as the single equal sign is an assign operator. The double equal sign is used for testing equality.</p>
 <blockquote>
-<p>Wait a minute, assign operator?? We have previously seen that using <code>&lt;-</code> assigns a value to an object. For example to store the value <code>3</code> in an object that we name <code>three</code> we can use the following code: <code>three &lt;- 3</code>. This is exactly the same as writing <code>three = 3</code>. Why bother using the “arrow”. There are some differences in how <code>=</code> and <code>&lt;-</code> is used by R and the arrow is more general. In functions, we use the equal sign to tell what argument to use. We can also reverse the arrow, this means that we can also asssign the number <code>3</code> to the object <code>three</code> by using <code>3 -&gt; three</code>. My rule is to use <code>&lt;-</code> when assigning variables, and use <code>=</code> in functions and in mutate to assign new variables (the arrow is not allowed in mutate), mostly because i think its easier to read.</p>
+<p>Wait a minute, assign operator?? We have previously seen that using <code>&lt;-</code> assigns a value to an object. For example to store the value <code>3</code> in an object that we name <code>three</code> we can use the following code: <code>three &lt;- 3</code>. This is exactly the same as writing <code>three = 3</code>. Why bother using the “arrow.” There are some differences in how <code>=</code> and <code>&lt;-</code> is used by R and the arrow is more general. In functions, we use the equal sign to tell what argument to use. We can also reverse the arrow, this means that we can also asssign the number <code>3</code> to the object <code>three</code> by using <code>3 -&gt; three</code>. My rule is to use <code>&lt;-</code> when assigning variables, and use <code>=</code> in functions and in mutate to assign new variables (the arrow is not allowed in mutate), mostly because i think its easier to read.</p>
 </blockquote>
 <p>So, the double equal sign is used for testing equality. If two values are equal it is <code>TRUE</code> otherwise it is <code>FALSE</code>.</p>
 <p>We can test this in code.</p>
@@ -617,7 +619,7 @@ library(readxl)</code></pre>
     filter(sj.max &gt; 30) %&gt;%
     print()</code></pre>
 <p>This should produce a data frame with 41 rows.</p>
-<p>We can use multiple arguments in filter. For example squat jump &gt; 30 and time-point equal to “pre”.</p>
+<p>We can use multiple arguments in filter. For example squat jump &gt; 30 and time-point equal to “pre.”</p>
 <pre class="r"><code>cyclingStudy %&gt;%
     filter(timepoint == &quot;pre&quot;, sj.max &gt; 30) %&gt;%
     print()</code></pre>
@@ -640,13 +642,13 @@ library(readxl)</code></pre>
 </div>
 <div id="group-by-and-summarise" class="section level2">
 <h2>Group by and summarise</h2>
-<p>A real super-power in the dplyr package is the capabilities to group data by and the summarize. Often we want to know the mean or standard deviation of variables. But we are also interested in doing this within “groups”. The <code>group_by</code> function tells R that operations should be done per specified groupings.</p>
+<p>A real super-power in the dplyr package is the capabilities to group data by and the summarize. Often we want to know the mean or standard deviation of variables. But we are also interested in doing this within “groups.” The <code>group_by</code> function tells R that operations should be done per specified groupings.</p>
 <p>We want to know the mean squat jump per time-point in the cycling data set. We will combine <code>group_by</code> with <code>summarise</code>.</p>
 <pre class="r"><code>cyclingStudy %&gt;%
     group_by(timepoint) %&gt;%
     summarise(m = mean(sj.max)) %&gt;%
     print()</code></pre>
-<p>Notice that the results from the above will return a smaller data frame with two variables. <code>timepoint</code> and <code>m</code> which in this case is short for “mean”.</p>
+<p>Notice that the results from the above will return a smaller data frame with two variables. <code>timepoint</code> and <code>m</code> which in this case is short for “mean.”</p>
 <p>Notice also that we get some NA (not available). This is because we tried to calculate the mean on a vector with missing values (NA). The <code>mean()</code> function has the capabilities to exclude NAs. For example:</p>
 <pre class="r"><code>mean(c(2, 3, 4, NA, 30)) # Gives NA</code></pre>
 <pre><code>## [1] NA</code></pre>
@@ -745,7 +747,7 @@ cyclingStudy %&gt;%
     pivot_wider(names_from = timepoint, values_from = sj.max) %&gt;%
     mutate(change = ((meso3/pre)-1)*100) %&gt;%
     print() -&gt; percentage_change</code></pre>
-<p>I like the first best because it is easier to read the “intention of the code”.</p>
+<p>I like the first best because it is easier to read the “intention of the code.”</p>
 </div>
 
 
@@ -759,7 +761,7 @@ cyclingStudy %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

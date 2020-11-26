@@ -13,7 +13,7 @@
 
 <title>Assignment 1: Descriptive statistics</title>
 
-<script src="site_libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -36,7 +38,7 @@
   div.column{display: inline-block; vertical-align: top; width: 50%;}
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
-      </style>
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -511,11 +513,11 @@ div.tocify {
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>This assignment is composed of two parts. In Part 1 you are expected to reproduce the first part of Table 1 in Haun et al. <span class="citation">(2019)</span>. In the second part you are expected to present results from the reliability study.</p>
+<p>This assignment is composed of two parts. In Part 1 you are expected to reproduce the first part of Table 1 in Haun et al. <span class="citation">(2019)</span>. In the second part you are expected to present results from the reliability study.</p>
 </div>
 <div id="part-1-reproduce-a-table" class="section level1">
 <h1>Part 1: Reproduce a table</h1>
-<p>Haun et al. <span class="citation">(2019)</span> has published raw data together with their paper. This means that we will be able to reproduce some of their results, exciting! In this assignment you are expected to reproduce Table 1 in <span class="citation">(Haun et al. 2019)</span>. To get you started, I have included the code needed to download the data below (from the lesson on importing data).</p>
+<p>Haun et al. <span class="citation">(2019)</span> has published raw data together with their paper. This means that we will be able to reproduce some of their results, exciting! In this assignment you are expected to reproduce Table 1 in <span class="citation">(Haun et al. 2019)</span>. To get you started, I have included the code needed to download the data below (from the lesson on importing data).</p>
 <pre class="r"><code># Download and save the file
 download.file(url = &quot;https://ndownloader.figstatic.com/files/14702420&quot;, destfile = &quot;./data/hypertrophy.csv&quot;)
 
@@ -541,7 +543,7 @@ hypertrophy</code></pre>
 <li><code>SQUAT_VOLUME</code></li>
 </ul>
 <p>Notice that the <code>CLUSTER</code> variable is the grouping variable for the table.</p>
-<p>I have not located the variable representing “Training age”, we will therefore make the table as complete as possible with the variables that we find. Do not bother including the <span class="math inline">\(\pm\)</span> sign if you do not find a quick solution. It is actually better to write mean and standard deviations as Mean (SD) <span class="citation">(Altman and Bland 2005)</span>.</p>
+<p>I have not located the variable representing “Training age,” we will therefore make the table as complete as possible with the variables that we find. Do not bother including the <span class="math inline">\(\pm\)</span> sign if you do not find a quick solution. It is actually better to write mean and standard deviations as Mean (SD) <span class="citation">(Altman and Bland 2005)</span>.</p>
 <p>The code below can maybe get you started. See the lesson on making tables for more ideas.</p>
 <pre class="r"><code>hypertrophy %&gt;%
   dplyr::select(SUB_ID, GROUP,CLUSTER, AGE, T1_BODY_MASS, 
@@ -630,21 +632,21 @@ df %&gt;%
 <div id="alternative-2-this-is-recommended" class="section level3">
 <h3>Alternative 2, this is recommended!</h3>
 <p>Create a github repository and add your code to a R Markdown document. The repository should contain all data needed to run your analysis. See the <a href="lesson_9_git.html">lesson on version control</a> for ideas on how to create the repository.</p>
-<div id="refs" class="references hanging-indent">
-<div id="ref-RN2605">
-<p>Altman, Douglas G., and J. Martin Bland. 2005. “Standard Deviations and Standard Errors.” Journal Article. <em>BMJ (Clinical Research Ed.)</em> 331 (7521): 903–3. <a href="https://doi.org/10.1136/bmj.331.7521.903">https://doi.org/10.1136/bmj.331.7521.903</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-RN2605" class="csl-entry">
+Altman, Douglas G., and J. Martin Bland. 2005. <span>“Standard Deviations and Standard Errors.”</span> Journal Article. <em>BMJ (Clinical Research Ed.)</em> 331 (7521): 903–3. <a href="https://doi.org/10.1136/bmj.331.7521.903">https://doi.org/10.1136/bmj.331.7521.903</a>.
 </div>
-<div id="ref-openintro">
-<p>Diez, D. M., C. D. Barr, and M. Çetinkaya-Rundel. 2020. <em>OpenIntro Statistics</em>. https://leanpub.com.</p>
+<div id="ref-openintro" class="csl-entry">
+Diez, D. M., C. D. Barr, and M. Çetinkaya-Rundel. 2020. <em>OpenIntro Statistics</em>. https://leanpub.com.
 </div>
-<div id="ref-RN2225">
-<p>Haun, Cody T., Christopher G. Vann, C. Brooks Mobley, Shelby C. Osburn, Petey W. Mumford, Paul A. Roberson, Matthew A. Romero, et al. 2019. “Pre-Training Skeletal Muscle Fiber Size and Predominant Fiber Type Best Predict Hypertrophic Responses to 6 Weeks of Resistance Training in Previously Trained Young Men.” Journal Article. <em>Frontiers in Physiology</em> 10 (297). <a href="https://doi.org/10.3389/fphys.2019.00297">https://doi.org/10.3389/fphys.2019.00297</a>.</p>
+<div id="ref-RN2225" class="csl-entry">
+Haun, Cody T., Christopher G. Vann, C. Brooks Mobley, Shelby C. Osburn, Petey W. Mumford, Paul A. Roberson, Matthew A. Romero, et al. 2019. <span>“Pre-Training Skeletal Muscle Fiber Size and Predominant Fiber Type Best Predict Hypertrophic Responses to 6 Weeks of Resistance Training in Previously Trained Young Men.”</span> Journal Article. <em>Frontiers in Physiology</em> 10 (297). <a href="https://doi.org/10.3389/fphys.2019.00297">https://doi.org/10.3389/fphys.2019.00297</a>.
 </div>
-<div id="ref-RN130">
-<p>Hopkins, W. G. 2000. “Measures of Reliability in Sports Medicine and Science.” Journal Article. <em>Sports Med</em> 30 (1): 1–15. <a href="http://www.ncbi.nlm.nih.gov/pubmed/10907753">http://www.ncbi.nlm.nih.gov/pubmed/10907753</a>.</p>
+<div id="ref-RN130" class="csl-entry">
+Hopkins, W. G. 2000. <span>“Measures of Reliability in Sports Medicine and Science.”</span> Journal Article. <em>Sports Med</em> 30 (1): 1–15. <a href="http://www.ncbi.nlm.nih.gov/pubmed/10907753">http://www.ncbi.nlm.nih.gov/pubmed/10907753</a>.
 </div>
-<div id="ref-lsr">
-<p>Navarro, D. 2020. <em>Learning Statistics with R</em>.</p>
+<div id="ref-lsr" class="csl-entry">
+Navarro, D. 2020. <em>Learning Statistics with r</em>.
 </div>
 </div>
 </div>
@@ -661,7 +663,7 @@ df %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
