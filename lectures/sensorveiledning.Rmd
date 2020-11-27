@@ -84,7 +84,10 @@ Bruk oppsettet bakgrunn, metode, resultater og diskusjon for rapportene. Resulta
 Det forventes at du inkluderer 2-3 referanser per studie i bakgrunn og diskusjon.
 
 
-## Deloppgave 5: Studiedesigner 
+## Deloppgave 5: Rapport fra laborasjon
+Velg ut et tema fra molekylærlabben og rapportere hensikten med og bakgrunnen til laborasjonen, metode og resultater. Rapporten bør inneholde en tolkning av resultatene.
+
+## Deloppgave 6: Studiedesigner 
 
 I denne deloppgave skal du gjennomføre en oversiktsanalyse av forskjellige studiedesigner innad et spesifikt problemområde. Du forventes å besvare spørsmålet «hvordan designes studier for å studere X», hvor X er et spesifikt problemområde innen idrettsvitenskapen. X kan f.eks. «effekten av proteintilskudd på muskelvekst» eller «effekten av høyintensiv trening på VO2max».
 
@@ -97,15 +100,18 @@ Det forventes at rapporten avsluttes med en diskusjon om hvordan X bør studeres
 
 For å få et tilstrekkelig datautvalg forventes at rapporten inneholder 5-10 referanser. 
 
-## Deloppgave 6: Rapport fra laborasjon
-Velg ut et tema fra molekylærlabben og rapportere hensikten med og bakgrunnen til laborasjonen, metode og resultater. Rapporten bør inneholde en tolkning av resultatene.
+## Deloppgave 7: Vitenskapsfilosofi
+
+En essay i vitenskapsteori om (i) falsikasjonisme, (ii) HD-metoden og abduksjon eller Bayesianisme og (ii) replikasjonskrisen. Total lengde skal være mellom 1500 og 2000 ord (referanser ikke medregnet). Denne teksten skal basert på et tidligere arbeidskrav som har blitt oppdatert etter tilbakemelding.
 
 # Generelt angående delrapporter
 
-Hvis du bruker R-markdown spesifisere «echo = FALSE» i rapporten for å unngå at kode finnes med i rapporten. Du kan vise at du har en reproduserbar rapport ved å kopiere kommenterte code-chunks og legge disse i sluttet av dokumentet og sette «echo=TRUE, eval = FALSE» på disse. Koden kommer då å vises men ikke evalueres.
+Delrapport 1-5 kan forfattes i samarbeid med medstudenter. Delrapport 6 og 7 skal forfattes individuelt. 
+
+Hvis du bruker R-markdown spesifisere «echo = FALSE» i rapporten for å unngå at kode finnes med i rapporten. Du kan vise at du har en reproduserbar rapport ved å kopiere kommenterte code-chunks og legge disse i sluttet av dokumentet og sette «echo = TRUE, eval = FALSE» på disse. Koden kommer da å vises men ikke evalueres.
 
 Mappeeksamen er din sjanse til å vise at du klaret av målene i kursen, se læringsutbytte for emnet (over) og se hvordan du kan bruke deloppgavene for å vise at du mestrer læringsmålene.
 
-Karakter Bestått oppnås ved å levere rapporter som på en tilstrekkelig måte besvarer hver beskrivelse av deloppgavene.  
+Karakter Bestått oppnås ved å levere rapporter som på en tilstrekkelig måte besvarer hver beskrivelse av deloppgavene. Kandidaten har da oppnådd kravene til læringsutbytte og viser nødvendige kunnskaper, ferdigheter og kompetanse. 
 
 
